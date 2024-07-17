@@ -3,8 +3,6 @@
 #include <vector>
 #include <stdio.h>
 #include <algorithm>
-#include <cstring>
-#include <string.h>
 #include <ctype.h>
 
 typedef long long ll;
