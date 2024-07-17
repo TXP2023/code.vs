@@ -78,5 +78,4 @@ inline T readf()
     while (isdigit(ch)) ret = ret * 10 + ch - '0', ch = getchar();
     return sgn ? -ret : ret;
 #endif
-
 }
