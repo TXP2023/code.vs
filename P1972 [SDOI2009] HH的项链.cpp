@@ -90,15 +90,15 @@ int main()
     {
         for (ll j = pow; j <= qs[i].begin; j++)
         {
-            if (vis[v[j]])
+            if (vis[v[j] - 1])
             {
-                TreeAdd(vis[v[j]], -1, tree);
+                //TreeAdd(vis[v[j] - 1], -1, tree);
             }
-            TreeAdd(j, 1, tree);
-            vis[v[j]] = j;
+            //TreeAdd(j, 1, tree);
+            vis[v[j] - 1] = j;
         }
         pow = qs[i].end + 1;
-        ans[qs[i].id] = TreeSum(qs[i].end+1, tree) - TreeSum(qs[i].begin, tree);
+        //ans[qs[i].id] = TreeSum(qs[i].end + 1, tree) - TreeSum(qs[i].begin, tree);
     }
 
     for (size_t i = 0; i < m; i++)
