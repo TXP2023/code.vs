@@ -15,7 +15,9 @@ inline T readf();
 
 int main()
 {
-	return 0;
+    freopen(".in", "r", stdin);
+    
+    return 0;
 }
 
 template< typename T >

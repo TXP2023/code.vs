@@ -14,7 +14,7 @@ struct question
     ll id;
 
     bool operator <(const question& other)const {
-        return id < other.id;
+        return end < other.end;
     }
 };
 
@@ -67,7 +67,7 @@ inline T TreeSum(T2 x, std::vector< T >& _tree)
 //  TODO 
 int main()
 {
-    freopen("C:\\Users\\Student\\source\\repos\\code.vs\\.in", "r", stdin);
+    freopen(".in", "r", stdin);
     n = readf< ll >();
     v.resize(n);
     for (size_t i = 0; i < n; i++)
@@ -107,6 +107,7 @@ int main()
     {
         printf("%lld ", ans[i]);
     }
+    system("pause");
     return 0;
 }
 
