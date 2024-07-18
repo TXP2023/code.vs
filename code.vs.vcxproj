@@ -128,7 +128,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="P1972 [SDOI2009] HH的项链.cpp" />
-    <ClCompile Include="P4805 [CCC2016] 合并饭团.cpp" />
+    <ClCompile Include="P4805 [CCC2016] 合并饭团.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

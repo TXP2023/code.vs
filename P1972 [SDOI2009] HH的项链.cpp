@@ -3,6 +3,7 @@
 #include <vector>
 #include <stdio.h>
 #include <algorithm>
+#include <ctype.h>
 
 typedef long long ll;
 
@@ -89,12 +90,15 @@ int main()
     {
         for (ll j = pow; j <= qs[i].begin; j++)
         {
-            if (vis[v[j]]) TreeAdd(vis[v[j]], -1, tree);
+            if (vis[v[j]])
+            {
+                TreeAdd(vis[v[j]], -1, tree);
+            }
             TreeAdd(j, 1, tree);
             vis[v[j]] = j;
         }
         pow = qs[i].end + 1;
-        ans[qs[i].id] = TreeSum(qs[i].end, tree) - TreeSum(qs[i].begin - 1, tree);
+        ans[qs[i].id] = TreeSum(qs[i].end+1, tree) - TreeSum(qs[i].begin, tree);
     }
 
     for (size_t i = 0; i < m; i++)
