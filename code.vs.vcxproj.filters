@@ -21,5 +21,11 @@
     <ClCompile Include="P1972 [SDOI2009] HH的项链.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="P2059 [JLOI2013] 卡牌游戏.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="模板.cpp">
+      <Filter>资源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
