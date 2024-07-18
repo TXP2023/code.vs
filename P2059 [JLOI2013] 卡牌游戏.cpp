@@ -13,8 +13,19 @@ typedef unsigned long long unill;
 template< typename T >
 inline T readf();
 
+std::vector< ll > v;
+ll n, m;
+
 int main()
 {
+    n = readf< ll >(), m = readf< ll >();
+
+    for (ll i = 0; i < m; i++)
+    {
+        v.push_back(readf< ll >());
+    }
+
+
     return 0;
 }
 

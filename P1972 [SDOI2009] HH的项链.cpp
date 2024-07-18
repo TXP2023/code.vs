@@ -57,7 +57,7 @@ template< typename T, typename T2 >
 inline T TreeSum(T2 x, std::vector< T >& _tree)
 {
     T sum = 0;
-    for (T2 i = x; i >= i; i -= lowbit(i))
+    for (T2 i = x; i >= 1; i -= lowbit(i))
     {
         sum += _tree[i];
     }
@@ -85,20 +85,21 @@ int main()
 
     ll pow = 0;
     ans.resize(m);
-    vis.resize(n, 0);
+    vis.resize(1000000, 0);
+    tree.resize(n + 1, 0);
     for (ll i = 0; i < m; i++)
     {
         for (ll j = pow; j <= qs[i].begin; j++)
         {
             if (vis[v[j] - 1])
             {
-                //TreeAdd(vis[v[j] - 1], -1, tree);
+                TreeAdd(vis[v[j] - 1], -1, tree);
             }
-            //TreeAdd(j, 1, tree);
+            TreeAdd(j, 1, tree);
             vis[v[j] - 1] = j;
         }
         pow = qs[i].end + 1;
-        //ans[qs[i].id] = TreeSum(qs[i].end + 1, tree) - TreeSum(qs[i].begin, tree);
+        ans[qs[i].id] = TreeSum(qs[i].end + 1, tree) - TreeSum(qs[i].begin, tree);
     }
 
     for (size_t i = 0; i < m; i++)
@@ -128,3 +129,8 @@ inline T readf()
     return sgn ? -ret : ret;
 #endif
 }
+/*
+    目前发现的bug
+    1 v[i]不一定小于m
+    2. tree没有初始化
+*/
