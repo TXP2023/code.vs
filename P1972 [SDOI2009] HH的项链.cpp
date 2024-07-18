@@ -67,6 +67,7 @@ inline T TreeSum(T2 x, std::vector< T >& _tree)
 //  TODO 
 int main()
 {
+    freopen("C:\\Users\\Student\\source\\repos\\code.vs\\.in", "r", stdin);
     n = readf< ll >();
     v.resize(n);
     for (size_t i = 0; i < n; i++)
@@ -104,7 +105,7 @@ int main()
 
     for (size_t i = 0; i < m; i++)
     {
-        printf("%lld\n", ans[i]);
+        printf("%lld ", ans[i]);
     }
     return 0;
 }
