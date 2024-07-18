@@ -18,5 +18,8 @@
     <ClCompile Include="P4805 [CCC2016] 合并饭团.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="P1972 [SDOI2009] HH的项链.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
