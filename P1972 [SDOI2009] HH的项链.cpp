@@ -68,7 +68,9 @@ inline T TreeSum(T2 x, std::vector< T >& _tree)
 int main()
 {
     freopen(".in", "r", stdin);
+
     n = readf< ll >();
+
     v.resize(n);
     for (size_t i = 0; i < n; i++)
     {
@@ -90,14 +92,14 @@ int main()
     tree.resize(n + 1, 0);
     for (ll i = 0; i < m; i++)
     {
-        for (ll j = pow; j <= qs[i].begin; j++)
+        for (ll j = pow; j <= qs[i].end; j++)
         {
-            if (vis[v[j] - 1])
+            if (vis[v[j]])
             {
-                TreeAdd(vis[v[j] - 1], -1, tree);
+                TreeAdd(vis[v[j]], -1, tree);
             }
             TreeAdd(j, 1, tree);
-            vis[v[j] - 1] = j;
+            vis[v[j]] = j;
         }
         pow = qs[i].end + 1;
         ans[qs[i].id] = TreeSum(qs[i].end + 1, tree) - TreeSum(qs[i].begin, tree);
@@ -105,7 +107,7 @@ int main()
 
     for (size_t i = 0; i < m; i++)
     {
-        printf("%lld ", ans[i]);
+        printf("%lld\n", ans[i]);
     }
     system("pause");
     return 0;
