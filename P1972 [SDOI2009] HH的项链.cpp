@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+//#define _CRT_SECURE_NO_WARNINGS
 
 #include <vector>
 #include <stdio.h>
@@ -98,7 +98,7 @@ int main()
             {
                 TreeAdd(vis[v[j]], -1, tree);
             }
-            TreeAdd(j, 1, tree);
+            TreeAdd(j+1, 1, tree);
             vis[v[j]] = j;
         }
         pow = qs[i].end + 1;
