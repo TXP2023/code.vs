@@ -14,7 +14,11 @@ typedef unsigned long long unill;
 template< typename T >
 inline T readf();
 
-std::priority_queue< std::pair< ll, ll> > que;
+//std::priority_queue< std::pair< ll, ll> > que;
+std::priority_queue<std::pair< ll, ll>, 
+                    std::vector< std::pair< ll, ll> >, 
+                    std::greater< std::pair< ll, ll> > 
+                    > que;
 std::vector< bool > vbool;
 std::vector< ll > v;
 ll n, k, ans = 0;
@@ -29,7 +33,7 @@ int main()
     ll* old = new ll(readf< ll >());
     v.push_back(0);
     vbool.push_back(false);
-    for (rsize_t i = 1; i < n; i++)
+    for (size_t i = 1; i < n; i++)
     {
         v.push_back(readf< ll >() - *old);
         vbool.push_back(false); //false代表可以使用
@@ -39,7 +43,7 @@ int main()
     vbool.push_back(false);
     delete old;
 
-    for (ll i = 0; i < k; i++)
+    for (size_t i = 0; i < k; i++)
     {
         while (!que.empty(), vbool[que.top().second])
         {
