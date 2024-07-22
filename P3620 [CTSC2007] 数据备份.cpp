@@ -9,19 +9,33 @@
 typedef long long ll;
 typedef unsigned long long unill;
 
+struct data
+{
+    ll d;
+    ll l, r; //left 和 right
+};
+
 //函数前向声明
 //快读函数
 template< typename T >
 inline T readf();
 
 //std::priority_queue< std::pair< ll, ll> > que;
-std::priority_queue<std::pair< ll, ll>, 
-                    std::vector< std::pair< ll, ll> >, 
-                    std::greater< std::pair< ll, ll> > 
-                    > que;
+std::priority_queue<std::pair< ll, ll>,
+    std::vector< std::pair< ll, ll> >,
+    std::greater< std::pair< ll, ll> >
+> que;
 std::vector< bool > vbool;
-std::vector< ll > v;
+std::vector< data > v;
 ll n, k, ans = 0;
+
+inline void del(ll x)
+{
+    v[x].l = v[v[x].l].l;
+    v[v[x].l].l = x;
+    v[x].r = v[v[x].r].r;
+    v[v[x].r].r = x;
+}
 
 int main()
 {
@@ -31,21 +45,22 @@ int main()
 
     //输入序列，计算差分数组
     ll* old = new ll(readf< ll >());
-    v.push_back(0);
+    v.resize(n + 2);
     vbool.push_back(false);
-    for (size_t i = 1; i < n; i++)
+    for (ll i = 1; i < n; i++)
     {
-        v.push_back(readf< ll >() - *old);
+        ll input = readf< ll >();
+        v[i] = { input - *old, i - 1,i + 1 };
+        *old = input;
         vbool.push_back(false); //false代表可以使用
-        que.push({ v[i], i});
+        que.push({ v[i].d, i});
     }
-    v.push_back(0);
     vbool.push_back(false);
     delete old;
 
     for (size_t i = 0; i < k; i++)
     {
-        while (!que.empty(), vbool[que.top().second])
+        while (!que.empty(), vbool[que.top().second-1])
         {
             que.pop();
         }
@@ -55,10 +70,10 @@ int main()
         }
 
         ans += que.top().first;
-        v[que.top().second] = v[que.top().second - 1] + v[que.top().second + 1] - v[que.top().second];
-        vbool[que.top().second - 1] = true;
-        vbool[que.top().second + 1] = true;
-        que.push({ v[que.top().second], que.top().second });
+        vbool[v[que.top().second-1].l] = vbool[v[que.top().second-1].r] = true;
+        v[que.top().second].d = v[v[que.top().second].r].d + v[v[que.top().second].l].d - v[que.top().second].d;
+        que.push({ v[que.top().second].d, que.top().second });
+        del(que.top().second);
         que.pop();
     }
 

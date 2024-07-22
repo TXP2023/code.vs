@@ -18,7 +18,7 @@ ll n, ans = -922337203685477580;
 
 int main()
 {
-    //freopen("D:\\code.vs\\SHU_RU.in", "r", stdin);
+    freopen(".in", "r", stdin);
 
     n = readf< ll >();
 
