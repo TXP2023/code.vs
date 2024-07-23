@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <ctype.h>
 #include <queue>
+#include <limits.h>
 
 typedef long long ll;
 typedef unsigned long long unill;
@@ -45,22 +46,22 @@ int main()
 
     //输入序列，计算差分数组
     ll* old = new ll(readf< ll >());
-    v.resize(n + 2);
-    vbool.push_back(false);
-    for (ll i = 1; i < n; i++)
+    v.resize(n + 1);
+    v[0].d = LONG_MAX;
+    vbool.resize(n+1, false);
+    for (ll i = 1; i <= n-1; i++)
     {
         ll input = readf< ll >();
         v[i] = { input - *old, i - 1,i + 1 };
         *old = input;
-        vbool.push_back(false); //false代表可以使用
         que.push({ v[i].d, i});
     }
-    vbool.push_back(false);
+    v[n].d = LONG_MAX;
     delete old;
 
     for (size_t i = 0; i < k; i++)
     {
-        while (!que.empty(), vbool[que.top().second-1])
+        while (!que.empty(), vbool[que.top().second])
         {
             que.pop();
         }
@@ -70,7 +71,7 @@ int main()
         }
 
         ans += que.top().first;
-        vbool[v[que.top().second-1].l] = vbool[v[que.top().second-1].r] = true;
+        vbool[v[que.top().second].l] = vbool[v[que.top().second].r] = true;
         v[que.top().second].d = v[v[que.top().second].r].d + v[v[que.top().second].l].d - v[que.top().second].d;
         que.push({ v[que.top().second].d, que.top().second });
         del(que.top().second);
