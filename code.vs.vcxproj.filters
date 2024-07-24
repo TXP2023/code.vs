@@ -30,6 +30,9 @@
     <ClCompile Include="P3620 [CTSC2007] 数据备份.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="P1488 肥猫的游戏.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".in">

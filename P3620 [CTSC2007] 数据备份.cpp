@@ -61,7 +61,7 @@ int main()
 
     for (size_t i = 0; i < k; i++)
     {
-        while (!que.empty(), vbool[que.top().second])
+        while (!que.empty() && vbool[que.top().second])
         {
             que.pop();
         }
