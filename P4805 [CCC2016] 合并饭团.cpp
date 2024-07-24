@@ -20,7 +20,7 @@ ll n, ans = -922337203685477580;
 
 int main()
 {
-    freopen(".in", "r", stdin);
+    //freopen(".in", "r", stdin);
 
     n = readf< ll >();
 
@@ -50,7 +50,7 @@ int main()
                 }
                 for (ll q = k + 1; q < j; q++)
                 {
-                    if (dp[i][k] == dp[q + 1][j] && dp[q+1][j] != 0 && dp[k + 1][q] != 0)
+                    if (dp[i][k] == dp[q + 1][j] && dp[q + 1][j] != 0 && dp[k + 1][q] != 0)
                     {
                         dp[i][j] = std::max(dp[i][j], (dp[i][k] << 1) + dp[k + 1][q]);
                         ans = std::max(ans, dp[i][j]);
