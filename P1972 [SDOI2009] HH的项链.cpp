@@ -1,4 +1,4 @@
-//#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 
 #include <vector>
 #include <stdio.h>
@@ -67,7 +67,7 @@ inline T TreeSum(T2 x, std::vector< T >& _tree)
 //  TODO 
 int main()
 {
-    freopen(".in", "r", stdin);
+    //freopen(".in", "r", stdin);
 
     n = readf< ll >();
 
@@ -96,10 +96,10 @@ int main()
         {
             if (vis[v[j]])
             {
-                TreeAdd(vis[v[j]], -1, tree);
+                TreeAdd(ll( - 1), vis[v[j]], tree);
             }
-            TreeAdd(j+1, 1, tree);
-            vis[v[j]] = j;
+            TreeAdd(ll(1), j + 1, tree);
+            vis[v[j]] = j+1;
         }
         pow = qs[i].end + 1;
         ans[qs[i].id] = TreeSum(qs[i].end + 1, tree) - TreeSum(qs[i].begin, tree);
@@ -109,7 +109,7 @@ int main()
     {
         printf("%lld\n", ans[i]);
     }
-    system("pause");
+    //system("pause");
     return 0;
 }
 
@@ -133,8 +133,3 @@ inline T readf()
     return sgn ? -ret : ret;
 #endif
 }
-/*
-    目前发现的bug
-    1 v[i]不一定小于m
-    2. tree没有初始化
-*/
