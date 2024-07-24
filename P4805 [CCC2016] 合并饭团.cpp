@@ -16,6 +16,8 @@ inline T readf();
 std::vector< std::vector< ll > > dp;
 ll n, ans = -922337203685477580;
 
+
+
 int main()
 {
     freopen(".in", "r", stdin);
@@ -36,14 +38,19 @@ int main()
             ll j = i + len;
             for (ll k = i; k < j; k++)
             {
-                if (dp[i][k] == dp[k + 1][j])
+                if (dp[i][k] == dp[k + 1][j] && dp[i][k] != 0)
                 {
-                    dp[i][j] = std::max(dp[i][j], dp[i][k] << 1);
-                    ans = std::max(ans, dp[i][j]);
+                    dp[i][j] = std::max(dp[i][j], dp[i][k] * 2);
+                    //ans = std::max(ans, dp[i][j]);
+                    if (dp[i][j] > ans)
+                    {
+                        ans = dp[i][j];
+                        system("pause");
+                    }
                 }
                 for (ll q = k + 1; q < j; q++)
                 {
-                    if (dp[i][k] == dp[q + 1][j])
+                    if (dp[i][k] == dp[q + 1][j] && dp[q+1][j] != 0 && dp[k + 1][q] != 0)
                     {
                         dp[i][j] = std::max(dp[i][j], (dp[i][k] << 1) + dp[k + 1][q]);
                         ans = std::max(ans, dp[i][j]);
