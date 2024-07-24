@@ -33,9 +33,9 @@ ll n, k, ans = 0;
 inline void del(ll x)
 {
     v[x].l = v[v[x].l].l;
-    v[v[x].l].l = x;
+    v[v[x].l].r = x;
     v[x].r = v[v[x].r].r;
-    v[v[x].r].r = x;
+    v[v[x].r].l = x;
 }
 
 int main()
