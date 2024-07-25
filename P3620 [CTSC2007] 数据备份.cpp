@@ -2,7 +2,6 @@
 
 #include <vector>
 #include <stdio.h>
-#include <algorithm>
 #include <ctype.h>
 #include <queue>
 #include <limits.h>
@@ -21,11 +20,7 @@ struct data
 template< typename T >
 inline T readf();
 
-//std::priority_queue< std::pair< ll, ll> > que;
-std::priority_queue<std::pair< ll, ll>,
-    std::vector< std::pair< ll, ll> >,
-    std::greater< std::pair< ll, ll> >
-> que;
+std::priority_queue<std::pair< ll, ll>, std::vector< std::pair< ll, ll> >, std::greater< std::pair< ll, ll> > > que;
 std::vector< bool > vbool;
 std::vector< data > v;
 ll n, k, ans = 0;

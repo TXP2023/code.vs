@@ -33,6 +33,9 @@
     <ClCompile Include="P1488 肥猫的游戏.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="P2197 【模板】Nim 游戏.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".in">

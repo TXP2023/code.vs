@@ -1,4 +1,4 @@
-#define  _CRT_SECURE_NO_WARNINGS
+//#define  _CRT_SECURE_NO_WARNINGS
 
 #include <vector>
 #include <stdio.h>
@@ -15,8 +15,6 @@ inline T readf();
 
 std::vector< std::vector< ll > > dp;
 ll n, ans = -922337203685477580;
-
-
 
 int main()
 {
