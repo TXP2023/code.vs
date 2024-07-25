@@ -36,6 +36,12 @@
     <ClCompile Include="P2197 【模板】Nim 游戏.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="P1199 [NOIP2010 普及组] 三国游戏.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="P10115 [LMXOI Round 1] Placer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".in">
