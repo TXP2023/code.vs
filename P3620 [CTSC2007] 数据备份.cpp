@@ -56,13 +56,9 @@ int main()
 
     for (size_t i = 0; i < k; i++)
     {
-        while (!que.empty() && vbool[que.top().second])
+        while (vbool[que.top().second])
         {
             que.pop();
-        }
-        if (que.empty())
-        {
-            break;
         }
 
         ans += que.top().first;

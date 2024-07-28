@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="源文件\模板">
+      <UniqueIdentifier>{df9099c6-4aa8-4846-ae19-68cdf7c29d0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="P4805 [CCC2016] 合并饭团.cpp">
@@ -41,6 +44,18 @@
     </ClCompile>
     <ClCompile Include="P10115 [LMXOI Round 1] Placer.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="树状数组.cpp">
+      <Filter>源文件\模板</Filter>
+    </ClCompile>
+    <ClCompile Include="图-拓扑排序BFS.cpp">
+      <Filter>源文件\模板</Filter>
+    </ClCompile>
+    <ClCompile Include="图-拓扑排序DFS.cpp">
+      <Filter>源文件\模板</Filter>
+    </ClCompile>
+    <ClCompile Include="图-严格次小生成树.cpp">
+      <Filter>源文件\模板</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
