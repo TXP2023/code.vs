@@ -37,6 +37,7 @@ struct data
 std::vector< std::vector< data > > mst; //最小生成树
 std::vector< bool > vecb;
 std::vector< Edge > v_edge; //Kruskal 边排序
+std::vector< ll > depath;
 ll n, m, min_length, ans; 
 
 //并查集函数
@@ -66,7 +67,7 @@ inline ll Kruskal(ll _n/*节点数*/, std::vector< Edge > _e/*边集*/)
     std::iota(set.begin(), set.end(), 0);
 
     ll cnt = 0, lenght = 0;
-    for (ll i = 0; i < _n-1;)
+    for (size_t i = 0; i < _n-1;)
     {
         if (findSet(_e.front().from, set) != findSet(_e.front().to, set))
         {
@@ -87,28 +88,10 @@ inline ll Kruskal(ll _n/*节点数*/, std::vector< Edge > _e/*边集*/)
     return lenght;
 }
 
-template< typename T1 >
-inline ll minPath(T1 _n, T1 from/*起始点*/, T1 to/*终点*/, std::vector< std::vector< data > > _dat/*存图*/)
+inline void init()
 {
-    std::vector< std::pair< ll, ll > > dits(_n, { LLONG_MAX, 0}); //先路径 后最大单次路
-    std::queue< std::pair< ll, ll >/*先权值，后节点号*/ > que;
-    que.push({ 0, from });
-    dits[from] = { 0, 0 };
-    while (!que.empty())
-    {
-        std::pair< ll, ll > now = que.front();
-        que.pop();
-        for (size_t i = 0; i < _dat[now.second].size(); i++)
-        {
-            if (dits[_dat[now.second][i].to].first > dits[now.second].first + _dat[now.second][i].val)
-            {
-                dits[_dat[now.second][i].to].first = dits[now.second].first + _dat[now.second][i].val;
-                dits[_dat[now.second][i].to].second = std::max(dits[_dat[now.second][i].to].second, _dat[now.second][i].val);
-                que.push({ dits[_dat[now.second][i].to].first, _dat[now.second][i].to });
-            }
-        }
-    }
-    return dits[to].second;
+    std::queue< ll > que;
+    
 }
 
 int main(void)
@@ -116,7 +99,7 @@ int main(void)
     freopen(".in", "r", stdin);
     n = readf< ll >(), m = readf< ll >();
     
-    for (ll i = 0; i < m; i++)
+    for (size_t i = 0; i < m; i++)
     {
         ll from = readf< ll >() - 1, to = readf< ll >() - 1, val = readf< ll >();
         v_edge.push_back({ from,to,val });
@@ -126,25 +109,6 @@ int main(void)
     vecb.resize(m, false);
     std::sort(v_edge.begin(), v_edge.end());
     min_length = Kruskal(n, v_edge); //正确
-    for (ll i = 0; i < vecb.size(); i++)
-    {
-        if (!vecb[i])
-        {
-            ll mPath = minPath(n, v_edge[i].from , v_edge[i].to, mst);
-            if (mPath < v_edge[i].val)
-            {
-                if (!f)
-                {
-                    f = true;
-                    ans = min_length - mPath + v_edge[i].val;
-                }
-                else
-                {
-                    ans = std::min(ans, min_length - mPath + v_edge[i].val);
-                }
-            }
-        }
-    }
 
     printf("%lld\n", ans);
     return 0;

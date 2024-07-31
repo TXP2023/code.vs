@@ -1,107 +1,65 @@
-#define  _CRT_SECURE_NO_WARNINGS
-
+#include <iostream>
 #include <vector>
-#include <stdio.h>
 #include <algorithm>
-#include <ctype.h>
 #include <string>
 
 typedef long long ll;
-typedef unsigned long long unill;
 
-//函数前向声明
-//快读函数
-template< typename T >
-inline T readf();
+std::vector<ll> v, head, c;
+std::vector<ll> dp;
+std::string str;
+ll n;
 
-std::vector< std::vector< bool > > vbool; //vbool[i,j]为区间i~j是否为合法序
-std::vector< std::vector< ll > > dp; 
-std::vector< ll > v;
-//std::string str;
-std::vector< char > str;
-ll n, ans = 0;
-
-int main(void)
-{
+int main() {
     freopen(".in", "r", stdin);
+    std::cin >> n;      // 读取字符串长度
+    std::cin >> str;    // 读取括号字符串
 
-    n = readf< ll >();
+    v.resize(n + 1);
+    head.resize(n + 1, 0);
 
-    for (ll i = 0; i < n; i++)
-    {
-        char input; 
+    // 读取每个数字
+    for (ll i = 1; i <= n; i++) {
+        std::cin >> v[i];  // 使用 cin 读取每个数字
     }
-    for (ll i = 0; i < n; i++)
-    {
-        v.push_back(readf< ll >());
-    }
 
-    dp.resize(n, std::vector< ll >(n, 0));
-    vbool.resize(n, std::vector< bool >(n, false));
-    for (ll i = 0; i < n-1; i++)
-    {
-        if (str[i] == '(' && str[i + 1] == ')')
-        {
-            vbool[i][i + 1] = true;
-            vbool[i + 1][i] = true;
-            dp[i][i + 1] = std::max(dp[i][i + 1], v[i + 1] - v[i]);
-            ans = std::max(dp[i][i + 1], ans);
+    // 处理配对括号
+    for (ll i = 1; i <= n; i++) {
+        if (i > 1 && str[i - 1] == ')' && str[i - 2] == '(') {
+            head[i - 1] = i - 2;  // 更新配对的括号位置
         }
     }
 
-    for (ll len = 2; len  < n; len++)
-    {
-        for (ll i = 0; i + len < n; i++)
-        {
-            ll j = i + len;
-            //可以分为两种情况，第一种为由多个合法的序列扩展而来，第二种为由1个合法的括号序列再由1对括号包裹而来
-            for (ll k = i; k < j; k++) //情况1
-            {
-                if (vbool[i][k] && vbool[k+1][j])
-                {
-                    vbool[i][j] = true;
-                }
-                //vbool[i][j] = true;
-                dp[i][j] = std::max(dp[i][k] + dp[k + 1][j], dp[i][j]);
-                if (vbool[i][k] && !vbool[k + 1][j])
-                {
-                    dp[i][j] = std::max(dp[i][k], dp[i][j]);
-                }
-                if (!vbool[i][k] && vbool[k + 1][j])
-                {
-                    dp[i][j] = std::max(dp[k+1][j], dp[i][j]);
-                }
+    // 建立 head 数组
+    for (ll i = 1; i < n; i++) {
+        if (str[i - 1] == '(' || head[i - 1]) {
+            continue;
+        }
+        ll j = i - 2;
+        while (j >= 0 && head[j] != 0) {
+            j = head[j] - 1;
+            if (j >= 0 && str[j] == '(') {
+                head[i - 1] = j;  // 更新 head 数组
+                break;
             }
-            //情况2 
-            if (vbool[i+1][j-1] && str[i] == '(' && str[j] == ')') //判断更小的括号序列是否合法
-            {
-                vbool[i][j] = true;
-                dp[i][j] = std::max(dp[i][j], v[j] - v[i]);
-            }
-            ans = std::max(ans, dp[i][j]);
         }
     }
 
-    printf("%lld\n", ans);
+    ll _max = 0;
+    dp.resize(n + 1, 0);
+    c.resize(n + 1, -0x3f3f3f3f);  // 使用负无穷大初始化
+
+    // 动态规划计算
+    for (ll i = 1; i <= n; i++) {
+        dp[i] = _max;  // 初始化 dp[i]
+        if (head[i - 1] != 0) // 如果当前括号有配对
+        {  
+            c[i] = std::max(dp[head[i - 1]] - v[head[i - 1] + 1], c[head[i - 1]]);  // 更新 c
+            dp[i] = std::max(_max, c[i] + v[i]);  // 更新 dp[i]
+            _max = std::max(_max, dp[i]);  // 更新最大值
+        }
+    }
+
+    std::cout << dp[n] << std::endl;  // 输出最终结果
     return 0;
-}
-
-template< typename T >
-inline T readf()
-{
-#if false
-    T sum = 0;
-    char ch = getchar();
-    while (ch > '9' || ch < '0') ch = getchar();
-    while (ch >= '0' && ch <= '9') sum = sum * 10 + ch - 48, ch = getchar();
-    return sum;
-#else
-    T ret = 0, sgn = 0, ch = getchar();
-    while (!isdigit(ch))
-    {
-        sgn |= ch == '-', ch = getchar();
-    }
-    while (isdigit(ch)) ret = ret * 10 + ch - '0', ch = getchar();
-    return sgn ? -ret : ret;
-#endif
 }

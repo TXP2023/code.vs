@@ -57,6 +57,15 @@
     <ClCompile Include="图-严格次小生成树.cpp">
       <Filter>源文件\模板</Filter>
     </ClCompile>
+    <ClCompile Include="P1774 最接近神的人.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="图-最近公共祖先 LCA.cpp">
+      <Filter>源文件\模板</Filter>
+    </ClCompile>
+    <ClCompile Include="P1073 [NOIP2009 提高组] 最优贸易.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".in">
