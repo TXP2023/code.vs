@@ -1,5 +1,3 @@
-#define  _CRT_SECURE_NO_WARNINGS
-
 #include <vector>
 #include <stdio.h>
 #include <algorithm>
@@ -7,8 +5,8 @@
 #include <queue>
 #include <climits>
 
-typedef long long ll;
-typedef size_t unill;
+typedef int64_t ll;
+typedef uint64_t unill;
 
 //函数前向声明
 //快读函数
@@ -131,3 +129,4 @@ inline T readf()
     return sgn ? -ret : ret;
 #endif
 }
+

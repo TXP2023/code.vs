@@ -13,58 +13,61 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="源文件\模板">
+    <Filter Include="源文件\洛谷">
+      <UniqueIdentifier>{a90f8587-869a-4d91-abc7-766fbf89cacd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\样例">
       <UniqueIdentifier>{df9099c6-4aa8-4846-ae19-68cdf7c29d0a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="P4805 [CCC2016] 合并饭团.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="P1972 [SDOI2009] HH的项链.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="P2059 [JLOI2013] 卡牌游戏.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="模板.cpp">
       <Filter>资源文件</Filter>
     </ClCompile>
-    <ClCompile Include="P3620 [CTSC2007] 数据备份.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="P1488 肥猫的游戏.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="P2197 【模板】Nim 游戏.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="P1199 [NOIP2010 普及组] 三国游戏.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="P10115 [LMXOI Round 1] Placer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="树状数组.cpp">
-      <Filter>源文件\模板</Filter>
+      <Filter>源文件\样例</Filter>
     </ClCompile>
     <ClCompile Include="图-拓扑排序BFS.cpp">
-      <Filter>源文件\模板</Filter>
+      <Filter>源文件\样例</Filter>
     </ClCompile>
     <ClCompile Include="图-拓扑排序DFS.cpp">
-      <Filter>源文件\模板</Filter>
+      <Filter>源文件\样例</Filter>
     </ClCompile>
     <ClCompile Include="图-严格次小生成树.cpp">
-      <Filter>源文件\模板</Filter>
+      <Filter>源文件\样例</Filter>
     </ClCompile>
-    <ClCompile Include="P1774 最接近神的人.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="图-最近公共祖先 LCA.cpp">
-      <Filter>源文件\模板</Filter>
+    <ClCompile Include="图-最近公共祖先 LCA 倍增优化.cpp">
+      <Filter>源文件\样例</Filter>
     </ClCompile>
     <ClCompile Include="P1073 [NOIP2009 提高组] 最优贸易.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P1199 [NOIP2010 普及组] 三国游戏.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P1488 肥猫的游戏.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P1774 最接近神的人.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P1972 [SDOI2009] HH的项链.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P2059 [JLOI2013] 卡牌游戏.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P2197 【模板】Nim 游戏.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P3620 [CTSC2007] 数据备份.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P4805 [CCC2016] 合并饭团.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P10115 [LMXOI Round 1] Placer.cpp">
+      <Filter>源文件\洛谷</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

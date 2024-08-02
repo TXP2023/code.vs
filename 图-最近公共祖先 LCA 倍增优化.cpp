@@ -4,8 +4,7 @@
 #include <stdio.h>
 #include <algorithm>
 #include <ctype.h>
-
-#define INIF -1
+#include <climits>
 
 typedef long long ll;
 typedef unsigned long long unill;
@@ -62,7 +61,7 @@ inline ll LCA(ll u, ll v)
 
     for (ll i = 18; i >= 0; i--)
     {
-        if (depth[father[u][i]] >= depth[v])
+        if (depth[u] - depth[v] >= (1 << i)) //如果目前的差距大于2的i次方，那么要更新u，并计算2的i+1次方
         {
             u = father[u][i]; //往上提
         }
@@ -104,8 +103,8 @@ int main()
     dfsDepth(s, s);
 
     init();
-    father[s].clear();
-    father[s].resize(20, s);
+    //father[s].clear();
+    //father[s].resize(20, s);
     while (m--)
     {
         ll u = readf< ll >(), v = readf< ll >();

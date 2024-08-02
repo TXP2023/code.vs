@@ -1,12 +1,11 @@
-#define  _CRT_SECURE_NO_WARNINGS
-
 #include <vector>
 #include <stdio.h>
 #include <algorithm>
 #include <ctype.h>
+#include <climits>
 
-typedef long long ll;
-typedef unsigned long long unill;
+typedef int64_t ll;
+typedef uint64_t unill;
 
 //函数前向声明
 //快读函数

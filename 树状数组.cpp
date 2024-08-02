@@ -15,4 +15,3 @@ inline void TreeAdd(T1 change/*╦Э╦д*/, T2 x/*об╠Й*/, std::vector< T3 >& _tree/*й
 	}
 	return;
 }
- 
