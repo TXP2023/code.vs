@@ -69,6 +69,12 @@
     <ClCompile Include="P10115 [LMXOI Round 1] Placer.cpp">
       <Filter>源文件\洛谷</Filter>
     </ClCompile>
+    <ClCompile Include="P2415 集合求和.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P6833 [Cnoi2020] 雷雨.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".in">

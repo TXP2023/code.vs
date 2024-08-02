@@ -35,10 +35,11 @@ struct data
 };
 
 std::vector< std::vector< data > > mst; //最小生成树
+std::vector< std::vector< ll > > father/*父节点*/, maxEdge/*最大边*/, sEdge/*次大边*/;
 std::vector< bool > vecb;
 std::vector< Edge > v_edge; //Kruskal 边排序
 std::vector< ll > depath;
-ll n, m, min_length, ans; 
+ll n, m, min_length, ans = LLONG_MAX; 
 
 //并查集函数
 template< typename T, typename T2 > 
@@ -87,11 +88,120 @@ inline ll Kruskal(ll _n/*节点数*/, std::vector< Edge > _e/*边集*/)
     }
     return lenght;
 }
-
-inline void init()
+ 
+inline void init(ll u) //预处理 计算father/*父节点*/, maxEdge/*最大边*/, sEdge/*次大边*/
 {
-    std::queue< ll > que;
-    
+    depath[u] = depath[father[u][0]] + 1;
+    for (ll i = 1; i <= 18; i++)
+    {
+        father[u][i] = father[father[u][i - 1]][i - 1];
+        if (maxEdge[u][i - 1] == maxEdge[father[u][i - 1]][i - 1])
+        {
+            maxEdge[u][i] = maxEdge[u][i - 1];
+            sEdge[u][i] = std::max(sEdge[father[u][i - 1]][i - 1], sEdge[u][i - 1]);
+        }
+        if (maxEdge[u][i - 1] > maxEdge[father[u][i - 1]][i - 1])
+        {
+            maxEdge[u][i] = maxEdge[u][i - 1];
+            //sEdge[u][i] = std::max(maxEdge[u][i - 1], sEdge[father[u][i - 1]][i - 1]);
+            sEdge[u][i] = std::max(sEdge[u][i - 1], maxEdge[father[u][i - 1]][i - 1]);
+        }
+        if (maxEdge[father[u][i - 1]][i - 1] > maxEdge[u][i - 1])
+        {
+            maxEdge[u][i] = maxEdge[father[u][i - 1]][i - 1];
+            sEdge[u][i] = std::max(maxEdge[u][i - 1], sEdge[father[u][i - 1]][i - 1]);
+        }
+    }
+    for (size_t i = 0; i < mst[u].size(); i++)
+    {
+        if (mst[u][i].to == father[u][0])
+        {
+            continue;
+        }
+        father[mst[u][i].to][0] = u;
+        maxEdge[mst[u][i].to][0] = mst[u][i].val;
+        init(mst[u][i].to);
+    }
+    return;
+}
+
+inline ll LCA(ll u, ll v)
+{
+    if (depath[u] < depath[v])
+    {
+        std::swap(u, v);
+    }
+    for (ll i = 18; i >= 0; i--)
+    {
+        if (depath[u] - depath[v] >= (1 << i))
+        {
+            u = father[u][i];
+        }
+    }
+    if (u == v)
+    {
+        return u;
+    }
+    for (ll i = 18; i >= 0; i--) 
+    {
+        if (depath[u] != depath[v]) 
+        {
+            u = father[u][i], v = father[v][i];
+        }
+    }
+    return father[u][0];
+} 
+
+inline ll SMST(ll u, ll v, ll w)
+{
+    ll node = LCA(u, v);
+    ll max = 0, smax = 0;
+    for (ll i = 18; i >= 0; i--)
+    {
+        if (depath[father[u][i]] >= depath[node])
+        {
+            if (max == maxEdge[u][i])
+            {
+                smax = std::max(sEdge[u][i], smax);
+            }
+            if (max > maxEdge[u][i])
+            {
+                smax = std::max(maxEdge[u][i], smax);
+            }
+            if (max < maxEdge[u][i])
+            {
+                smax = std::max(sEdge[u][i], max);
+                max = maxEdge[u][i];
+            }
+            u = father[u][i];
+        }
+        if (depath[father[v][i]] >= depath[node])
+        {
+            if (max == maxEdge[v][i])
+            {
+                smax = std::max(smax, sEdge[v][i]);
+            }
+            if (max > maxEdge[v][i])
+            {
+                smax = std::max(maxEdge[v][i], smax);
+            }
+            if (max < maxEdge[v][i])
+            {
+                smax = std::max(sEdge[v][i], max);
+                max = maxEdge[v][i];
+            }
+            v = father[v][i];
+        }
+    }
+    if (w != max)
+    {
+        return  min_length - max + w;
+    }
+    if (smax)
+    {
+        return min_length - smax + w;
+    }
+    return LLONG_MAX;
 }
 
 int main(void)
@@ -109,6 +219,19 @@ int main(void)
     vecb.resize(m, false);
     std::sort(v_edge.begin(), v_edge.end());
     min_length = Kruskal(n, v_edge); //正确
+
+    father.resize(n, std::vector< ll >(19, 0));
+    maxEdge.resize(n, std::vector< ll >(19, 0));
+    sEdge.resize(n, std::vector< ll >(19, 0));
+    depath.resize(n, 0);
+    init(0);
+    for (ll i = 0; i < vecb.size(); i++)
+    {
+        if (!vecb[i])
+        {
+            ans = std::min(ans, SMST(v_edge[i].from, v_edge[i].to, v_edge[i].val));
+        }
+    }
 
     printf("%lld\n", ans);
     return 0;
