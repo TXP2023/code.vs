@@ -163,6 +163,7 @@
     <ClCompile Include="P2415 集合求和.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="P3128 [USACO15DEC] Max Flow P.cpp" />
     <ClCompile Include="P3620 [CTSC2007] 数据备份.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -175,9 +176,7 @@
     <ClCompile Include="P6833 [Cnoi2020] 雷雨.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="图-严格次小生成树.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="P8805 [蓝桥杯 2022 国 B] 机房.cpp" />
     <ClCompile Include="图-拓扑排序BFS.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -199,6 +198,63 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Downloads\P1042_1.in" />
+    <None Include="..\..\Downloads\P1042_1.out" />
+    <None Include="..\..\Downloads\P1042_2.in" />
+    <None Include="..\..\Downloads\P1042_2.out" />
+    <None Include="..\..\Downloads\P1048_2.in" />
+    <None Include="..\..\Downloads\P1048_2.out" />
+    <None Include="..\..\Downloads\P1073_1.in" />
+    <None Include="..\..\Downloads\P1073_1.out" />
+    <None Include="..\..\Downloads\P1158_7.in" />
+    <None Include="..\..\Downloads\P1220_1.in" />
+    <None Include="..\..\Downloads\P1220_1.out" />
+    <None Include="..\..\Downloads\P1462_12.in" />
+    <None Include="..\..\Downloads\P1462_12.out" />
+    <None Include="..\..\Downloads\P1462_8.in" />
+    <None Include="..\..\Downloads\P1462_8.out" />
+    <None Include="..\..\Downloads\P1529_3.in" />
+    <None Include="..\..\Downloads\P1529_3.out" />
+    <None Include="..\..\Downloads\P1736_2.in" />
+    <None Include="..\..\Downloads\P1736_2.out" />
+    <None Include="..\..\Downloads\P1757_1.in" />
+    <None Include="..\..\Downloads\P1757_1.out" />
+    <None Include="..\..\Downloads\P1757_5.in" />
+    <None Include="..\..\Downloads\P1757_5.out" />
+    <None Include="..\..\Downloads\P1807_2.in" />
+    <None Include="..\..\Downloads\P1807_2.out" />
+    <None Include="..\..\Downloads\P1853_1.out" />
+    <None Include="..\..\Downloads\P1902_1.in" />
+    <None Include="..\..\Downloads\P1902_1.out" />
+    <None Include="..\..\Downloads\P1941_1(1).in" />
+    <None Include="..\..\Downloads\P1941_1(1).out" />
+    <None Include="..\..\Downloads\P1941_1(2).out" />
+    <None Include="..\..\Downloads\P1941_1.in" />
+    <None Include="..\..\Downloads\P1941_1.out" />
+    <None Include="..\..\Downloads\P1941_3.in" />
+    <None Include="..\..\Downloads\P1941_3.out" />
+    <None Include="..\..\Downloads\P1941_4.in" />
+    <None Include="..\..\Downloads\P1941_4.out" />
+    <None Include="..\..\Downloads\P1941_8.in" />
+    <None Include="..\..\Downloads\P1941_8.out" />
+    <None Include="..\..\Downloads\P2347_2.in" />
+    <None Include="..\..\Downloads\P2347_2.out" />
+    <None Include="..\..\Downloads\P3366_1.in" />
+    <None Include="..\..\Downloads\P3366_1.out" />
+    <None Include="..\..\Downloads\P3366_2.in" />
+    <None Include="..\..\Downloads\P3366_2.out" />
+    <None Include="..\..\Downloads\P3366_3.in" />
+    <None Include="..\..\Downloads\P3366_8.in" />
+    <None Include="..\..\Downloads\P3379_1.in" />
+    <None Include="..\..\Downloads\P3379_1.out" />
+    <None Include="..\..\Downloads\P3620_2.in" />
+    <None Include="..\..\Downloads\P3620_2.out" />
+    <None Include="..\..\Downloads\P4180_1.in" />
+    <None Include="..\..\Downloads\P4180_1.out" />
+    <None Include="..\..\Downloads\P4779_1.in" />
+    <None Include="..\..\Downloads\P4779_1.out" />
+    <None Include="..\..\Downloads\P5663_6.in" />
+    <None Include="..\..\Downloads\P5663_6.out" />
     <None Include=".in" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
