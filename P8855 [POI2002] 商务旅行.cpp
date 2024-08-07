@@ -13,31 +13,23 @@ typedef uint64_t unill;
 template< typename T >
 inline T readf();
 
+std::vector< ll > depth;
 std::vector< std::vector< ll > > edge;
 std::vector< std::vector< ll > > father;
-std::vector< ll > depth, vis, sum;
-ll n, m;
+std::vector< ll > vis;
+ll n, m, ans = 0;
 
-inline void addEdge(ll from, ll to)
+inline void dfsDepth(ll u, ll fa)
 {
-    edge[from].push_back(to);
-    edge[to].push_back(from);
-}
-
-//处理父节点数组 和深度数组
-inline void dfsDepth(ll v/*当前查看的父节点*/, ll fa/*当前查看的父节点的父节点*/)
-{
-    for (size_t i = 0; i < edge[v].size(); i++)
+    for (ll v : edge[u])
     {
-        ll child = edge[v][i];
-        if (child == fa)
+        if (v == fa)
         {
             continue;
         }
-        depth[child] = depth[v] + 1; //更新子节点权值为父节点+1
-        father[child][0] = v; //记录父节点 2的0次方为1
-        sum[child] = sum[v] + vis[child];
-        dfsDepth(child, v);
+        depth[v] = depth[u] + 1;
+        father[v][0] = u;
+        dfsDepth(v, u);
     }
     return;
 }
@@ -46,7 +38,7 @@ inline void init()
 {
     for (size_t j = 1; j <= 18; j++)
     {
-        for (size_t i = 0; i < n; i++)
+        for (size_t i = 0; i < n; i++) 
         {
             father[i][j] = father[father[i][j - 1]][j - 1];
         }
@@ -54,36 +46,28 @@ inline void init()
     return;
 }
 
-
-inline ll LCA(ll u, ll v)
+inline ll lca(ll u, ll v)
 {
-    if (u == v)
-    {
-        return u;
-    }
     if (depth[u] < depth[v])
     {
         std::swap(u, v);
     }
-
     for (ll i = 18; i >= 0; i--)
     {
-        if (depth[u] - depth[v] >= (1 << i)) //如果目前的差距大于2的i次方，那么要更新u，并计算2的i+1次方
+        if (depth[u] - depth[v] >= (1 << i)) 
         {
-            u = father[u][i]; //往上提
+            u = father[u][i];
         }
     }
-
     if (u == v)
     {
         return u;
     }
-
     for (ll i = 18; i >= 0; i--)
     {
         if (father[u][i] != father[v][i])
         {
-            u = father[u][i], v = father[v][i]; //往上提
+            u = father[u][i], v = father[v][i];
         }
     }
     return father[u][0];
@@ -92,36 +76,38 @@ inline ll LCA(ll u, ll v)
 int main()
 {
     freopen(".in", "r", stdin);
-
-    n = readf< ll >(), m = readf< ll >();
+    
+    n = readf< ll >();
 
     edge.resize(n);
-    sum.resize(n, 0);
-    vis.resize(n, 0);
-    for (size_t i = 1; i <= n-1; i++)
+    for (ll i = 0; i < n-1; i++)
     {
-        ll from = readf< ll >(), to = readf< ll >();
-        vis[--from]++, vis[--to]++;
-        addEdge(from, to);
+        ll u = readf< ll >(), v = readf< ll >();
+        edge[--u].push_back(--v);
+        edge[v].push_back(u);
     }
 
-    for (size_t i = 0; i < n; i++)
+    m = readf< ll >();
+    vis.resize(m);
+    for (ll &i : vis)
     {
-        vis[i] = edge[i].size(), sum[i] = edge[i].size();
+        scanf("%lld", &i);
     }
 
     father.resize(n, std::vector< ll >(19, 0));
     depth.resize(n, 0);
     depth[0] = 1;
     dfsDepth(0, 0);
-
     init();
-    while (m--)
+
+
+    for (size_t i = 0; i < m-1; i++)
     {
-        ll u = readf< ll >(), v = readf< ll >();
-        ll uvLca = LCA(--u, --v);
-        printf("%lld\n", sum[u] + sum[v] - sum[uvLca] * 2 + vis[uvLca]);
+        ll uvlca = lca(vis[i] - 1, vis[i + 1] - 1);
+        ans += depth[vis[i] - 1] - depth[uvlca] + depth[vis[i + 1] - 1] - depth[uvlca];
     }
+
+    printf("%lld\n", ans);
     return 0;
 }
 
@@ -143,4 +129,4 @@ inline T readf()
     while (isdigit(ch)) ret = ret * 10 + ch - '0', ch = getchar();
     return sgn ? -ret : ret;
 #endif
-} 
+}

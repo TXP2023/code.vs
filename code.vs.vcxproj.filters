@@ -81,6 +81,21 @@
     <ClCompile Include="P8805 [蓝桥杯 2022 国 B] 机房.cpp">
       <Filter>源文件\洛谷</Filter>
     </ClCompile>
+    <ClCompile Include="P3258 [JLOI2014] 松鼠的新家.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="图-严格次小生成树.cpp">
+      <Filter>源文件\样例</Filter>
+    </ClCompile>
+    <ClCompile Include="P4427 [BJOI2018] 求和.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P6869 [COCI2019-2020#5] Putovanje.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P8855 [POI2002] 商务旅行.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".in">

@@ -13,16 +13,22 @@ typedef uint64_t unill;
 template< typename T >
 inline T readf();
 
+
+ll n;
+
 int main()
 {
     freopen(".in", "r", stdin);
-    
+
+    n = readf< ll >();
+
+
+
     return 0;
 }
 
 template< typename T >
-inline T readf()
-{
+inline T readf(){
 #if false
     T sum = 0;
     char ch = getchar();
@@ -31,8 +37,7 @@ inline T readf()
     return sum;
 #else
     T ret = 0, sgn = 0, ch = getchar();
-    while (!isdigit(ch))
-    {
+    while (!isdigit(ch)) {
         sgn |= ch == '-', ch = getchar();
     }
     while (isdigit(ch)) ret = ret * 10 + ch - '0', ch = getchar();

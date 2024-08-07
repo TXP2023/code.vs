@@ -16,7 +16,7 @@ inline T readf();
 int main()
 {
     freopen(".in", "r", stdin);
-    
+
     return 0;
 }
 
