@@ -96,6 +96,24 @@
     <ClCompile Include="P8855 [POI2002] 商务旅行.cpp">
       <Filter>源文件\洛谷</Filter>
     </ClCompile>
+    <ClCompile Include="线段树.cpp">
+      <Filter>源文件\样例</Filter>
+    </ClCompile>
+    <ClCompile Include="P3372 【模板】线段树 1.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P1892 [BOI2003] 团伙.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P1196 [NOI2002] 银河英雄传说.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P1198 [JSOI2008] 最大数.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P1253 扶苏的问题.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".in">
