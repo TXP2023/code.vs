@@ -6,6 +6,7 @@
 #include <stdint.h>
 
 #define _PUSH_DOWN_ true
+#define size 4
 
 typedef int64_t ll;
 typedef uint64_t unill;
@@ -14,8 +15,6 @@ typedef uint64_t unill;
 //快读函数
 template< typename T >
 inline T readf();
-
-#define size 100005
 
 ll vis[size], tree[size << 2];
 std::pair< ll, ll> tag[size << 2];
@@ -44,29 +43,33 @@ inline void addTag(ll p, ll change) //将区间统一增加为同一个数
 inline void reviseTag(ll p, ll change)
 {
     tag[p].second = change;
+    tag[p].first = 0;
+    tagbool[p].second;
     tree[p] = change;
     tagbool[p].second = true;
 }
 
 #if _PUSH_DOWN_
-    
+
 inline void push_down(ll p)
 {
-    if (tagbool[p].first) {
-        addTag(p * 2, tag[p].first);
-        addTag(p * 2 + 1, tag[p].first);        
-        tag[p].first = 0;
-        tagbool [p] .first = false;
-    }
     if (tagbool[p].second) {
         reviseTag(p * 2, tag[p].second);
         reviseTag(p * 2 + 1, tag[p].second);
-        tag[p].second = 0;
+        tag[p].second = LLONG_MIN;
         tagbool[p].second = false;
     }
+    if (tagbool[p].first) {
+        addTag(p * 2, tag[p].first);
+        addTag(p * 2 + 1, tag[p].first);
+        tag[p].first = 0;
+        tagbool[p].first = false;
+    }
+    return;
 }
 
 #else
+
 inline void push_down_first(ll p)
 {
     if (tagbool[p].first) {
@@ -175,9 +178,11 @@ int main()
         //scanf("%lld", &vis[i]);
     }
 
+    std::fill(tree + 1, tree + (n << 2) + 1, 0);
     buildTree(1, 1, n);
 
     std::fill(tagbool, tagbool + (n << 2) + 1, std::pair< bool, bool >{false, false});
+    std::fill(tag, tag + (n << 2) + 1, std::pair< ll, ll > {0, LLONG_MIN});
 
     for (int i = 0; i < q; i++) {
         ll left, right, x;

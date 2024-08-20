@@ -43,7 +43,9 @@ int main()
 
 
     while (t--) {
-        if (getchar() == 'M') {
+        char ch;
+        scanf("\r\n%c", &ch);
+        if (ch == 'M') {
             //ºÏ²¢½¢¶Ó
             ll i = readf< ll >(), j = readf< ll >();
             ll findi = findSet(i - 1), findj = findSet(j - 1);

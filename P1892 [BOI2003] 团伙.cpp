@@ -42,7 +42,8 @@ int main()
     std::iota(set, set + n, 0);
 
     while (m--) {
-        char ch = getchar();
+        char ch;
+        scanf("\r\n%c", ch);
         ll p = readf< ll >() - 1, q = readf< ll >() - 1;
         switch (ch) {
         case 'F':
