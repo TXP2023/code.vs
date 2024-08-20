@@ -1,4 +1,4 @@
-#include <vector>
+//#include <vector>
 #include <stdio.h>
 #include <algorithm>
 #include <ctype.h>
@@ -6,7 +6,7 @@
 #include <stdint.h>
 
 #define _PUSH_DOWN_ true
-#define size 4
+#define size 1000000
 
 typedef int64_t ll;
 typedef uint64_t unill;
@@ -169,7 +169,7 @@ inline ll query(ll left/*Ä¿±ê²éÑ¯×ó¶Ëµã*/, ll right/*Ä¿±ê²éÑ¯ÓÒ¶Ëµã*/, ll p/*Ä¿Ç
 
 int main()
 {
-    freopen(".in", "r", stdin);
+    //freopen(".in", "r", stdin);
 
     const ll n = readf< ll >(), q = readf< ll >();
 
