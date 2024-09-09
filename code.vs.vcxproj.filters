@@ -114,6 +114,21 @@
     <ClCompile Include="P1253 扶苏的问题.cpp">
       <Filter>源文件\洛谷</Filter>
     </ClCompile>
+    <ClCompile Include="P1197 [JSOI2008] 星球大战.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P9753 [CSP-S 2023] 消消乐.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P9752 [CSP-S 2023] 密码锁.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P9754 [CSP-S 2023] 结构体.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P3076 [USACO13FEB] Taxi G.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".in">
