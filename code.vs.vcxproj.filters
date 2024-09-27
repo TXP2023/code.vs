@@ -129,6 +129,9 @@
     <ClCompile Include="P3076 [USACO13FEB] Taxi G.cpp">
       <Filter>源文件\洛谷</Filter>
     </ClCompile>
+    <ClCompile Include="P3373 【模板】线段树 2.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".in">
