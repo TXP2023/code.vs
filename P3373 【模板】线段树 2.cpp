@@ -1,3 +1,9 @@
+#if true
+
+
+
+#else
+
 #include <vector>
 #include <stdio.h>
 #include <algorithm>
@@ -5,7 +11,7 @@
 #include <climits>
 #include <stdint.h>
 
-typedef int64_t ll;
+typedef uint64_t ll;
 typedef uint64_t unill;
 
 //快读函数
@@ -85,7 +91,7 @@ inline void AddTag_Add(ll p, ll lp, ll rp, ll x)
     if (tagbool[p].second == true) { // 如果当前存在乘法操作tag标记
         Push_down(p, lp, rp);
         tagbool[p].second = false;
-        tag[p].second = 0;
+        tag[p].second = 1;
     }
     tag[p].first += x;
     tagbool[p].first = true;
@@ -140,7 +146,7 @@ inline void Push_down(ll p, ll lp, ll rp) //在push_down函数中， 要注意在叶子节点
         AddTag_Multiply(p * 2, lp, mid, tag[p].second);
         AddTag_Multiply(p * 2 + 1, mid + 1, rp, tag[p].second);
         tagbool[p].second = false;
-        tag[p].second = 0;
+        tag[p].second = 1;
     }
     return;
 }
@@ -217,3 +223,5 @@ inline T readf()
     return sgn ? -ret : ret;
 #endif
 }
+
+#endif
