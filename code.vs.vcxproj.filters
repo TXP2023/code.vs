@@ -135,6 +135,12 @@
     <ClCompile Include="P2640 神秘磁石.cpp">
       <Filter>源文件\洛谷</Filter>
     </ClCompile>
+    <ClCompile Include="P1309 [NOIP2011 普及组] 瑞士轮.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="T513396 西瓜最甜的芯.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".in">
