@@ -9,7 +9,7 @@ typedef int64_t ll;
 typedef uint64_t unill;
 
 //函数前向声明
-//快读函数
+//快读函数6.
 template< typename T >
 inline T readf();
 
