@@ -147,6 +147,9 @@
     <ClCompile Include="P10448 组合型枚举.cpp">
       <Filter>源文件\洛谷</Filter>
     </ClCompile>
+    <ClCompile Include="P1155 [NOIP2008 提高组] 双栈排序.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".in">
