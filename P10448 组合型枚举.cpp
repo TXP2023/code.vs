@@ -13,14 +13,34 @@ typedef uint64_t unill;
 template< typename T >
 inline T readf();
 
-ll n, t;
+ll n, m;
+
+inline void dfs(ll k, ll cnt, const std::vector< int > v) {
+    if (cnt == m) {
+        for (int i : v) {
+            printf("%d ", i);
+        }
+        printf("\n");
+        return;
+    }
+    if (k == n + 1) {
+        return;
+    }
+    std::vector< int > v2 = v;
+    v2.push_back(k);
+    dfs(k + 1, cnt + 1, v2); //要这个
+    if (cnt + (n - k) >= m) {
+        dfs(k + 1, cnt, v); //不要这个
+    }
+    return;
+}
 
 int main() {
     freopen(".in", "r", stdin);
 
-    ll n, m;
+    n = readf< ll >(), m = readf< ll >();
 
-    n = readf< ll >(), t = readf< ll >();
+    dfs(1, 0, {});
 
     return 0;
 }
