@@ -17,9 +17,10 @@ inline T readf();
 
 std::vector< std::vector< ll > > graph;
 std::vector< ll > vmin; //vmin[i] = min(v[i~n])
-std::vector< ll > v; 
+std::vector< ll > v;
 std::vector< int > colors; //colors[i]即为点i是否会和其他点存在冲突，即无法处于同一个栈内
 std::stack< int > stack[2];
+ll n, cnt = 1;
 
 //函数前向声明
 inline void stack_push(ll value/*值*/, ll id/*所属栈*/);
@@ -44,7 +45,12 @@ inline void stack_push(ll value/*值*/, ll id/*所属栈*/) {
 }
 
 inline bool stack_pop(ll id) {
-}
+    if (!stack[id].empty() && stack[id].top() == cnt) {
+        printf("%c ", id ? 'd' : 'b');
+        stack[id].pop();
+        cnt++;
+        return true;
+    }
     return false;
 }
 
@@ -60,6 +66,8 @@ int main() {
     }
 
     //计算vmin 
+    vmin[n] = n + 1;
+    for (int64_t i = n - 1; i >= 0; i--) {
         vmin[i] = std::min(v[i], vmin[i + 1]);
     }
 
@@ -78,11 +86,11 @@ int main() {
 
     for (size_t i = 0; i < n; i++) {
         if (!~colors[i]) /*如果当前点已经被染色了*/ {
-            std::queue< ll > que; 
+            std::queue< ll > que;
             que.push(i);
             colors[i] = 0;
             while (!que.empty()) {
-                ll u = que.front(); 
+                ll u = que.front();
                 que.pop();
                 for (ll v : graph[u]) {
                     if (~colors[v] && colors[v] != (colors[u] ^ 1)) {
@@ -98,6 +106,9 @@ int main() {
         }
     }
 
+    for (size_t i = 0; i < n; i++) {
+        stack_push(v[i], colors[i]);
+    }
 
     bool flag = true;
     while (flag) {
