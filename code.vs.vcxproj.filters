@@ -150,6 +150,15 @@
     <ClCompile Include="P1155 [NOIP2008 提高组] 双栈排序.cpp">
       <Filter>源文件\洛谷</Filter>
     </ClCompile>
+    <ClCompile Include="P1102 A-B 数对.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P1038 [NOIP2003 提高组] 神经网络.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P6577 【模板】二分图最大权完美匹配.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".in">
