@@ -159,6 +159,12 @@
     <ClCompile Include="P6577 【模板】二分图最大权完美匹配.cpp">
       <Filter>源文件\洛谷</Filter>
     </ClCompile>
+    <ClCompile Include="P3386 【模板】二分图最大匹配.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="二分图最大匹配-匈牙利算法-无重边.cpp">
+      <Filter>源文件\样例</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".in">
