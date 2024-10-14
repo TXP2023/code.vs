@@ -16,18 +16,19 @@ inline T readf();
 
 std::vector< std::vector< ll > > graph; //graph为对于点集A的第i个点来说，它可以链接点集b的那些点
 std::vector< ll > allot; //allot[i]为点集B的第i个点分配给的点集A的点的编号
-std::vector< bool > ub; //ub[i]为点集B的第i点是否已经配对
+std::vector< ll > ub; //ub[i]为点集B的第i点是否已经配对
 ll n/*二分图点集A点数*/, m/*二分图点集B点数*/, e/*边数*/, ans = 0/*最大匹配数*/;
 
-inline bool dfs(ll v) //给点集a的点x配对点集2的点
+inline bool dfs(ll v, ll tag) //给点集a的点x配对点集2的点
 {
+    if (ub[v] == tag) {
+        return false;
+    }
+    ub[v] = tag;
     for (ll u : graph[v]) {
-        if (!ub[u]) {
-            ub[u] = true; //标记一下
-            if (allot[u] == -1 || dfs(allot[u])) {
-                allot[u] = v;
-                return true;
-            }
+        if (allot[u] == -1 || dfs(allot[u], tag)) {
+            allot[u] = v;
+            return true;
         }
     }
     return false;
@@ -48,13 +49,13 @@ int main() {
     }
 
     allot.resize(m, -1);
-    ub.resize(m, false);
+    ub.resize(n, -1);
     for (size_t i = 0; i < n; i++) {
-        std::fill(allot.begin(), allot.end(), -1);
-        if (dfs(i)) {
+        if (dfs(i, i)) {
             ans++;
         }
     }
+    
 
     printf("%lld\n", ans);
     return 0;
