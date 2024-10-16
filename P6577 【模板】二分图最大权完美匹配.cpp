@@ -16,10 +16,30 @@ inline T readf();
 std::vector< std::vector< ll > >  graph;
 std::vector< ll >  object; // object[i]为右部点i所匹配的左部点
 std::vector< ll > ltag, rtag;// 左部点顶标 left-tag 右部点顶标 right-tag
+std::vector< ll > pre; //?
+std::vector< ll > slack;
 std::vector< bool > rb; // right-bool 即右部点i是否已经分配
 ll n, m;
 
+inline void match(ll u/*左部图点u*/) {
+    ll l, r = 0, min_match_v = 0, min_match;
+    std::fill(pre.begin(), pre.end(), 0);
+    std::fill(slack.begin(), slack.end(), std::numeric_limits< ll >::min());
 
+
+}
+
+inline ll Kuhn_Munkres() {
+    //初始化
+    object.resize(n, -1);
+    ltag.resize(n, 0);
+    rtag.resize(n, 0);
+    pre.resize(n);
+
+    for (size_t i = 0; i < n; i++) {
+
+    }
+}
 
 int main() {
     freopen(".in", "r", stdin);
