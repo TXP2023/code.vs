@@ -22,11 +22,16 @@ std::vector< bool > rb; // right-bool 即右部点i是否已经分配
 ll n, m;
 
 inline void match(ll u/*左部图点u*/) {
+    const ll inf = std::numeric_limits< ll >::min();
     ll l, r = 0, min_match_v = 0, min_match;
     std::fill(pre.begin(), pre.end(), 0);
-    std::fill(slack.begin(), slack.end(), std::numeric_limits< ll >::min());
+    std::fill(slack.begin(), slack.end(), inf);
 
-
+    object[r] = u;
+    while (true) {
+        
+    
+    }
 }
 
 inline ll Kuhn_Munkres() {
