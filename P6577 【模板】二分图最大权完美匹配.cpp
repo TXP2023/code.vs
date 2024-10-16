@@ -13,8 +13,25 @@ typedef uint64_t unill;
 template< typename T >
 inline T readf();
 
+std::vector< std::vector< ll > >  graph;
+std::vector< ll >  object; // object[i]为右部点i所匹配的左部点
+std::vector< ll > ltag, rtag;// 左部点顶标 left-tag 右部点顶标 right-tag
+std::vector< bool > rb; // right-bool 即右部点i是否已经分配
+ll n, m;
+
+
+
 int main() {
     freopen(".in", "r", stdin);
+
+    n = readf< ll >(), m = readf< ll >();
+
+    graph.resize(n, std::vector< ll >(n, 0)); //graph[i][j]为左部点i与右部点j之间的权值
+    for (size_t i = 0; i < m; i++){
+        ll u1 = readf< ll >(), v2 = readf< ll >(), w = readf< ll >();
+        graph[u1 - 1][v2 - 1] = w;
+    }
+
 
     return 0;
 }
