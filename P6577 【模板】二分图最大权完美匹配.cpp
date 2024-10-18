@@ -8,6 +8,8 @@
 typedef int64_t ll;
 typedef uint64_t unill;
 
+const ll inf = std::numeric_limits< ll >::min();
+
 //函数前向声明
 //快读函数
 template< typename T >
@@ -21,15 +23,32 @@ std::vector< ll > slack;
 std::vector< bool > rb; // right-bool 即右部点i是否已经分配
 ll n, m;
 
-inline void match(ll u/*左部图点u*/) {
-    const ll inf = std::numeric_limits< ll >::min();
+inline void match(ll u/*左部图点u*/) /*给右部图的节点u匹配做节点*/ {
     ll l, r = 0, min_match_v = 0, min_match;
     std::fill(pre.begin(), pre.end(), 0);
     std::fill(slack.begin(), slack.end(), inf);
+    std::fill(rb.begin(), rb.end(), false);
 
     object[r] = u;
     while (true) {
-        
+        ll v = object[u] /* v为当前考虑的右部图的节点的已分配左节点 */, delta = inf;
+        rb[u] = true;
+        for (size_t i = 0/*右部图的点i*/; i < n; i++) {
+            if (rb[i]) {
+                continue;
+            }
+            if (slack[i] > ltag[v] + rtag[i] - graph[v][i]) {
+                slack[i] = ltag[v] + rtag[i] - graph[v][i];
+                rb[i] = v;
+            }
+            if (slack[i] < delta) {
+                delta = slack[i];
+                min_match_v = i;
+            }
+        }
+        for (size_t i = 0; i < length; i++) {
+
+        }
     }
 }
 
@@ -38,8 +57,8 @@ inline ll Kuhn_Munkres() {
     object.resize(n, -1);
     ltag.resize(n, 0);
     rtag.resize(n, 0);
-    pre.resize(n);
-
+    pre.resize(n, -1);
+    rb.resize(n, 0);
     for (size_t i = 0; i < n; i++) {
 
     }
