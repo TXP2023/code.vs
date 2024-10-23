@@ -1,79 +1,111 @@
 #include <vector>
-#include <stdio.h>
+#include <queue>
 #include <algorithm>
 #include <ctype.h>
 #include <climits>
 #include <stdint.h>
+#include <cstdio>
 
-typedef int64_t ll;
-typedef uint64_t unill;
-
-const ll inf = std::numeric_limits< ll >::min();
+typedef long long int ll;
+typedef unsigned long long int  ull;
+typedef long double lf;
 
 //函数前向声明
 //快读函数
 template< typename T >
 inline T readf();
 
-std::vector< std::vector< ll > >  graph;
-std::vector< ll >  object; // object[i]为右部点i所匹配的左部点
-std::vector< ll > ltag, rtag;// 左部点顶标 left-tag 右部点顶标 right-tag
-std::vector< ll > pre; //?
+std::vector< bool > ltag, rtag; //匹配
+std::vector< ll > Lmatch, Rmatch; //匹配
+std::vector< ll > Ltop, Rtop; //顶标
+std::vector< ll > pre;
 std::vector< ll > slack;
-std::vector< bool > rb; // right-bool 即右部点i是否已经分配
-ll n, m;
+std::vector< std::vector< ll > > graph;
+ull n, m;
 
-inline void match(ll u/*左部图点u*/) /*给右部图的节点u匹配做节点*/ {
-    ll l, r = 0, min_match_v = 0, min_match;
-    std::fill(pre.begin(), pre.end(), 0);
-    std::fill(slack.begin(), slack.end(), inf);
-    std::fill(rb.begin(), rb.end(), false);
+inline void add_Augment(ll u); //增加增广路径
+inline void Kuhn_Munkres(); //KM算法
+inline void replace(ll u); //转移？
 
-    object[r] = u;
+inline void Kuhn_Munkres() {
+    std::fill(slack.begin(), slack.end(), LLONG_MAX);
+    std::fill(pre.begin(), pre.end(), -1);
+    std::fill(ltag.begin(), ltag.end(), false);
+    std::fill(rtag.begin(), rtag.end(), false);
+    for (size_t i = 0/*这里的i是枚举左部图点*/; i < n; i++) {
+        add_Augment(i);
+    }
+    return;
+}
+
+inline void add_Augment(ll u) {
+    std::queue< ll > que;//左部图点队列
+    que.push(u);
+
     while (true) {
-        ll v = object[u] /* v为当前考虑的右部图的节点的已分配左节点 */, delta = inf;
-        rb[u] = true;
-        for (size_t i = 0/*右部图的点i*/; i < n; i++) {
-            if (rb[i]) {
-                continue;
-            }
-            if (slack[i] > ltag[v] + rtag[i] - graph[v][i]) {
-                slack[i] = ltag[v] + rtag[i] - graph[v][i];
-                rb[i] = v;
-            }
-            if (slack[i] < delta) {
-                delta = slack[i];
-                min_match_v = i;
+        while (!que.empty()) {
+            ll v = que.front(); que.pop();
+            ltag[v] = true;
+            for (size_t i = 0/*这里的i是右部图点*/; i < n; i++) {
+                if (!rtag[i]/*这个右部图点没有被匹配*/ && Ltop[u] + Rtop[i] - graph[u][i] < slack[i]) {
+                    slack[i] = Ltop[u] + Rtop[i] - graph[u][i];
+                    pre[i] = v;
+                    if (slack[i] == 0)/*如果当前不存在差值, 添加增广路*/ {
+                        rtag[i] = true;
+                        if (Rmatch[i] == -1) {
+                            replace(i);
+                            return;
+                        }
+                        else {
+                            que.push(Rmatch[i]);
+                        }
+                    }
+                }
             }
         }
-        for (size_t i = 0; i < length; i++) {
-
+        ll Difference = LLONG_MAX/*找最小差值*/;
+        for (size_t i = 0; i < n; i++) {
+            if (!rtag[i]) {
+                Difference = std::min(Difference, slack[i]);
+            }
         }
     }
 }
 
-inline ll Kuhn_Munkres() {
-    //初始化
-    object.resize(n, -1);
-    ltag.resize(n, 0);
-    rtag.resize(n, 0);
-    pre.resize(n, -1);
-    rb.resize(n, 0);
-    for (size_t i = 0; i < n; i++) {
 
+inline void replace(ll u) {
+    ll t;
+    while (u) {
+        t = Rmatch[pre[u]];
+        Rmatch[pre[u]] = u;
+        Rmatch[u] = pre[u];
+        u = t;
     }
+    return;
 }
+
 
 int main() {
-    freopen(".in", "r", stdin);
+    n = readf< ull >(), m = readf< ull >();
 
-    n = readf< ll >(), m = readf< ll >();
+    graph.resize(n, std::vector< ll >(m, 0));
 
-    graph.resize(n, std::vector< ll >(n, 0)); //graph[i][j]为左部点i与右部点j之间的权值
-    for (size_t i = 0; i < m; i++){
-        ll u1 = readf< ll >(), v2 = readf< ll >(), w = readf< ll >();
-        graph[u1 - 1][v2 - 1] = w;
+    Ltop.resize(n, LLONG_MIN);
+    Rtop.resize(n, 0);
+    pre.resize(n, 0);
+    Lmatch.resize(n, -1);
+    Rmatch.resize(n, -1);
+    ltag.resize(n, false);
+    rtag.resize(n, false);
+
+    for (size_t i = 0; i < m; i++) {
+        ll u = readf< ll >(), //左部图
+            v = readf< ll >(), //右部图
+            w = readf< ll >(); //权值
+        graph[u - 1][v - 1] = w;
+        Ltop[u - 1] = std::max(Ltop[u - 1], w);
     }
+
 
 
     return 0;
