@@ -15,13 +15,13 @@ typedef long double lf;
 template< typename T >
 inline T readf();
 
-std::vector< bool > ltag, rtag; //匹配
-std::vector< ll > Lmatch, Rmatch; //匹配
-std::vector< ll > Ltop, Rtop; //顶标
-std::vector< ll > pre;
-std::vector< ll > slack;
-std::vector< std::vector< ll > > graph;
-ull n, m, ans = 0;
+std::vector< bool > ltag(0), rtag(0); //匹配
+std::vector< ll > Lmatch(0), Rmatch(0); //匹配
+std::vector< ll > Ltop(0), Rtop(0); //顶标
+std::vector< ll > pre(0);
+std::vector< ll > slack(0);
+std::vector< std::vector< ll > > graph(0);
+ll n, m, ans = 0;
 
 inline void init(); //初始化
 inline void find_Path(ll u); //增加增广路径
@@ -46,20 +46,24 @@ inline void init() /*初始化*/ {
     slack.resize(n, 0);
     std::vector< ll >(slack).swap(slack);
     graph.resize(n, std::vector< ll >(n, LLONG_MIN));
+#ifdef  Release false
+    ll ramSum = Ltop.capacity() + Rtop.capacity() + pre.capacity() + Lmatch.capacity() + Rmatch.capacity() + slack.capacity();
+    printf("%lld\n", ramSum);
+#endif //  Release
+
 }
 
 inline void Kuhn_Munkres() {
     for (size_t i = 0/*这里的i是枚举左部图点*/; i < n; i++) {
-        std::fill(slack.begin(), slack.end(), LLONG_MAX);
-        //std::fill(pre.begin(), pre.end(), -1);
-        std::fill(ltag.begin(), ltag.end(), false);
-        std::fill(rtag.begin(), rtag.end(), false);
         find_Path(i);
     }
     return;
 }
 
 inline void find_Path(ll u) {
+    std::fill(ltag.begin(), ltag.end(), false);
+    std::fill(rtag.begin(), rtag.end(), false);
+    std::fill(slack.begin(), slack.end(), LLONG_MAX);
     std::queue< ll > que;//左部图点队列
     que.push(u);
 
@@ -120,9 +124,9 @@ inline void find_Path(ll u) {
 inline void add_Path(ll u) {
     ll t;
     while (u != -1) {
-        t = Rmatch[pre[u]];
-        Rmatch[pre[u]] = u;
-        Lmatch[u] = pre[u];
+        t = Lmatch[pre[u]];
+        Lmatch[pre[u]] = u;
+        Rmatch[u] = pre[u];
         u = t;
     }
     return;
@@ -132,12 +136,15 @@ inline void add_Path(ll u) {
 int main() {
     freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
-
+    //freopen("output.txt", "w", stdout);
+    //_sleep(5000);
     n = readf< ull >(), m = readf< ull >();
 
     graph.resize(n, std::vector< ll >(m, 0));
-
+    
+    //_sleep(2000);
     init();
+    //_sleep(2000);
 
     for (size_t i = 0; i < m; i++) {
         ll u = readf< ll >(), //左部图
@@ -148,15 +155,15 @@ int main() {
     }
 
     Kuhn_Munkres();
-
+    //_sleep(2000);
     for (size_t i = 0; i < n; i++) {
-        ans += Lmatch[i] + Rmatch[i];
+        ans += Ltop[i] + Rtop[i];
     }
     printf("%lld\n", ans);
     for (size_t i = 0; i < n; i++) {
-        printf("%lld ", Rmatch[i]);
+        printf("%lld ", Rmatch[i] + 1);
     }
-
+    //_sleep(2000);
     return 0;
 }
 
