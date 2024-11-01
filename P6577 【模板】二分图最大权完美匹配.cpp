@@ -74,8 +74,8 @@ inline void find_Path(ll u) {
             ll v = que.front(); que.pop();
             ltag[v] = true;
             for (size_t i = 0/*这里的i是右部图点*/; i < n; i++) {
-                if (!rtag[i]/*这个右部图点没有被匹配*/ && Ltop[u] + Rtop[i] - graph[u][i] < slack[i]) {
-                    slack[i] = Ltop[u] + Rtop[i] - graph[u][i];
+                if (!rtag[i]/*这个右部图点没有被匹配*/ && Ltop[v] + Rtop[i] - graph[v][i] < slack[i]) {
+                    slack[i] = Ltop[v] + Rtop[i] - graph[v][i];
                     pre[i] = v;
                     if (slack[i] == 0)/*如果当前不存在差值, 添加增广路*/ {
                         rtag[i] = true;
