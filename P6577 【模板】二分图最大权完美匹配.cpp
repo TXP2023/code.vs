@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include <cstdio>
 
-#define inf 0x3f3f3f3f
+#define inf 1e18
 
 typedef long long int ll;
 typedef unsigned long long int  ull;
@@ -56,7 +56,7 @@ inline void init() /*初始化*/ {
 }
 
 inline void Kuhn_Munkres() {
-    for (size_t i = 0/*这里的i是枚举左部图点*/; i < n; i++) {
+    for (ll i = 0/*这里的i是枚举左部图点*/; i < n; i++) {
         find_Path(i);
     }
     return;
@@ -140,9 +140,9 @@ int main() {
 
     n = readf< ull >(), m = readf< ull >();
 
-    init();;
+    init();
 
-    for (size_t i = 0; i < m; i++) {
+    for (ll i = 0; i < m; i++) {
         ll u = readf< ll >(), //左部图
             v = readf< ll >(), //右部图
             w = readf< ll >(); //权值
@@ -152,11 +152,11 @@ int main() {
 
     Kuhn_Munkres();
     //_sleep(2000);
-    for (size_t i = 0; i < n; i++) {
+    for (ll i = 0; i < n; i++) {
         ans += graph[Rmatch[i]][i];
     }
     printf("%lld\n", ans);
-    for (size_t i = 0; i < n; i++) {
+    for (ll i = 0; i < n; i++) {
         printf("%lld ", Rmatch[i] + 1);
     }
     //_sleep(2000);
