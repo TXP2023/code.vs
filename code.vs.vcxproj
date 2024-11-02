@@ -162,6 +162,7 @@
     <ClCompile Include="P11227 [CSP-J 2024] 扑克牌（民间数据）.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="P11228 [CSP-J 2024] 地图探险（民间数据）.cpp" />
     <ClCompile Include="P1155 [NOIP2008 提高组] 双栈排序.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
