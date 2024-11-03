@@ -48,11 +48,7 @@ inline void init() /*≥ı ºªØ*/ {
     slack.resize(n, 0);
     std::vector< ll >(slack).swap(slack);
     graph.resize(n, std::vector< ll >(n, -inf));
-#ifdef  Release false
-    ll ramSum = Ltop.capacity() + Rtop.capacity() + pre.capacity() + Lmatch.capacity() + Rmatch.capacity() + slack.capacity();
-    printf("%lld\n", ramSum);
-#endif //  Release
-
+    return;
 }
 
 inline void Kuhn_Munkres() {
