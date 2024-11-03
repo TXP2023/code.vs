@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include <cstdio>
 
-#define inf 1e18
+#define inf LLONG_MAX
 
 typedef long long int ll;
 typedef unsigned long long int  ull;
