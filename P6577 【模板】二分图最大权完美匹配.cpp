@@ -57,7 +57,7 @@ inline void init() /*初始化*/ {
 
 inline void Kuhn_Munkres() {
     for (ll i = 0/*这里的i是枚举左部图点*/; i < n; i++) {
-        find_Path(i);
+        find_Path(i); //给每个左部图点匹配
     }
     return;
 }
@@ -72,18 +72,19 @@ inline void find_Path(ll u) {
     while (true) {
         while (!que.empty()) {
             ll v = que.front(); que.pop();
-            ltag[v] = true;
+            ltag[v] = true; //这个左部图点已经被匹配过了
             for (size_t i = 0/*这里的i是右部图点*/; i < n; i++) {
+                /*且两个顶标和要小于当前左部图点与这个点的*/
                 if (!rtag[i]/*这个右部图点没有被匹配*/ && Ltop[v] + Rtop[i] - graph[v][i] < slack[i]) {
-                    slack[i] = Ltop[v] + Rtop[i] - graph[v][i];
+                    slack[i] = Ltop[v] + Rtop[i] - graph[v][i]; 
                     pre[i] = v;
-                    if (slack[i] == 0)/*如果当前不存在差值, 添加增广路*/ {
-                        rtag[i] = true;
-                        if (Rmatch[i] == -1) /*如果这个右部图节点没有被匹配*/ {
-                            add_Path(i);
+                    if (slack[i] == 0)/*如果当前不存在差值, 即为相等边 添加增广路*/ {
+                        rtag[i] = true; //这个点标记为被匹配
+                        if (Rmatch[i] == -1) /*如果这个右部图节点之前没有被匹配*/ {
+                            add_Path(i); //尝试增加到相等子图
                             return;
                         }
-                        else {
+                        else { //如果之前已经被匹配过了 加入队列 那就过一会再说
                             que.push(Rmatch[i]);
                         }
                     }
@@ -125,11 +126,11 @@ inline void find_Path(ll u) {
 
 inline void add_Path(ll u) {
     ll t;
-    while (u != -1) /*如果这个点已经被匹配了*/ {
-        t = Lmatch[pre[u]];
-        Lmatch[pre[u]] = u;
-        Rmatch[u] = pre[u];
-        u = t;
+    while (u != -1) /*如果存在这个右部图点*/ {
+        t = Lmatch[pre[u]]; //t为更新前的这个右部点的匹配对象的匹配
+        Rmatch[u] = pre[u]; //他自己的匹配更新为对应的左部图点
+        Lmatch[pre[u]] = u; //那么它的匹配对象更新为这个右部图点
+        u = t; //新的右部点值
     }
     return;
 }
