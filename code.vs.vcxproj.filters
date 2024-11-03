@@ -171,7 +171,10 @@
     <ClCompile Include="P11228 [CSP-J 2024] 地图探险（民间数据）.cpp">
       <Filter>源文件\洛谷</Filter>
     </ClCompile>
-    <ClCompile Include="P11229 [CSP-J 2024] 小木棍（民间数据）.cpp">
+    <ClCompile Include="P11229 [CSP-J 2024] 小木棍（民间数据）暴力搜索方法.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P3967 [TJOI2014] 匹配.cpp">
       <Filter>源文件\洛谷</Filter>
     </ClCompile>
   </ItemGroup>
