@@ -19,7 +19,7 @@ inline void inputf(T* p);
 
 ll t, n;
 
-inline void def() {
+inline static void def() {
     switch (n) {
     case 1:
         printf("-1\n");
@@ -29,6 +29,7 @@ inline void def() {
         break;
     case 3:
         printf("7\n");
+        break;
     case 4:
         printf("4\n");
         break;
@@ -44,10 +45,10 @@ inline void def() {
             for (size_t i = 0; i < n; i += 7) {
                 printf("8");
             }
-            puts("\n");
+            printf("\n");
             break;
         case 1:
-            printf("16");
+            printf("10");
             for (size_t i = 8; i < n; i += 7) {
                 printf("8");
             }
@@ -61,10 +62,16 @@ inline void def() {
             printf("\n");
             break;
         case 3:
-            printf("7");
-            for (size_t i = 3; i < n; i += 7) {
-                printf("8");
+            if (n == 10) {
+                printf("22");
             }
+            else {
+                printf("200");
+                for (size_t i = 17; i < n; i += 7) {
+                    printf("8");
+                }
+            }
+                
             printf("\n");
             break;
         case 4:
