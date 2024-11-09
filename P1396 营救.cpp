@@ -20,8 +20,8 @@ template< typename T >
 inline void inputf(T* p);
 
 std::vector< std::vector< std::pair< ll/*µã*/, ll/*±ßÈ¨*/ > > > graph;
-std::set< ll > edges;
-ll n, m, s, t;
+std::vector< ll > edges;
+ll n, m, s, t, ans;
 
 inline bool djstl(ll max_w) {
     std::vector< bool > tag(n, false);
@@ -56,18 +56,25 @@ int main() {
             w = readf< ll >();
         graph[--u].push_back({ --v, w });
         graph[v].push_back({ u, w });
-        edges.insert(w);
+        edges.push_back(w);
     }
 
     std::sort(edges.begin(), edges.end());
+    edges.erase(std::unique(edges.begin(), edges.end()), edges.end());
 
     ll begin = 0, end = edges.size() - 1;
     while (begin <= end) {
         ll mid = (begin + end) >> 1;
-        if (djstl(*(edges.begin() + mid))) {
-
+        if (djstl(edges[mid])) {
+            end = mid - 1;
+            ans = edges[mid];
+        }
+        else {
+            begin = mid + 1;
         }
     }
+
+    printf("%lld\n", ans);
 
     return 0;
 }
