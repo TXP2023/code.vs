@@ -180,6 +180,9 @@
     <ClCompile Include="P11229 [CSP-J 2024] 小木棍 (民间数据)  规律法.cpp">
       <Filter>源文件\洛谷</Filter>
     </ClCompile>
+    <ClCompile Include="P1396 营救.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="input.txt">
