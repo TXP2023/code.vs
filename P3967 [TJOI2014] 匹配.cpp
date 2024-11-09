@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include <cstdio>
 
-#define inf LLONG_MAX
+#define inf 1e18
 
 typedef long long int ll;
 typedef unsigned long long int  ull;
@@ -17,22 +17,25 @@ typedef long double lf;
 template< typename T >
 inline T readf();
 
+//设男生为左部图，女生为右部图
+
 std::vector< bool > ltag(0), rtag(0); //匹配
 std::vector< ll > Lmatch(0), Rmatch(0); //匹配
 std::vector< ll > Ltop(0), Rtop(0); //顶标
+std::vector< ll > initLtop(0); //顶标
 std::vector< ll > pre(0);
 std::vector< ll > slack(0);
-std::vector< std::vector< ll > > graph(0);
-ll n, m, ans = 0;
+std::vector< ll > MaxLmatch;
+std::vector< std::vector< std::pair< ll/*边权*/, bool/*是否允许被使用*/ > > > graph(0);
+ll n, m, Max_match = 0;
 
 inline void init(); //初始化
 inline void find_Path(ll u); //增加增广路径
 inline void Kuhn_Munkres(); //KM算法
 inline void add_Path(ll u); //转移
 
-inline void init() /*初始化*/ {
-    Ltop.resize(n, -inf);
-    std::vector< ll >(Ltop).swap(Ltop);
+inline void Kuhn_Munkres() {
+    Ltop = initLtop;
     Rtop.resize(n, 0);
     std::vector< ll >(Rtop).swap(Rtop);
     pre.resize(n, -1);
@@ -47,11 +50,7 @@ inline void init() /*初始化*/ {
     std::vector< bool >(rtag).swap(rtag);
     slack.resize(n, 0);
     std::vector< ll >(slack).swap(slack);
-    graph.resize(n, std::vector< ll >(n, -inf));
-    return;
-}
-
-inline void Kuhn_Munkres() {
+    ll max = 0;
     for (ll i = 0/*这里的i是枚举左部图点*/; i < n; i++) {
         find_Path(i); //给每个左部图点匹配
     }
@@ -71,8 +70,8 @@ inline void find_Path(ll u) {
             ltag[v] = true; //这个左部图点已经被匹配过了
             for (size_t i = 0/*这里的i是右部图点*/; i < n; i++) {
                 /*且两个顶标和要小于当前左部图点与这个点的*/
-                if (!rtag[i]/*这个右部图点没有被匹配*/ && Ltop[v] + Rtop[i] - graph[v][i] < slack[i]) {
-                    slack[i] = Ltop[v] + Rtop[i] - graph[v][i];
+                if (!rtag[i]/*这个右部图点没有被匹配*/ && Ltop[v] + Rtop[i] - graph[v][i].first < slack[i] && graph[v][i].second) {
+                    slack[i] = Ltop[v] + Rtop[i] - graph[v][i].first;
                     pre[i] = v;
                     if (slack[i] == 0)/*如果当前不存在差值, 即为相等边 添加增广路*/ {
                         rtag[i] = true; //这个点标记为被匹配
@@ -137,31 +136,39 @@ int main() {
 
     n = readf< ull >();
 
-    init();
+    graph.resize(n, std::vector< std::pair< ll, bool> >(n, std::pair< ll, bool>{ -inf, true }));
 
-    //for (ll i = 0; i < m; i++) {
-    //    ll u = readf< ll >(), //左部图
-    //        v = readf< ll >(), //右部图
-    //        w = readf< ll >(); //权值
-    //    graph[u - 1][v - 1] = w;
-    //    Ltop[u - 1] = std::max(Ltop[u - 1], w);
-    //}
+    initLtop.resize(n, -inf);
+    std::vector< ll >(Ltop).swap(Ltop);
 
     for (size_t i = 0; i < n; i++) {
         for (size_t j = 0; j < n; j++) {
-            graph[j][i] = readf< ll >();
-            Ltop[j] = std::max(Ltop[j], graph[i][j]);
+            graph[i][j].first = readf< ll >();
+            initLtop[i] = std::max(initLtop[i], graph[i][j].first);
         }
     }
 
+
     Kuhn_Munkres();
-    //_sleep(2000);
+
     for (ll i = 0; i < n; i++) {
-        ans += graph[Rmatch[i]][i];
+        Max_match += graph[Rmatch[i]][i].first;
     }
-    printf("%lld\n", ans);
-    for (ll i = 0; i < n; i++) {
-        printf("%lld ", Rmatch[i] + 1);
+    printf("%lld\n", Max_match);
+
+    MaxLmatch = Lmatch;
+
+    /*上面应该是正确的*/
+    for (size_t i = 0; i < n; i++) {
+        graph[i][MaxLmatch[i]].second = false;
+        Kuhn_Munkres();
+        ll match = 0;
+        for (size_t i = 0; i < n; i++) {
+            match += graph[Rmatch[i]][i].first;
+        }
+        if (match <= Max_match) {
+            printf("%lld %lld\n", i + 1, MaxLmatch[i] + 1);
+        }
     }
     //_sleep(2000);
     return 0;
