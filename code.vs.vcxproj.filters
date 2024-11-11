@@ -186,6 +186,9 @@
     <ClCompile Include="P11231 [CSP-S 2024] 决斗 (官方数据).cpp">
       <Filter>源文件\洛谷</Filter>
     </ClCompile>
+    <ClCompile Include="P11232 [CSP-S 2024] 超速检测(官方数据).cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="input.txt">
