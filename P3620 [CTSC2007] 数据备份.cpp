@@ -1,72 +1,67 @@
-#define  _CRT_SECURE_NO_WARNINGS
+#if  true
 
 #include <vector>
 #include <stdio.h>
+#include <algorithm>
 #include <ctype.h>
-#include <queue>
-#include <limits.h>
+#include <climits>
+#include <iostream>
+#include <stdint.h>
+#include <list>
 
-typedef long long ll;
-typedef unsigned long long unill;
-
-struct data
-{
-    ll d;
-    ll l, r; //left 和 right
-};
+typedef int64_t ll;
+typedef uint64_t unill;
 
 //函数前向声明
 //快读函数
 template< typename T >
 inline T readf();
 
-std::priority_queue<std::pair< ll, ll>, std::vector< std::pair< ll, ll> >, std::greater< std::pair< ll, ll> > > que;
-std::vector< bool > vbool;
-std::vector< data > v;
+std::list< ll > list;
 ll n, k, ans = 0;
 
-inline void del(ll x)
-{
-    v[x].l = v[v[x].l].l;
-    v[v[x].l].r = x;
-    v[x].r = v[v[x].r].r;
-    v[v[x].r].l = x;
+inline std::list< ll >::iterator list_min(std::list< ll > &_l) {
+    std::list< ll >::iterator it = _l.begin();
+    for (std::list< ll >::iterator i = _l.begin(); i != _l.end(); i++) {
+        if (*i < *it) {
+            it = i;
+        }
+    }
+    return it;
 }
 
-int main()
-{
-    freopen(".in", "r", stdin);
+
+
+int main() {
+    freopen("input.txt", "r", stdin);
 
     n = readf< ll >(), k = readf< ll >();
-
-    //输入序列，计算差分数组
-    ll* old = new ll(readf< ll >());
-    v.resize(n + 1);
-    v[0].d = LONG_MAX;
-    vbool.resize(n+1, false);
-    for (ll i = 1; i <= n-1; i++)
-    {
-        ll input = readf< ll >();
-        v[i] = { input - *old, i - 1,i + 1 };
-        *old = input;
-        que.push({ v[i].d, i});
+    ll* old = new ll;
+    *old = readf< ll >();
+    for (size_t i = 0; i < n - 1; i++) {
+        ll now = readf< ll >();
+        //roud.push_back(now - *old);
+        list.push_back(now - *old);
+        *old = now;
     }
-    v[n].d = LONG_MAX;
     delete old;
 
-    for (size_t i = 0; i < k; i++)
-    {
-        while (vbool[que.top().second])
-        {
-            que.pop();
+    for (size_t i = 0; i < k; i++) {
+        std::list< ll >::iterator min_it = list_min(list);
+        ans += *min_it;
+        *min_it = 0 - *min_it;
+        if (min_it != list.begin()) {
+            std::list< ll >::iterator next = min_it;
+            next--;
+            *min_it += *next;
+            list.erase(next);
         }
-
-        ans += que.top().first;
-        vbool[v[que.top().second].l] = vbool[v[que.top().second].r] = true;
-        v[que.top().second].d = v[v[que.top().second].r].d + v[v[que.top().second].l].d - v[que.top().second].d;
-        que.push({ v[que.top().second].d, que.top().second });
-        del(que.top().second);
-        que.pop();
+        if (min_it != list.end()) {
+            std::list< ll >::iterator next = min_it;
+            next++;
+            *min_it += *next;
+            list.erase(next);
+        }
     }
 
     printf("%lld\n", ans);
@@ -74,8 +69,7 @@ int main()
 }
 
 template< typename T >
-inline T readf()
-{
+inline T readf() {
 #if false
     T sum = 0;
     char ch = getchar();
@@ -84,11 +78,99 @@ inline T readf()
     return sum;
 #else
     T ret = 0, sgn = 0, ch = getchar();
-    while (!isdigit(ch))
-    {
+    while (!isdigit(ch)) {
         sgn |= ch == '-', ch = getchar();
     }
     while (isdigit(ch)) ret = ret * 10 + ch - '0', ch = getchar();
     return sgn ? -ret : ret;
 #endif
 }
+
+#else
+
+
+#include <vector>
+#include <stdio.h>
+#include <algorithm>
+#include <ctype.h>
+#include <climits>
+#include <iostream>
+#include <stdint.h>
+
+typedef int64_t ll;
+typedef uint64_t unill;
+
+//函数前向声明
+//快读函数
+template< typename T >
+inline T readf();
+
+std::vector< ll > roud;
+ll n, k, ans;
+
+inline ll vecor_min(std::vector< ll > _v) {
+    ll min = LLONG_MAX;
+    ll p = -1;
+    for (size_t i = 0; i < _v.size(); i++) {
+        if (_v[i] < min) {
+            p = i;
+            min = _v[i];
+        }
+    }
+    return p;
+}
+
+int main() {
+    freopen("input.txt", "r", stdin);
+
+    n = readf< ll >(), k = readf< ll >();
+
+    ll* old = new ll;
+    *old = readf< ll >();
+    
+    for (size_t i = 0; i < n - 1; i++) {
+        ll now = readf< ll >();
+        roud.push_back(now - *old);
+        *old = now;
+    }
+    delete old;
+
+    for (size_t i = 0; i < k; i++) {
+        ll min_p = vecor_min(roud);
+        ans += roud[min_p];
+        roud[min_p] = 0 - roud[min_p];
+        if (min_p > 0) {
+            roud[min_p] += roud[min_p - 1];
+            roud.erase(roud.begin() + min_p - 1);
+            min_p--;
+        }
+        if (min_p < roud.size() - 1) {
+            roud[min_p] += roud[min_p + 1];
+            roud.erase(roud.begin() + min_p + 1);
+        }
+    }
+
+    printf("%lld\n", ans);
+
+    return 0;
+}
+
+template< typename T >
+inline T readf() {
+#if false
+    T sum = 0;
+    char ch = getchar();
+    while (ch > '9' || ch < '0') ch = getchar();
+    while (ch >= '0' && ch <= '9') sum = sum * 10 + ch - 48, ch = getchar();
+    return sum;
+#else
+    T ret = 0, sgn = 0, ch = getchar();
+    while (!isdigit(ch)) {
+        sgn |= ch == '-', ch = getchar();
+    }
+    while (isdigit(ch)) ret = ret * 10 + ch - '0', ch = getchar();
+    return sgn ? -ret : ret;
+#endif
+}
+
+#endif 
