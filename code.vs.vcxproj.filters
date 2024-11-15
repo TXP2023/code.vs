@@ -189,6 +189,9 @@
     <ClCompile Include="P11232 [CSP-S 2024] 超速检测(官方数据).cpp">
       <Filter>源文件\洛谷</Filter>
     </ClCompile>
+    <ClCompile Include="P1502 窗口的星星.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="input.txt">
