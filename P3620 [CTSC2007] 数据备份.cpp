@@ -1,5 +1,3 @@
-#if  true
-
 #include <vector>
 #include <stdio.h>
 #include <algorithm>
@@ -7,7 +5,7 @@
 #include <climits>
 #include <iostream>
 #include <stdint.h>
-#include <list>
+#include <queue>
 
 typedef int64_t ll;
 typedef uint64_t unill;
@@ -17,107 +15,43 @@ typedef uint64_t unill;
 template< typename T >
 inline T readf();
 
-std::list< ll > list;
-ll n, k, ans = 0;
-
-inline std::list< ll >::iterator list_min(std::list< ll > &_l) {
-    std::list< ll >::iterator it = _l.begin();
-    for (std::list< ll >::iterator i = _l.begin(); i != _l.end(); i++) {
-        if (*i < *it) {
-            it = i;
-        }
-    }
-    return it;
-}
-
-
-
-int main() {
-    freopen("input.txt", "r", stdin);
-
-    n = readf< ll >(), k = readf< ll >();
-    ll* old = new ll;
-    *old = readf< ll >();
-    for (size_t i = 0; i < n - 1; i++) {
-        ll now = readf< ll >();
-        //roud.push_back(now - *old);
-        list.push_back(now - *old);
-        *old = now;
-    }
-    delete old;
-
-    for (size_t i = 0; i < k; i++) {
-        std::list< ll >::iterator min_it = list_min(list);
-        ans += *min_it;
-        *min_it = 0 - *min_it;
-        if (min_it != list.begin()) {
-            std::list< ll >::iterator next = min_it;
-            next--;
-            *min_it += *next;
-            list.erase(next);
-        }
-        if (min_it != list.end()) {
-            std::list< ll >::iterator next = min_it;
-            next++;
-            *min_it += *next;
-            list.erase(next);
-        }
-    }
-
-    printf("%lld\n", ans);
-    return 0;
-}
-
 template< typename T >
-inline T readf() {
-#if false
-    T sum = 0;
-    char ch = getchar();
-    while (ch > '9' || ch < '0') ch = getchar();
-    while (ch >= '0' && ch <= '9') sum = sum * 10 + ch - 48, ch = getchar();
-    return sum;
-#else
-    T ret = 0, sgn = 0, ch = getchar();
-    while (!isdigit(ch)) {
-        sgn |= ch == '-', ch = getchar();
+inline void inputf(T* p);
+
+struct road {
+    ll length;
+    ll l, r;
+    bool vis;
+};
+
+struct heap_node {
+    ll length;
+    ll p;
+    bool operator <(const heap_node other) const {
+        return length > other.length;
     }
-    while (isdigit(ch)) ret = ret * 10 + ch - '0', ch = getchar();
-    return sgn ? -ret : ret;
-#endif
-}
+};
 
-#else
-
-
-#include <vector>
-#include <stdio.h>
-#include <algorithm>
-#include <ctype.h>
-#include <climits>
-#include <iostream>
-#include <stdint.h>
-
-typedef int64_t ll;
-typedef uint64_t unill;
-
-//函数前向声明
-//快读函数
-template< typename T >
-inline T readf();
-
-std::vector< ll > roud;
+std::priority_queue< heap_node > heap;
+std::vector< road > roads;
 ll n, k, ans;
 
-inline ll vecor_min(std::vector< ll > _v) {
-    ll min = LLONG_MAX;
-    ll p = -1;
-    for (size_t i = 0; i < _v.size(); i++) {
-        if (_v[i] < min) {
-            p = i;
-            min = _v[i];
+inline void del(ll _x) {
+    if (roads[_x].l != -1) {
+        roads[roads[_x].l].vis = true;
+        roads[_x].l = roads[roads[_x].l].l;
+        if (roads[_x].l != -1) {
+            roads[roads[_x].l].r = _x;
         }
     }
-    return p;
+    if (roads[_x].r < roads.size()) {
+        roads[roads[_x].r].vis = true;
+        roads[_x].r = roads[roads[_x].r].r;
+        if (roads[_x].r < roads.size()) {
+            roads[roads[_x].r].l = _x;
+        }
+    }
+    return;
 }
 
 int main() {
@@ -125,33 +59,39 @@ int main() {
 
     n = readf< ll >(), k = readf< ll >();
 
-    ll* old = new ll;
-    *old = readf< ll >();
-    
-    for (size_t i = 0; i < n - 1; i++) {
+    roads.resize(n + 1);
+    std::vector< road >(roads).swap(roads);
+
+    ll* old = new ll(readf< ll >());
+    for (ll i = 1; i < n; i++) {
         ll now = readf< ll >();
-        roud.push_back(now - *old);
+        roads[i] = { now - *old, i - 1, i + 1, false };
         *old = now;
+        heap.push({ roads[i].length, i });
     }
     delete old;
+    roads[0].length = roads[n].length = INT_MAX;
 
     for (size_t i = 0; i < k; i++) {
-        ll min_p = vecor_min(roud);
-        ans += roud[min_p];
-        roud[min_p] = 0 - roud[min_p];
-        if (min_p > 0) {
-            roud[min_p] += roud[min_p - 1];
-            roud.erase(roud.begin() + min_p - 1);
-            min_p--;
+        while (roads[heap.top().p].vis) {
+            heap.pop();
         }
-        if (min_p < roud.size() - 1) {
-            roud[min_p] += roud[min_p + 1];
-            roud.erase(roud.begin() + min_p + 1);
+        road now = roads[heap.top().p];
+        ans += now.length;
+        //roads[heap.top().p].length = roads[now.l].length + roads[now.r].length - now.length;
+        roads[heap.top().p].length = 0 - roads[heap.top().p].length;
+        if (now.l != -1) {
+            roads[heap.top().p].length += roads[now.l].length;
         }
+        if (now.r < roads.size()) {
+            roads[heap.top().p].length += roads[now.r].length;
+        }
+        heap.push({ roads[heap.top().p].length, heap.top().p });
+        del(heap.top().p);
+        heap.pop();
     }
 
     printf("%lld\n", ans);
-
     return 0;
 }
 
@@ -172,5 +112,3 @@ inline T readf() {
     return sgn ? -ret : ret;
 #endif
 }
-
-#endif 
