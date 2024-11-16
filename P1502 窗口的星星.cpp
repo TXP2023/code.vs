@@ -50,7 +50,6 @@ private:
     }
 public:
     
-
     //¹¹Ôìº¯Êý
     segment_tree(ll size) {
         _tree.resize(size, 0);
