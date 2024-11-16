@@ -15,14 +15,14 @@ struct operate {
     unill down; //不点击下降的高度
 };
 
-struct _data //管道数据
+struct pipeline //管道数据
 {
     unill x; //横坐标
     unill up; //管道上限
     unill down; //管道下限
 
     //运算符重载控制sort函数
-    bool operator <(const _data& other)const {
+    bool operator <(const pipeline other)const {
         return x < other.x;
     }
 };
@@ -30,7 +30,7 @@ struct _data //管道数据
 
 std::vector< std::vector< unill > > dp(2); //动态规划数组
 std::vector< operate > opers; //储存操作数据
-std::vector< _data > datas; //储存障碍数据
+std::vector< pipeline > pipelines; //储存障碍数据
 std::vector< bool > out; //储存小年可以通过几个障碍
 unill n, m, k, maxout = 0; //界面的长度，高度和水管的数量
 unill ans = LLONG_MAX;
@@ -47,11 +47,11 @@ int main() {
     }
 
     //输入管道数据
-    datas.resize(k);
+    pipelines.resize(k);
     for (unill i = 0; i < k; i++) {
-        scanf("%lld%lld%lld", &datas[i].x, &datas[i].down, &datas[i].up);
+        scanf("%lld%lld%lld", &pipelines[i].x, &pipelines[i].down, &pipelines[i].up);
     }
-    std::sort(datas.begin(), datas.end());
+    std::sort(pipelines.begin(), pipelines.end());
 
     //动态规划
 
@@ -74,19 +74,19 @@ int main() {
         }
 
         //处理因为管道而无法到达的地方
-        if (!datas.empty() && datas.front().x == i) {
+        if (!pipelines.empty() && pipelines.front().x == i) {
             //下限处理
-            for (unill j = 0; j < datas.front().down; j++) {
+            for (unill j = 0; j < pipelines.front().down; j++) {
                 dp[i % 2][j] =  LLONG_MAX;
             }
 
             //上线处理
-            for (unill j = datas.front().up - 1; j <= m - 1; j++) {
+            for (unill j = pipelines.front().up - 1; j <= m - 1; j++) {
                 dp[i % 2][j] = LLONG_MAX;
             }
 
             //弹出
-            datas.erase(datas.begin());
+            pipelines.erase(pipelines.begin());
             for (unill j = 0; j < m; j++) {
                 if (dp[i % 2][j] < LLONG_MAX) {
                     maxout++;
