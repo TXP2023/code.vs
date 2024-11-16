@@ -32,9 +32,9 @@ ll n, w, h, t;
 struct segment_tree {
     std::vector< ll > _tree;
     //构造函数
-    segment_tree() {
-        _tree.resize((1 + dis_starts.size() << 2) + 1, 0);
-        _tag.resize((1 + dis_starts.size() << 2) + 1, 0);
+    segment_tree(ll size) {
+        _tree.resize(size, 0);
+        _tag.resize(size + 1, 0);
     }
 
     inline void up_data(ll left/*目标左端点*/, ll right/*目标右端点*/, ll x/*增加的值*/,
@@ -102,7 +102,7 @@ int main() {
         
         //线段树初始化
         std::sort(starts.begin(), starts.end());
-        segment_tree tree;
+        segment_tree tree((1 + dis_starts.size() << 2) + 1);
         ll ans = 0;
         for (size_t i = 0; i < n; i++) {
             starts[i].inh = std::upper_bound(dis_starts.begin(), dis_starts.end(), starts[i].y) - dis_starts.begin() + 1;
