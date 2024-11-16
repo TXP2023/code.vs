@@ -27,7 +27,6 @@ struct pipeline //管道数据
     }
 };
 
-
 std::vector< std::vector< unill > > dp(2); //动态规划数组
 std::vector< operate > opers; //储存操作数据
 std::vector< pipeline > pipelines; //储存障碍数据
