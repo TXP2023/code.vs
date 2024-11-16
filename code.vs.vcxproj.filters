@@ -195,6 +195,9 @@
     <ClCompile Include="P9145 [THUPC 2023 初赛] 世界杯.cpp">
       <Filter>源文件\洛谷</Filter>
     </ClCompile>
+    <ClCompile Include="P1941 [NOIP2014 提高组] 飞扬的小鸟.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="input.txt">
