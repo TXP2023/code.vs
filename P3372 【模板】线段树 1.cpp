@@ -15,7 +15,7 @@ template< typename T >
 inline T readf();
 
 std::vector< ll > tree;
-std::vector< ll > vis;
+std::vector< ll > vis; //³õÊ¼Êý×é
 std::vector< ll > tag;
 ll n, m;
 

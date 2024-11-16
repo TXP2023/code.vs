@@ -95,8 +95,9 @@ int main() {
         }
 
         //预处理
-        dp[i % 2 ^ 1].clear();
-        dp[i % 2 ^ 1].resize(m, LLONG_MAX);
+        std::fill(dp[i % 2 ^ 1].begin(), dp[i % 2 ^ 1].end(), LLONG_MAX);
+        //dp[i % 2 ^ 1].clear();
+        //dp[i % 2 ^ 1].resize(m, LLONG_MAX);
     }
 
     //寻找结果
