@@ -20,7 +20,7 @@ struct start {
     ll light; //亮度
     ll inh, outh;
     bool operator <(const start other)const {
-        return x > other.x;
+        return x < other.x;
     }
 };
 
@@ -29,8 +29,7 @@ std::vector< start > starts;
 std::vector< ll > dis_starts; //离散化星星的y坐标
 ll n, w, h, t;
 
-class segment_tree {
-public:
+struct segment_tree {
     std::vector< ll > _tree;
     //构造函数
     segment_tree() {
@@ -44,6 +43,7 @@ public:
         if (left <= lp && right >= rp) /*如果当前区间已经包含了目标区间*/ {
             //tree[p] += (rp - lp + 1) * x;
             add_tag(x, p, lp, rp);
+            return;
         }
         //如果不包含区间
         push_down(p, lp, rp);
@@ -57,15 +57,12 @@ public:
         _tree[p] = std::max( _tree[p * 2], _tree[p * 2 + 1]);
         return;
     }
-
-
-private:
     
     std::vector< ll > _tag;
 
     inline void add_tag(ll x, ll p, ll lp, ll rp) {
         _tag[p] += x;
-        _tree[p] += (rp - lp + 1) * x;
+        _tree[p] += x;
         return;
     }
 
@@ -88,7 +85,7 @@ int main() {
     while (t--) {
         n = readf< ll >(), w = readf< ll >(), h = readf< ll >();
         w--, h--; //"框"住的区域
-        ll head = 1;
+        ll head = 0;
         for (size_t i = 0; i < n; i++) {
             starts.push_back({ 
                 readf< ll >(), //x
@@ -97,6 +94,7 @@ int main() {
                 });
             dis_starts.push_back(starts.back().y);
         }
+        dis_starts.push_back(LLONG_MAX);
 
         //离散化去重
         std::sort(dis_starts.begin(), dis_starts.end());
@@ -107,8 +105,8 @@ int main() {
         segment_tree tree;
         ll ans = 0;
         for (size_t i = 0; i < n; i++) {
-            starts[i].inh = std::upper_bound(dis_starts.begin(), dis_starts.end(), starts[i].y) - dis_starts.begin();
-            starts[i].outh = std::upper_bound(dis_starts.begin(), dis_starts.end(), starts[i].y + h) - dis_starts.begin();
+            starts[i].inh = std::upper_bound(dis_starts.begin(), dis_starts.end(), starts[i].y) - dis_starts.begin() + 1;
+            starts[i].outh = std::upper_bound(dis_starts.begin(), dis_starts.end(), starts[i].y + h) - dis_starts.begin() + 1;
             tree.up_data(starts[i].inh, starts[i].outh, starts[i].light, 1, 1, dis_starts.size());
             while (starts[i].x - w > starts[head].x) {
                 tree.up_data(starts[head].inh, starts[head].outh, -starts[head].light, 1, 1, dis_starts.size()); 
@@ -117,6 +115,9 @@ int main() {
             ans = std::max(ans, tree._tree[1]);
         }
         printf("%lld\n", ans);
+    
+        starts.clear();
+        dis_starts.clear();
     }
 
     return 0;
