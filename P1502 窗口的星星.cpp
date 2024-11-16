@@ -29,37 +29,10 @@ std::vector< start > starts;
 std::vector< ll > dis_starts; //离散化星星的y坐标
 ll n, w, h, t;
 
-struct segment_tree {
+class segment_tree {
+private:
     std::vector< ll > _tree;
-    //构造函数
-    segment_tree(ll size) {
-        _tree.resize(size, 0);
-        _tag.resize(size + 1, 0);
-    }
-
-    inline void up_data(ll left/*目标左端点*/, ll right/*目标右端点*/, ll x/*增加的值*/,
-                        ll p/*数组下标*/, ll lp, ll rp/*当前数组下标所对应的左右端点*/) 
-    {
-        if (left <= lp && right >= rp) /*如果当前区间已经包含了目标区间*/ {
-            //tree[p] += (rp - lp + 1) * x;
-            add_tag(x, p, lp, rp);
-            return;
-        }
-        //如果不包含区间
-        push_down(p, lp, rp);
-        ll mid = (lp + rp) >> 1;
-        if (left <= mid) {
-            up_data(left, right, x, p * 2, lp, mid);
-        }
-        if (right > mid) {
-            up_data(left, right, x, p * 2 + 1, mid + 1, rp);
-        }
-        _tree[p] = std::max( _tree[p * 2], _tree[p * 2 + 1]);
-        return;
-    }
-    
     std::vector< ll > _tag;
-
     inline void add_tag(ll x, ll p, ll lp, ll rp) {
         _tag[p] += x;
         _tree[p] += x;
@@ -74,6 +47,38 @@ struct segment_tree {
             _tag[p] = 0;
         }
         return;
+    }
+public:
+    
+
+    //构造函数
+    segment_tree(ll size) {
+        _tree.resize(size, 0);
+        _tag.resize(size + 1, 0);
+    }
+
+    inline void up_data(ll left/*目标左端点*/, ll right/*目标右端点*/, ll x/*增加的值*/,
+        ll p/*数组下标*/, ll lp, ll rp/*当前数组下标所对应的左右端点*/) {
+        if (left <= lp && right >= rp) /*如果当前区间已经包含了目标区间*/ {
+            //tree[p] += (rp - lp + 1) * x;
+            add_tag(x, p, lp, rp);
+            return;
+        }
+        //如果不包含区间
+        push_down(p, lp, rp);
+        ll mid = (lp + rp) >> 1;
+        if (left <= mid) {
+            up_data(left, right, x, p * 2, lp, mid);
+        }
+        if (right > mid) {
+            up_data(left, right, x, p * 2 + 1, mid + 1, rp);
+        }
+        _tree[p] = std::max(_tree[p * 2], _tree[p * 2 + 1]);
+        return;
+    }
+
+    inline ll at(ll p) {
+        return _tree[p];
     }
 };
 
@@ -112,7 +117,7 @@ int main() {
                 tree.up_data(starts[head].inh, starts[head].outh, -starts[head].light, 1, 1, dis_starts.size()); 
                 head++;
             }
-            ans = std::max(ans, tree._tree[1]);
+            ans = std::max(ans, tree.at(1));
         }
         printf("%lld\n", ans);
     
