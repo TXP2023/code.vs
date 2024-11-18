@@ -19,12 +19,14 @@ template< typename T >
 inline T readf();
 #else
 template< typename T >
-inline T readf(int num_arge/*参数数量*/, ...);
+inline T readf(int num_arge, ...);
 #endif
 
 int main() {
     freopen("input.txt", "r", stdin);
-    
+    ll n = 0;
+
+    std::cout << readf< ll >(0);
     return 0;
 }
 
@@ -56,7 +58,9 @@ inline T readf(int num_arge, ...) {
     while (isdigit(ch)) ret = ret * 10 + ch - '0', ch = getchar();
     va_list args;
     va_start(args, num_arge);
+    //*num_input = sgn ? -ret : ret;
     for (size_t i = 0; i < num_arge; i++) {
+        //*args = sgn ? -ret : ret;
         *(va_arg(args, T*)) = sgn ? -ret : ret;
     }
     va_end(args);
