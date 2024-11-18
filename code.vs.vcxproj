@@ -24,6 +24,7 @@
     <ProjectGuid>{c02f00c6-487b-4d52-bedc-191b2ab86839}</ProjectGuid>
     <RootNamespace>codevs</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>OI-code</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
