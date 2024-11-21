@@ -41,11 +41,11 @@ inline void init() /*初始化*/ {
     std::vector< ll >(Lmatch).swap(Lmatch);
     Rmatch.resize(n, -1);
     std::vector< ll >(Rmatch).swap(Rmatch);
-    ltag.resize(n, false);
+    ltag.resize(n, false);//
     std::vector< bool >(ltag).swap(ltag);
-    rtag.resize(n, false);
+    rtag.resize(n, false);//
     std::vector< bool >(rtag).swap(rtag);
-    slack.resize(n, 0);
+    slack.resize(n, 0);//
     std::vector< ll >(slack).swap(slack);
     graph.resize(n, std::vector< ll >(n, -inf));
     return;
@@ -66,14 +66,15 @@ inline void find_Path(ll u) {
     que.push(u);
 
     while (true) {
-        while (!que.empty()) {
+        while (!que.empty()) { //当前存在需要考虑的点
             ll v = que.front(); que.pop();
             ltag[v] = true; //这个左部图点已经被匹配过了
+            //给这个左部图点匹配
             for (size_t i = 0/*这里的i是右部图点*/; i < n; i++) {
                 /*且两个顶标和要小于当前左部图点与这个点的*/
-                if (!rtag[i]/*这个右部图点没有被匹配*/ && Ltop[v] + Rtop[i] - graph[v][i] < slack[i]) {
+                if (!rtag[i]/*这个右部图点没有被匹配*/ && Ltop[v] + Rtop[i] - graph[v][i] < slack[i]/*可减少最小d值*/) {
                     slack[i] = Ltop[v] + Rtop[i] - graph[v][i]; 
-                    pre[i] = v;
+                    pre[i] = v;//右部图点i将要与当前被匹配的左部图点v匹配
                     if (slack[i] == 0)/*如果当前不存在差值, 即为相等边 添加增广路*/ {
                         rtag[i] = true; //这个点标记为被匹配
                         if (Rmatch[i] == -1) /*如果这个右部图节点之前没有被匹配*/ {
@@ -101,7 +102,7 @@ inline void find_Path(ll u) {
                 Rtop[i] += MinDifference;
             }
             else {
-                slack[i] -= MinDifference;
+                slack[i] -= MinDifference; //??
             }
         }
         for (size_t i = 0; i < n; i++) {
@@ -120,7 +121,7 @@ inline void find_Path(ll u) {
 }
 
 
-inline void add_Path(ll u) {
+inline void add_Path(ll u) /*??*/ {
     ll t;
     while (u != -1) /*如果存在这个右部图点*/ {
         t = Lmatch[pre[u]]; //t为更新前的这个右部点的匹配对象的匹配
