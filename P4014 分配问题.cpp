@@ -12,7 +12,7 @@
 #define inf 1e18
 
 typedef long long int ll;
-typedef unsigned long long int unill;
+typedef unsigned long long int ull;
 
 #if READ
 //函数前向声明
