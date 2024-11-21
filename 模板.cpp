@@ -6,6 +6,7 @@
 #include <climits>
 #include <iostream>
 #include <stdint.h>
+#include <initializer_list>
 
 #define READ false
 
@@ -19,12 +20,14 @@ template< typename T >
 inline T readf();
 #else
 template< typename T >
-inline T readf(int num_arge/*参数数量*/, ...);
+inline T readf(std::initializer_list< T > li);
 #endif
 
 int main() {
     freopen("input.txt", "r", stdin);
     
+    int n = readf< ll >({});
+
     return 0;
 }
 
@@ -48,18 +51,18 @@ inline T readf() {
 }
 #else
 template< typename T >
-inline T readf(int num_arge, ...) {
+inline T readf(std::initializer_list< T > li) {
     T ret = 0, sgn = 0, ch = getchar();
     while (!isdigit(ch)) {
         sgn |= ch == '-', ch = getchar();
     }
     while (isdigit(ch)) ret = ret * 10 + ch - '0', ch = getchar();
-    va_list args;
-    va_start(args, num_arge);
-    for (size_t i = 0; i < num_arge; i++) {
-        *(va_arg(args, T*)) = sgn ? -ret : ret;
+    //va_list args;
+    //va_start(args, num_arge);
+    for (auto i = li.begin(); i != li.end(); i++) {
+        *i = sgn ? -ret : ret;
     }
-    va_end(args);
+    //va_end(args);
     return sgn ? -ret : ret;
 }
 #endif
