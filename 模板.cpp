@@ -20,14 +20,14 @@ template< typename T >
 inline T readf();
 #else
 template< typename T >
-inline T readf(std::initializer_list< T > li);
+inline T readf(std::initializer_list< T* > li);
 #endif
 
 int main() {
     freopen("input.txt", "r", stdin);
     
     int n = readf< ll >({});
-
+    readf({ &n });
     return 0;
 }
 
@@ -51,7 +51,7 @@ inline T readf() {
 }
 #else
 template< typename T >
-inline T readf(std::initializer_list< T > li) {
+inline T readf(std::initializer_list< T* > li) {
     T ret = 0, sgn = 0, ch = getchar();
     while (!isdigit(ch)) {
         sgn |= ch == '-', ch = getchar();
