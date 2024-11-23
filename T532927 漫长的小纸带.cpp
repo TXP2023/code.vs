@@ -6,9 +6,10 @@
 #include <climits>
 #include <iostream>
 #include <stdint.h>
+#include <set>
 #include <initializer_list>
 
-#define READ false
+#define READ true
 
 typedef int64_t ll;
 typedef uint64_t unill;
@@ -23,9 +24,32 @@ template< typename T >
 inline T readf(std::initializer_list< T* > li);
 #endif
 
+std::vector< std::vector< ll > > dp;
+std::vector< std::vector< std::set< ll > > > cla;
+std::vector< ll > v;
+ll n;
+
 int main() {
     freopen("input.txt", "r", stdin);
-        
+
+    n = readf< ll >();
+
+    v.resize(n);
+    dp.resize(n, std::vector< ll >(n));
+    cla.resize(n, std::vector< std::set< ll > >(n));
+    for (size_t i = 0; i < n; i++) {
+        v[i] = readf< ll >();
+        dp[i][i] = 1;
+        cla[i][i].insert(i);
+    }
+    for (size_t length = 2; length < n; length++) {
+        for (size_t brg = 0; brg + length < n; brg++) {
+
+        }
+    }
+    
+
+
     return 0;
 }
 

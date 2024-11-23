@@ -8,7 +8,7 @@
 #include <stdint.h>
 #include <initializer_list>
 
-#define READ false
+#define READ true
 
 typedef int64_t ll;
 typedef uint64_t unill;
@@ -23,9 +23,29 @@ template< typename T >
 inline T readf(std::initializer_list< T* > li);
 #endif
 
+ll t;
+
 int main() {
     freopen("input.txt", "r", stdin);
-        
+
+    t = readf< ll >();
+    while (t--) {
+        ll n = readf< ll >(),
+            m = readf< ll >(),
+            k = readf< ll >(),
+            p = readf< ll >();
+        if (m < k) {
+            puts("Divide");
+        }
+        else {
+            if (m - (p / n) >= k) {
+                puts("Together");
+            }
+            else {
+                puts("Chance");
+            }
+        }
+    }
     return 0;
 }
 

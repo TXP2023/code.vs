@@ -2,13 +2,14 @@
 #include <stdio.h>
 #include <algorithm>
 #include <ctype.h>
+#include <math.h>
 #include <cstdarg>
 #include <climits>
 #include <iostream>
 #include <stdint.h>
 #include <initializer_list>
 
-#define READ false
+#define READ true
 
 typedef int64_t ll;
 typedef uint64_t unill;
@@ -23,9 +24,27 @@ template< typename T >
 inline T readf(std::initializer_list< T* > li);
 #endif
 
+ll t;
+
 int main() {
     freopen("input.txt", "r", stdin);
-        
+
+    t = readf< ll >();
+    while (t--) {
+        ll n = readf< ll >();
+        if (n == 0) {
+            puts("NO!");
+        }
+        else {
+            ll t = 0;
+            float r = n + 0.5;
+            for ( t = 0; r != floor(r) ; t++) {
+                r = r * ceil(r);
+            }
+            printf("%lld\n", t);
+        }
+    }
+
     return 0;
 }
 

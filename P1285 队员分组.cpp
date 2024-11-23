@@ -8,7 +8,7 @@
 #include <stdint.h>
 #include <initializer_list>
 
-#define READ false
+#define READ true
 
 typedef int64_t ll;
 typedef uint64_t unill;
@@ -23,9 +23,42 @@ template< typename T >
 inline T readf(std::initializer_list< T* > li);
 #endif
 
+std::vector< std::vector< bool > > graph;
+std::vector< ll > color;
+ll n;
+
+inline void stain() {
+    ll col_cnt = 0;
+    std::vector< bool > tag(n, false);
+    tag[0] = true, color[0] = col_cnt;
+    
+    return;
+}
+
 int main() {
     freopen("input.txt", "r", stdin);
-        
+
+    n = readf< ll >();
+    for (size_t u = 0; u < n; u++) {
+        ll v;
+        while (true) {
+            v = readf< ll >();
+            if (v == 0) {
+                break;
+            }
+            graph[u][v] = true;
+        }
+    }
+    for (size_t u = 0; u < n; u++) {
+        for (size_t v = 0; v < n; v++) {
+            if (!(graph[u][v] && graph[v][u])) {
+                graph[u][v] = false;
+                graph[v][u] = false;
+            }
+        } 
+    }
+
+    color.resize(n, -1);
     return 0;
 }
 
