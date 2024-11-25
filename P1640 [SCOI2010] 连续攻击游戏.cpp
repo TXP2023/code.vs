@@ -24,18 +24,18 @@ inline T readf(std::initializer_list< T* > li);
 #endif
 
 std::vector< ll > graph[10000];
-ll vis[10000];
-std::vector< ll > match;
+std::vector< ll > left_match;
+ll right_match[10000];
 ll n, ans = 0;
 
 inline bool add_match(ll u, ll u2) /*≥¢ ‘∏¯”“≤øÕºµ„u∆•≈‰*/ {
-    if (vis[u] == u2) {
+    if (right_match[u] == u2) {
         return false;
     }
-    vis[u] = u2;
+    right_match[u] = u2;
     for (ll v : graph[u]) {
-        if (match[v] == -1 || add_match(match[v], u2)) {
-            match[v] = u;
+        if (left_match[v] == -1 || add_match(left_match[v], u2)) {
+            left_match[v] = u;
             return true;
         }
     }
@@ -55,8 +55,8 @@ int main() {
     }
 
     //vis.resize(10000, -1);
-    std::fill(vis, vis + 10000, -1);
-    match.resize(n, -1);
+    std::fill(right_match, right_match + 10000, -1);
+    left_match.resize(n, -1);
     for (size_t i = 0; i < 10000; i++) {
         if (add_match(i, i)) {
             ans++;
