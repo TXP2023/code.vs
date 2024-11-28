@@ -68,11 +68,12 @@ int main() {
             bed_num += peoples[i].first;
         }
 
-        std::vector< ll > in_sch(n + 1, 0)/*i是第几个在校的学生*/;
+        std::vector< ll > in_sch(n, -1)/*i是第几个在校的学生*/;
+        ll cnt = 0;
         for (size_t i = 0; i < n; i++) {
             if (!peoples[i].first) {
                 readf< int >();
-                in_sch[i + 1] = in_sch[i];
+                in_sch[i] = cnt++;
                 continue;
             }
             if (readf< int >() == 1) {
@@ -80,7 +81,7 @@ int main() {
                 peoples_in_school--;
             }
             else {
-                in_sch[i + 1] = in_sch[i] + 1;
+                in_sch[i] = cnt++;
             }
         }
 
@@ -92,9 +93,10 @@ int main() {
         for (size_t i = 0; i < n; i++) {
             for (size_t j = 0; j < n; j++) {
                 ll u = (peoples[i].first) ? i : -1; //床
-                if (u != -1 && /*这个人在假期里头会在学校*/((peoples[j].first && peoples[j].second) || !peoples[j].first)) {
-                    graph[u][j] = true;
-                    graph[j][u] = true;
+                bool edge = readf< int >();
+                if (u != -1 && /*这个人在假期里头会在学校*/(/*是学校学生，但是跑了*/(peoples[j].first && !peoples[j].second) || /*不是学校学生*/!peoples[j].first)) {
+                    graph[u][in_sch[j]] = true;
+                    graph[in_sch[j]][u] = true;
                 }
             }
         }
