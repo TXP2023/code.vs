@@ -19,8 +19,8 @@ typedef uint64_t unill;
 template< typename T >
 inline T readf();
 #else
-template< typename T >
-inline T readf(std::initializer_list< T* > li);
+template< typename Type >
+inline Type readf(Type* p = NULL);
 #endif
 
 int main() {
@@ -48,19 +48,16 @@ inline T readf() {
 #endif
 }
 #else
-template< typename T >
-inline T readf(std::initializer_list< T* > li) {
+template< typename Type >
+inline Type readf(Type* p = NULL) {
     T ret = 0, sgn = 0, ch = getchar();
     while (!isdigit(ch)) {
         sgn |= ch == '-', ch = getchar();
     }
     while (isdigit(ch)) ret = ret * 10 + ch - '0', ch = getchar();
-    //va_list args;
-    //va_start(args, num_arge);
-    for (auto i = li.begin(); i != li.end(); i++) {
-        *i = sgn ? -ret : ret;
+    if (p != NULL){
+        *p = Type(sgn ? -ret : ret);
     }
-    //va_end(args);
     return sgn ? -ret : ret;
 }
 #endif

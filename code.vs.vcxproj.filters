@@ -222,6 +222,9 @@
     <ClCompile Include="P1640 [SCOI2010] 连续攻击游戏.cpp">
       <Filter>源文件\洛谷</Filter>
     </ClCompile>
+    <ClCompile Include="P2055 [ZJOI2009] 假期的宿舍.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="input.txt">
