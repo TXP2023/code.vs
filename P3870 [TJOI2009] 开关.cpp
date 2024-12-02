@@ -27,7 +27,7 @@ class Segment_Tree {
 public:
     Segment_Tree(ll size) {
         tag.resize(1 + (size << 2), false);
-        tree.resize(1 + (size << 2), 0);
+        tree.resize(1 + (size << 2));
     }
 
     inline void up_data(ll left, ll right, ll p, ll lp, ll rp);
@@ -36,12 +36,20 @@ public:
 private:
 
     std::vector< bool > tag;
-    std::vector< ll > tree;
+    std::vector<  std::array<ll, 2> > tree;
+
+    inline void build_tree(ll p, ll lp, ll rp);
 
     inline void add_tag(ll p, ll lp, ll rp);
 
     inline void push_down(ll p, ll lp, ll rp);
 };
+
+inline void Segment_Tree::build_tree(ll p, ll lp, ll rp) {
+    if (lp == rp) {
+        tree[p] = 1;
+    }
+}
 
 inline void Segment_Tree::up_data(ll left, ll right, ll p, ll lp, ll rp) {
     if (left <= lp && rp <= right) {
@@ -65,7 +73,8 @@ inline void Segment_Tree::up_data(ll left, ll right, ll p, ll lp, ll rp) {
 
 inline void Segment_Tree::add_tag(ll p, ll lp, ll rp) {
     tag[p] = true;
-    tree[p] = (rp - lp + 1) - tree[p];
+    //tree[p] = (rp - lp + 1) - tree[p];
+    std::swap(tree[p][0], tree[p][1]);
     return;
 }
 
