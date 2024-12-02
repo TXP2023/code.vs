@@ -25,7 +25,7 @@ inline Type readf(Type* p = NULL);
 
 int main() {
     freopen("input.txt", "r", stdin);
-        
+    
     return 0;
 }
 
@@ -49,7 +49,7 @@ inline T readf() {
 }
 #else
 template< typename Type >
-inline Type readf(Type* p = NULL) {
+inline Type readf(Type* p) {
     T ret = 0, sgn = 0, ch = getchar();
     while (!isdigit(ch)) {
         sgn |= ch == '-', ch = getchar();

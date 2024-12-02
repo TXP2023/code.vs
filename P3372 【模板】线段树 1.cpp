@@ -73,6 +73,7 @@ inline void addTag(ll p, ll lp, ll rp, ll d)
 {
     tag[p] += d;
     tree[p] += d * (rp - lp + 1);
+    return;
 }
 
 inline void push_down(ll p, ll lp, ll rp) //将tag标记转移到子节点
