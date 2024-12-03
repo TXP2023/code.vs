@@ -67,7 +67,7 @@ inline void Segment_Tree::up_data(ll left, ll right, ll p, ll lp, ll rp) {
         Segment_Tree::up_data(left, right, p * 2 + 1, mid + 1, rp);
     }
 
-    tree[p] = tree[p * 2] + tree[p * 2 + 1];
+    tree[p][0] = tree[p * 2][0] + tree[p * 2 + 1][0];
     return;
 }
 
