@@ -36,7 +36,7 @@ public:
 private:
 
     std::vector< bool > tag;
-    std::vector<  std::array<ll, 2> > tree;
+    std::vector< std::array<ll, 2> > tree;
 
     inline void build_tree(ll p, ll lp, ll rp);
 
@@ -47,7 +47,7 @@ private:
 
 inline void Segment_Tree::build_tree(ll p, ll lp, ll rp) {
     if (lp == rp) {
-        tree[p] = 1;
+        tree[p] = std::array<ll, 2>({ 1, 0 });
     }
 }
 
