@@ -23,9 +23,29 @@ template< typename Type >
 inline Type readf(Type* p = NULL);
 #endif
 
+std::vector < std::pair < int16_t, bool > > s1, s2;
+ll t, n;
+
 int main() {
     freopen("input.txt", "r", stdin);
-    
+
+    readf(&t);
+    while (t--) {
+        readf(&n);
+        s1.resize(n), s2.resize(n);
+        for (size_t i = 0; i < n; i++) {
+            readf(&s1[i].first);
+        }
+        for (size_t i = 0; i < n; i++) {
+            readf(&s2[i].first);
+        }
+        for (size_t i = 0; i < n; i++) {
+            s1[i].second = readf<int16_t>();
+        }
+        for (size_t i = 0; i < n; i++) {
+            s2[i].second = readf<int16_t>();
+        }
+    }
     return 0;
 }
 
@@ -55,7 +75,7 @@ inline Type readf(Type* p) {
         sgn |= ch == '-', ch = getchar();
     }
     while (isdigit(ch)) ret = ret * 10 + ch - '0', ch = getchar();
-    if (p != NULL){
+    if (p != NULL) {
         *p = Type(sgn ? -ret : ret);
     }
     return sgn ? -ret : ret;
