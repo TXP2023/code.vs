@@ -28,6 +28,7 @@ public:
     Segment_Tree(ll size) {
         tag.resize(1 + (size << 2), false);
         tree.resize(1 + (size << 2));
+        build_tree(1, 1, size);
     }
 
     inline void up_data(ll left, ll right, ll p, ll lp, ll rp);
@@ -36,7 +37,7 @@ public:
 private:
 
     std::vector< bool > tag;
-    std::vector< std::array<ll, 2> > tree;
+    std::vector< std::pair< ll, ll > > tree;
 
     inline void build_tree(ll p, ll lp, ll rp);
 
@@ -47,8 +48,15 @@ private:
 
 inline void Segment_Tree::build_tree(ll p, ll lp, ll rp) {
     if (lp == rp) {
-        tree[p] = std::array<ll, 2>({ 1, 0 });
+        tree[p] = { 1, 0 };
+        return;
     }
+
+    ll mid = (lp + rp) >> 1;
+    build_tree(p * 2, lp, mid);
+    build_tree(p * 2 + 1, mid + 1, rp);
+    tree[p] = { tree[p * 2].first + tree[p * 2 + 1].first, tree[p * 2].second + tree[p * 2 + 1].second };
+    return;
 }
 
 inline void Segment_Tree::up_data(ll left, ll right, ll p, ll lp, ll rp) {
@@ -67,14 +75,15 @@ inline void Segment_Tree::up_data(ll left, ll right, ll p, ll lp, ll rp) {
         Segment_Tree::up_data(left, right, p * 2 + 1, mid + 1, rp);
     }
 
-    tree[p][0] = tree[p * 2][0] + tree[p * 2 + 1][0];
+    tree[p].first = tree[p * 2].first + tree[p * 2 + 1].first;
+    tree[p].second = tree[p * 2].second + tree[p * 2 + 1].second;
     return;
 }
 
 inline void Segment_Tree::add_tag(ll p, ll lp, ll rp) {
-    tag[p] = true;
+    tag[p] = tag[p] ^ 1;
     //tree[p] = (rp - lp + 1) - tree[p];
-    std::swap(tree[p][0], tree[p][1]);
+    std::swap(tree[p].first, tree[p].second);
     return;
 }
 
@@ -90,7 +99,7 @@ inline void Segment_Tree::push_down(ll p, ll lp, ll rp) {
 
 inline ll Segment_Tree::query(ll left, ll right, ll p, ll lp, ll rp) {
     if (left <= lp && rp <= right) {
-        return tree[p];
+        return tree[p].second;
     }
 
     push_down(p, lp, rp);
