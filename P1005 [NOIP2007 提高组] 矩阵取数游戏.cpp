@@ -54,8 +54,8 @@ int main() {
     for (size_t i = 0; i + 1 < m; i++) {
         ll sum_big = 0, sum_small = 0;
         for (size_t j = 0; j < n; j++) {
-            sum_big += std::max(matrix[i][j], matrix[i + 1][j]);
-            sum_small += std::min(matrix[i][j], matrix[i + 1][j]);
+            sum_big += std::max(matrix[j][i], matrix[j][i + 1]);
+            sum_small += std::min(matrix[j][i], matrix[j][i + 1]);
         }
         dp[i][i + 1] = sum_big * m + sum_small * (m - 1);
     }
