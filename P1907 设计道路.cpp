@@ -36,7 +36,7 @@ double d_road, r_road;
 ll n;
 
 inline double distance(point a, point b) {
-    return fabs(sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y)));
+    return sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
 }
 
 inline double djstl(ll s, ll t) {
@@ -51,7 +51,7 @@ inline double djstl(ll s, ll t) {
     std::priority_queue< point_que > que;
     que.push({s, 0});
     
-    std::vector< double > dits(n + 2, std::numeric_limits< double >::max());
+    std::vector< double > dits(n + 2, 1e18);
     dits[s] = 0;
     
     std::vector< bool > tag(n + 2, false);
@@ -101,7 +101,8 @@ int main() {
         if (u == 0) {
             break;
         }
-        graph[--u][--v] = distance(junctions[u], junctions[v]) * r_road;
+        u--, v--;
+        graph[u][v] = distance(junctions[u], junctions[v]) * r_road;
         graph[v][u] = distance(junctions[u], junctions[v]) * r_road;
     }
 
