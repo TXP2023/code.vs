@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <algorithm>
 #include <ctype.h>
+#include <string>
 #include <cstdarg>
 #include <climits>
 #include <iostream>
@@ -23,56 +24,105 @@ template< typename Type >
 inline Type readf(Type* p = NULL);
 #endif
 
-std::vector< std::vector< ll > > matrix;
-std::vector< std::vector< ll > > dp;
-ll n, m;
+class large_int
+{
+public:
+    inline const char* show_to_const_char();
 
-inline ll sum(ll x) {
-    ll sum = 0;
-    for (size_t i = 0; i < n; i++) {
-        sum += matrix[i][x];
+    inline void input();
+
+    void operator =(const large_int other);
+
+    large_int operator +(const large_int other);
+
+    large_int operator *(const int other);
+
+    inline ll length();
+
+private:
+    std::string number;
+
+    
+};
+
+inline ll large_int::length() {
+    return number.length();
+}
+
+//输入一个高精度类
+inline void large_int::input() {
+    std::string s;
+    std::cin >> s;
+    ll length = s.length();
+    number.resize(length);
+    for (size_t i = 0; i < s.length(); i++) {
+        number[i] = s[length - i];
     }
-    return sum;
+
+
+    return;
+}
+
+//这个高精度类所代表的数字转化为字符串格式
+inline const char* large_int::show_to_const_char() {
+    const char* p = number.data();
+    return p;
+}
+
+void large_int::operator=(const large_int other) {
+    number = other.number;
+    return;
+}
+
+large_int large_int::operator+(const large_int other) {
+    large_int num1 = *this, num2 = other, summation;
+    
+    if (num1.length() < num2.length()) {
+        std::swap(num1, num2);
+    }
+    summation.number.resize(num1.length() + 1);
+    summation.number = num1.number;
+
+    //加和
+    for (size_t i = 0; i < num2.length(); i++) {
+        summation.number[i] += num2.number[i];
+    }
+
+    //进位
+    for (size_t i = 0; i < summation.length() - 1; i++) {
+        if (summation.number[i] - '0' >= 10) {
+            summation.number[i + 1]++;
+            summation.number[i] -= ('9' + 1);
+        }
+    }
+    if (summation.number.back() > '9') {
+        summation.number.resize(summation.number.length() + 1);
+        *(summation.number.end() - 1) = '1';
+        *(summation.number.end() - 2) -= ('9' + 1);
+    }
+    return summation;
+}
+
+large_int large_int::operator*(const int other) {
+    large_int num1 = *this;
+    std::vector< ll > num(num1.length());
+    for (size_t i = 0; i < num.size(); i++) {
+        num[i] = num1.number[i] - '0';
+        num[i] *= other;
+    }
+
+    for (size_t i = 0; i < num.size(); i++) {
+        if (num[i] >= 10) {
+            num[i + 1] +=  
+        }
+    }
+
+    return large_int();
 }
 
 int main() {
     freopen("input.txt", "r", stdin);
-    
-    readf(&n), readf(&m);
-    
-    matrix.resize(n, std::vector< ll >(m));
-    for (size_t i = 0; i < n; i++) {
-        for (size_t j = 0; j < m; j++) {
-            readf(&matrix[i][j]);
-        }
-    }
 
-    dp.resize(m, std::vector< ll >(m, 0));
-    for (size_t i = 0; i < m; i++) {
-        dp[i][i] = sum(i) * m;
-    }
-    for (size_t i = 0; i + 1 < m; i++) {
-        ll sum_big = 0, sum_small = 0;
-        for (size_t j = 0; j < n; j++) {
-            sum_big += std::max(matrix[j][i], matrix[j][i + 1]);
-            sum_small += std::min(matrix[j][i], matrix[j][i + 1]);
-        }
-        dp[i][i + 1] = sum_big * m + sum_small * (m - 1);
-    }
-
-    for (size_t len = 2; len < m; len++) {
-        for (size_t i = 0; i + len < n; i++) {
-            uint64_t j = i + len;
-            ll sum_big = 0, sum_small = 0;
-            for (size_t k = 0; k < n; k++) {
-                sum_big += std::max(matrix[i][k], matrix[j][k]);
-                sum_small += std::min(matrix[i][k], matrix[j][k]);
-            }
-            dp[i][i + 1] = sum_big * (m - len) + sum_small * (m - len - 1) + dp[i - 1][j - 1];
-        }
-    }
-
-    printf("%lld\n", dp[m][m]);
     return 0;
 }
 

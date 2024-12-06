@@ -26,23 +26,23 @@ inline Type readf(Type* p = NULL);
 #endif
 
 struct  point {
-    float x, y;
+    double x, y;
 };
 
 std::vector< point > junctions;
-std::vector< std::vector< float > > graph;
+std::vector< std::vector< double > > graph;
 point home, dock;
-float d_road, r_road;
+double d_road, r_road;
 ll n;
 
-inline float distance(point a, point b) {
+inline double distance(point a, point b) {
     return fabs(sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y)));
 }
 
-inline float djstl(ll s, ll t) {
+inline double djstl(ll s, ll t) {
     struct point_que {
         ll u;
-        float w;
+        double w;
         bool operator <(const point_que other) const {
             return w > other.w;
         }
@@ -51,25 +51,23 @@ inline float djstl(ll s, ll t) {
     std::priority_queue< point_que > que;
     que.push({s, 0});
     
-    std::vector< float > dits(n + 2, std::numeric_limits< float >::max());
+    std::vector< double > dits(n + 2, std::numeric_limits< double >::max());
     dits[s] = 0;
     
     std::vector< bool > tag(n + 2, false);
 
-    
-    
-    
     while (!que.empty()) {
         point_que u = que.top();
         que.pop();
-        if (tag[t]) {
-            break;
-        }
         if (tag[u.u]) {
             continue;
         }
         tag[u.u] = true;
         
+        if (tag[t]) {
+            break;
+        }
+
         for (size_t i = 0; i < n + 2; i++) {
             if (dits[u.u] + graph[u.u][i] < dits[i]) {
                 dits[i] = dits[u.u] + graph[u.u][i];
@@ -84,21 +82,21 @@ inline float djstl(ll s, ll t) {
 int main() {
     freopen("input.txt", "r", stdin);
 
-    scanf("%f%f", &d_road, &r_road);
+    scanf("%lf%lf", &d_road, &r_road);
     //std::cin >> d_road >> r_road;
     readf(&n);
 
     junctions.resize(n);
     for (size_t i = 0; i < n; i++) {
-        float x, y;
-        scanf("%f%f", &x, &y);
+        double x, y;
+        scanf("%lf%lf", &x, &y);
         junctions[i] = { x, y };
     }
 
-    graph.resize(n + 2, std::vector< float >(n + 2, -1));
+    graph.resize(n + 2, std::vector< double >(n + 2, -1));
 
-    /*std::vector< float > input;
-    float* p = new float;
+    /*std::vector< double > input;
+    double* p = new double;
     while (std::cin >> *p) {
         input.push_back(*p);
     }*/
@@ -112,10 +110,10 @@ int main() {
         graph[v][u] = distance(junctions[u], junctions[v]) * r_road;
     }
 
-    float x, y;
-    scanf("%f%f", &x, &y);
+    double x, y;
+    scanf("%lf%lf", &x, &y);
     junctions.push_back({ x,y });
-    scanf("%f%f", &x, &y);
+    scanf("%lf%lf", &x, &y);
     junctions.push_back({ x,y });
 
     for (size_t i = 0; i < n + 2; i++) {
@@ -127,7 +125,7 @@ int main() {
         }
     }
 
-    printf("%.4f", djstl(n, n + 1));
+    printf("%.4lf", djstl(n, n + 1));
     return 0;
 }
 

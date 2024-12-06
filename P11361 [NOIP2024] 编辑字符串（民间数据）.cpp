@@ -10,8 +10,8 @@
 
 #define READ false
 
-typedef int64_t ll;
-typedef uint64_t unill;
+typedef long long int ll;
+typedef unsigned long long int unill;
 
 #if READ
 //函数前向声明
@@ -23,29 +23,39 @@ template< typename Type >
 inline Type readf(Type* p = NULL);
 #endif
 
-std::vector < std::pair < int16_t, bool > > s1, s2;
+std::vector < std::pair < int16_t/*值*/, bool/*是否可以变换*/ > > s1, s2;
 ll t, n;
+
+
+inline void slove() {
+    readf(&n);
+    s1.resize(n), s2.resize(n);
+    for (size_t i = 0; i < n; i++) {
+        readf(&s1[i].first);
+    }
+    for (size_t i = 0; i < n; i++) {
+        readf(&s2[i].first);
+    }
+    for (size_t i = 0; i < n; i++) {
+        s1[i].second = readf< int16_t >();
+    }
+    for (size_t i = 0; i < n; i++) {
+        s2[i].second = readf< int16_t >();
+    }
+
+    std::vector< std::vector< ll > > num;
+    num.resize(, std::vector< ll >(2, 0)); 
+}
 
 int main() {
     freopen("input.txt", "r", stdin);
 
     readf(&t);
     while (t--) {
-        readf(&n);
-        s1.resize(n), s2.resize(n);
-        for (size_t i = 0; i < n; i++) {
-            readf(&s1[i].first);
-        }
-        for (size_t i = 0; i < n; i++) {
-            readf(&s2[i].first);
-        }
-        for (size_t i = 0; i < n; i++) {
-            s1[i].second = readf<int16_t>();
-        }
-        for (size_t i = 0; i < n; i++) {
-            s2[i].second = readf<int16_t>();
-        }
+        slove();
     }
+
+
     return 0;
 }
 
