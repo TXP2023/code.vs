@@ -7,7 +7,6 @@
 #include <climits>
 #include <iostream>
 #include <stdint.h>
-#include <initializer_list>
 
 #define READ false
 

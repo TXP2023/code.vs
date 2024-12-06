@@ -25,7 +25,7 @@ template< typename Type >
 inline Type readf(Type* p = NULL);
 #endif
 
-struct  point {
+struct point {
     double x, y;
 };
 
@@ -95,11 +95,6 @@ int main() {
 
     graph.resize(n + 2, std::vector< double >(n + 2, -1));
 
-    /*std::vector< double > input;
-    double* p = new double;
-    while (std::cin >> *p) {
-        input.push_back(*p);
-    }*/
     ll u, v;
     while (true) {
         readf(&u), readf(&v);

@@ -10,8 +10,8 @@
 
 #define READ false
 
-typedef int64_t ll;
-typedef uint64_t unill;
+typedef long long int ll;
+typedef unsigned long long int unill;
 
 #if READ
 //函数前向声明
