@@ -1,4 +1,5 @@
 #include <vector>
+#include <array>
 #include <stdio.h>
 #include <algorithm>
 #include <ctype.h>
@@ -24,27 +25,94 @@ inline Type readf(Type* p = NULL);
 #endif
 
 std::vector < std::pair < int16_t/*值*/, bool/*是否可以变换*/ > > s1, s2;
-ll t, n;
+ll t, n, ans;
 
 
 inline void slove() {
     readf(&n);
     s1.resize(n), s2.resize(n);
     for (size_t i = 0; i < n; i++) {
-        readf(&s1[i].first);
+        char ch;
+        std::cin >> ch;
+        s1[i].first = ch - '0';
     }
     for (size_t i = 0; i < n; i++) {
-        readf(&s2[i].first);
+        char ch;
+        std::cin >> ch;
+        s2[i].first = ch - '0';
     }
     for (size_t i = 0; i < n; i++) {
-        s1[i].second = readf< int16_t >();
+        char ch;
+        std::cin >> ch;
+        s1[i].second = (ch - '0');
     }
     for (size_t i = 0; i < n; i++) {
-        s2[i].second = readf< int16_t >();
+        char ch;
+        std::cin >> ch;
+        s2[i].second = (ch - '0');
     }
 
-    std::vector< std::vector< ll > > num;
-    num.resize(, std::vector< ll >(2, 0)); 
+    std::array< std::array< ll, 2 >, 2 > cnt = {
+        std::array< ll, 2 >{0, 0},
+        std::array < ll, 2 >{0, 0}
+    };
+
+    ll p1 = -1, p2 = -1;
+    while (p1 < n && p2 < n) {
+        while (p1 + 1 <= n && s1[p1 + 1].second) {
+            p1++;
+            ++cnt[0][s1[p1].first];
+        }
+        while (p2 + 1 < n && s2[p2 + 1].second) {
+            p2++;
+            ++cnt[1][s2[p2].first];
+        }
+
+        ans += std::min(cnt[1][0], cnt[0][0]) + std::min(cnt[1][1], cnt[0][1]);
+    
+        if (p1 == p2) {
+            if (p1 + 1 < n && s1[p1 + 1].first == s2[p1 + 1].first) {
+                ans++;
+                ++p1, ++p2;
+            }
+            cnt = { std::array< ll, 2 >{0, 0}, std::array< ll, 2 >{0, 0} };
+        }
+        else {
+            if (p1 > p2) {
+                cnt[0][0] = std::max(ll(0), cnt[0][0] - cnt[1][0]);
+                cnt[0][1] = std::max(ll(0), cnt[0][1] - cnt[1][1]);
+                if (p2 + 1 < n && cnt[0][s2[p2 + 1].first] > 0) {
+                    --cnt[0][s2[p2 + 1].first];
+                    ++ans;
+                }
+                cnt[0][1] = std::min(cnt[0][1], p1 - p2 - 1);
+                cnt[0][0] = std::min(cnt[0][0], p1 - p2 - 1);
+                cnt[1] = std::array< ll, 2 >{ 0, 0 };
+                ++p2;
+            }
+            else {
+                if (p1 < p2) {
+                    cnt[1][1] = std::max(ll(0), cnt[1][1] - cnt[0][1]);
+                    cnt[1][0] = std::max(ll(0), cnt[1][0] - cnt[0][0]);
+                    if (p1 + 1 < n && cnt[1][s2[p1 + 1].first] > 0) {
+                        --cnt[1][s2[p1 + 1].first];
+                        ++ans;
+                    }
+                    cnt[1][0] = std::min(cnt[1][0], p2 - p1 - 1);
+                    cnt[1][1] = std::min(cnt[1][1], p2 - p1 - 1);
+                    cnt[0] = std::array< ll, 2 >{ 0, 0 };
+                    ++p1;
+                }
+            }
+        }
+
+
+    }
+    printf("%lld\n", ans);
+    return;
+    s1.clear();
+    s2.clear();
+    ans = 0;
 }
 
 int main() {
