@@ -22,8 +22,6 @@ public:
     template< typename Type >
     unsigned_large_int operator *(Type other);
 
-
-
 private:
     std::string number;
 
