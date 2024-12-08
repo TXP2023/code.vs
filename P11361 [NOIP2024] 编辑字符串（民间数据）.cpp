@@ -59,7 +59,7 @@ inline void slove() {
 
     ll p1 = -1, p2 = -1;
     while (p1 < n && p2 < n) {
-        while (p1 + 1 <= n && s1[p1 + 1].second) {
+        while (p1 + 1 < n && s1[p1 + 1].second) {
             p1++;
             ++cnt[0][s1[p1].first];
         }
@@ -71,11 +71,11 @@ inline void slove() {
         ans += std::min(cnt[1][0], cnt[0][0]) + std::min(cnt[1][1], cnt[0][1]);
     
         if (p1 == p2) {
+            cnt = { std::array< ll, 2 >{0, 0}, std::array< ll, 2 >{0, 0} };
             if (p1 + 1 < n && s1[p1 + 1].first == s2[p1 + 1].first) {
                 ans++;
-                ++p1, ++p2;
             }
-            cnt = { std::array< ll, 2 >{0, 0}, std::array< ll, 2 >{0, 0} };
+            ++p1, ++p2;
         }
         else {
             if (p1 > p2) {
@@ -91,28 +91,26 @@ inline void slove() {
                 ++p2;
             }
             else {
-                if (p1 < p2) {
-                    cnt[1][1] = std::max(ll(0), cnt[1][1] - cnt[0][1]);
-                    cnt[1][0] = std::max(ll(0), cnt[1][0] - cnt[0][0]);
-                    if (p1 + 1 < n && cnt[1][s2[p1 + 1].first] > 0) {
-                        --cnt[1][s2[p1 + 1].first];
-                        ++ans;
-                    }
-                    cnt[1][0] = std::min(cnt[1][0], p2 - p1 - 1);
-                    cnt[1][1] = std::min(cnt[1][1], p2 - p1 - 1);
-                    cnt[0] = std::array< ll, 2 >{ 0, 0 };
-                    ++p1;
+                cnt[1][1] = std::max(ll(0), cnt[1][1] - cnt[0][1]);
+                cnt[1][0] = std::max(ll(0), cnt[1][0] - cnt[0][0]);
+                if (p1 + 1 < n && cnt[1][s1[p1 + 1].first] > 0) {
+                    --cnt[1][s1[p1 + 1].first];
+                    ++ans;
                 }
+                cnt[1][0] = std::min(cnt[1][0], p2 - p1 - 1);
+                cnt[1][1] = std::min(cnt[1][1], p2 - p1 - 1);
+                cnt[0] = std::array< ll, 2 >{ 0, 0 };
+                ++p1;
             }
         }
 
 
     }
     printf("%lld\n", ans);
-    return;
     s1.clear();
     s2.clear();
     ans = 0;
+    return;
 }
 
 int main() {

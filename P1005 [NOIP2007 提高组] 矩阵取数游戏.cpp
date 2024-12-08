@@ -112,7 +112,7 @@ large_int large_int::operator*(const int other) {
 
     for (size_t i = 0; i < num.size(); i++) {
         if (num[i] >= 10) {
-            num[i + 1] +=  
+             
         }
     }
 

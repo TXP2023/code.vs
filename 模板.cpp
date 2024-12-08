@@ -9,13 +9,13 @@
 #include <initializer_list>
 
 #define READ false
+#define inf 1e18
 
 typedef long long int ll;
 typedef unsigned long long int unill;
 
+//快读函数声明
 #if READ
-//函数前向声明
-//快读函数
 template< typename T >
 inline T readf();
 #else
