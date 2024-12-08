@@ -7,22 +7,36 @@ typedef long long int ll;
 
 class unsigned_large_int {
 public:
+    unsigned_large_int() {
+        number = "0";
+    }
+
     inline const char* show_to_const_char();
 
     inline std::string show_to_string();
 
     inline void input();
 
-    inline unsigned_large_int max(unsigned_large_int a, unsigned_large_int b);
-    
-    inline unsigned_large_int min(unsigned_large_int a, unsigned_large_int b);
+    static inline unsigned_large_int max(unsigned_large_int a, unsigned_large_int b);
 
+    static inline unsigned_large_int min(unsigned_large_int a, unsigned_large_int b);
+
+    //运算符重载部分
+    //重载 =
+    //对于一个 unsigned_large_int 对象
     void operator =(const unsigned_large_int other);
+    //对于一个无符号整数对象 
+    //Type 可以是 (unsigned)short/int/long
+    template< typename Type >
+    void operator =(Type other);
 
+    //重载+
     unsigned_large_int operator +(const unsigned_large_int other);
 
+    //重载*
     unsigned_large_int operator *(const unsigned_large_int other);
 
+    //Type 可以是 (unsigned)short/int/long
     template< typename Type >
     unsigned_large_int operator *(Type other);
 
@@ -88,9 +102,27 @@ inline std::string unsigned_large_int::show_to_string() {
     return s;
 }
 
-
 void unsigned_large_int::operator=(const unsigned_large_int other) {
-    number = other.number;
+    (*this).number = other.number;
+    return;
+}
+
+template< typename Type >
+inline void unsigned_large_int::operator=(Type other) {
+    unsigned_large_int num;
+    ll other_num = 0; //other对象的位数
+    (*this).number.clear();
+
+    if (other == 0) {
+
+        (*this).number.resize(1, '0');
+        return;
+    }
+
+    while (other) {
+        (*this).number.push_back((other % 10) + '0');
+        other /= 10;
+    }
     return;
 }
 
@@ -105,20 +137,20 @@ unsigned_large_int unsigned_large_int::operator+(const unsigned_large_int other)
 
     //加和
     for (size_t i = 0; i < num2.length(); i++) {
-        summation.number[i] += num2.number[i];
+        summation.number[i] += num2.number[i] - '0';
     }
 
     //进位
     for (size_t i = 0; i < summation.length() - 1; i++) {
         if (summation.number[i] - '0' >= 10) {
             summation.number[i + 1]++;
-            summation.number[i] -= ('9' + 1);
+            summation.number[i] -= 10;
         }
     }
     if (summation.number.back() > '9') {
         summation.number.resize(summation.number.length() + 1);
         *(summation.number.end() - 1) = '1';
-        *(summation.number.end() - 2) -= ('9' + 1);
+        *(summation.number.end() - 2) -= 10;
     }
     return summation;
 }
@@ -129,7 +161,6 @@ inline unsigned_large_int unsigned_large_int::operator*(unsigned_large_int other
     if (num1.length() < other.length()) {
         std::swap(num1, other);
     }
-
 
     std::vector< int > vproduct(other.length() + num1.length() + 1, 0);
     for (size_t i = 0; i < other.number.length(); i++) {
@@ -148,6 +179,10 @@ inline unsigned_large_int unsigned_large_int::operator*(unsigned_large_int other
     //std::string::iterator it = product.number.end() - 1;
     std::vector< int >::iterator it = vproduct.end() - 1;
     while (*it == 0) {
+        if (it == vproduct.begin()) {
+            product.number.resize(1, '0');
+            return product;
+        }
         it--;
     }
 
@@ -163,12 +198,13 @@ inline unsigned_large_int unsigned_large_int::operator*(unsigned_large_int other
 //一个 unsigned_large_int 类和一个无符号整数相乘
 template< typename Type >
 unsigned_large_int unsigned_large_int::operator*(Type other) {
-    unsigned_large_int num2, product;
+    unsigned_large_int num;
+    num.number = "";
     ll other_num = 0; //other对象的位数
     while (other) {
-        num2.number.push_back((other % 10) + '0');
+        num.number.push_back((other % 10) + '0');
         other /= 10;
     }
 
-    return *this * num2;
+    return *this * num;
 }

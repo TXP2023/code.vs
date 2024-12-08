@@ -1,3 +1,4 @@
+#pragma once
 #include <vector>
 #include <stdio.h>
 #include <algorithm>
@@ -10,72 +11,137 @@
 
 #define READ false
 
-typedef int64_t ll;
-typedef uint64_t unill;
+typedef long long int ll;
 
-#if READ
-//函数前向声明
-//快读函数
-template< typename T >
-inline T readf();
-#else
-template< typename Type >
-inline Type readf(Type* p = NULL);
-#endif
+#pragma once
+#include <string>
+#include <iostream>
+#include <vector>
 
-class large_int
-{
+class unsigned_large_int {
 public:
+    unsigned_large_int(){
+        number = "0";
+    }
+    
     inline const char* show_to_const_char();
+
+    inline std::string show_to_string();
 
     inline void input();
 
-    void operator =(const large_int other);
+    static inline unsigned_large_int max(unsigned_large_int a, unsigned_large_int b);
 
-    large_int operator +(const large_int other);
+    static inline unsigned_large_int min(unsigned_large_int a, unsigned_large_int b);
 
-    large_int operator *(const int other);
+    //运算符重载部分
+    //重载 =
+    //对于一个 unsigned_large_int 对象
+    void operator =(const unsigned_large_int other);
+    //对于一个无符号整数对象 
+    //Type 可以是 (unsigned)short/int/long
+    template< typename Type >
+    void operator =(Type other);
 
-    inline ll length();
+    //重载+
+    unsigned_large_int operator +(const unsigned_large_int other);
+
+    //重载*
+    unsigned_large_int operator *(const unsigned_large_int other);
+
+    //Type 可以是 (unsigned)short/int/long
+    template< typename Type >
+    unsigned_large_int operator *(Type other);
 
 private:
     std::string number;
 
-    
+    inline ll length();
 };
 
-inline ll large_int::length() {
+inline ll unsigned_large_int::length() {
     return number.length();
 }
 
 //输入一个高精度类
-inline void large_int::input() {
+inline void unsigned_large_int::input() {
     std::string s;
     std::cin >> s;
     ll length = s.length();
     number.resize(length);
     for (size_t i = 0; i < s.length(); i++) {
-        number[i] = s[length - i];
+        number[i] = s[length - i - 1];
     }
-
-
     return;
 }
 
+//对两个高精度类比较， 返回较大的那个
+inline unsigned_large_int unsigned_large_int::max(unsigned_large_int a, unsigned_large_int b) {
+    if (a.length() == b.length()) {
+        for (ll i = a.length(); i >= 0; i--) {
+            if (a.number[i] != b.number[i]) {
+                return (a.number[i] > b.number[i]) ? a : b;
+            }
+        }
+        return a;
+    }
+    return (a.length() > b.length()) ? a : b;
+}
+
+inline unsigned_large_int unsigned_large_int::min(unsigned_large_int a, unsigned_large_int b) {
+    if (a.length() == b.length()) {
+        for (ll i = a.length(); i >= 0; i--) {
+            if (a.number[i] != b.number[i]) {
+                return (a.number[i] < b.number[i]) ? a : b;
+            }
+        }
+        return a;
+    }
+    return (a.length() < b.length()) ? a : b;
+}
+
 //这个高精度类所代表的数字转化为字符串格式
-inline const char* large_int::show_to_const_char() {
+inline const char* unsigned_large_int::show_to_const_char() {
     const char* p = number.data();
     return p;
 }
 
-void large_int::operator=(const large_int other) {
-    number = other.number;
+inline std::string unsigned_large_int::show_to_string() {
+    std::string s;
+    s.resize(number.length());
+    for (size_t i = 0; i < number.length(); i++) {
+        s[i] = number[number.length() - i - 1];
+    }
+    return s;
+}
+
+void unsigned_large_int::operator=(const unsigned_large_int other) {
+    (*this).number = other.number;
     return;
 }
 
-large_int large_int::operator+(const large_int other) {
-    large_int num1 = *this, num2 = other, summation;
-    
+template< typename Type >
+inline void unsigned_large_int::operator=(Type other) {
+    unsigned_large_int num;
+    ll other_num = 0; //other对象的位数
+    (*this).number.clear();
+
+    if (other == 0) {
+
+        (*this).number.resize(1, '0');
+        return;
+    }
+
+    while (other) {
+        (*this).number.push_back((other % 10) + '0');
+        other /= 10;
+    }
+    return;
+}
+
+unsigned_large_int unsigned_large_int::operator+(const unsigned_large_int other) {
+    unsigned_large_int num1 = *this, num2 = other, summation;
+
     if (num1.length() < num2.length()) {
         std::swap(num1, num2);
     }
@@ -84,44 +150,121 @@ large_int large_int::operator+(const large_int other) {
 
     //加和
     for (size_t i = 0; i < num2.length(); i++) {
-        summation.number[i] += num2.number[i];
+        summation.number[i] += num2.number[i] - '0';
     }
 
     //进位
     for (size_t i = 0; i < summation.length() - 1; i++) {
         if (summation.number[i] - '0' >= 10) {
             summation.number[i + 1]++;
-            summation.number[i] -= ('9' + 1);
+            summation.number[i] -= 10;
         }
     }
     if (summation.number.back() > '9') {
         summation.number.resize(summation.number.length() + 1);
         *(summation.number.end() - 1) = '1';
-        *(summation.number.end() - 2) -= ('9' + 1);
+        *(summation.number.end() - 2) -= 10;
     }
     return summation;
 }
 
-large_int large_int::operator*(const int other) {
-    large_int num1 = *this;
-    std::vector< ll > num(num1.length());
-    for (size_t i = 0; i < num.size(); i++) {
-        num[i] = num1.number[i] - '0';
-        num[i] *= other;
+//一个 unsigned_large_int 类和一个 unsigned_large_int 类相乘
+inline unsigned_large_int unsigned_large_int::operator*(unsigned_large_int other) {
+    unsigned_large_int product, num1 = *this;
+    if (num1.length() < other.length()) {
+        std::swap(num1, other);
     }
 
-    for (size_t i = 0; i < num.size(); i++) {
-        if (num[i] >= 10) {
-             
+    std::vector< int > vproduct(other.length() + num1.length() + 1, 0);
+    for (size_t i = 0; i < other.number.length(); i++) {
+        for (size_t j = 0; j < num1.length(); j++) {
+            vproduct[i + j] += (num1.number[j] - '0') * (other.number[i] - '0');
         }
     }
 
-    return large_int();
+    for (size_t i = 0; i < vproduct.size() - 1; i++) {
+        if (vproduct[i] > 9) {
+            vproduct[i + 1] += vproduct[i] / 10;
+            vproduct[i] %= 10;
+        }
+    }
+
+    //std::string::iterator it = product.number.end() - 1;
+    std::vector< int >::iterator it = vproduct.end() - 1;
+    while (*it == 0) {
+        if (it == vproduct.begin()) {
+            product.number.resize(1, '0');
+            return product;
+        }
+        it--;
+    }
+
+    vproduct.erase(it + 1, vproduct.end());
+    product.number.resize(vproduct.size());
+    for (size_t i = 0; i < vproduct.size(); i++) {
+        product.number[i] = '0' + vproduct[i];
+    }
+
+    return product;
 }
+
+//一个 unsigned_large_int 类和一个无符号整数相乘
+template< typename Type >
+unsigned_large_int unsigned_large_int::operator*(Type other) {
+    unsigned_large_int num;
+    num.number = "";
+    ll other_num = 0; //other对象的位数
+    while (other) {
+        num.number.push_back((other % 10) + '0');
+        other /= 10;
+    }
+
+    return *this * num;
+}
+
+//快读函数声明
+#if READ
+template< typename T >
+inline T readf();
+#else
+template< typename Type >
+inline Type readf(Type* p = NULL);
+#endif
+
+std::vector< std::vector< unsigned_large_int > > dp;
+unsigned_large_int ans;
+ll n, m;
 
 int main() {
     freopen("input.txt", "r", stdin);
+    
+    readf(&n), readf(&m);
 
+    while (n--) {
+        
+        std::vector< unsigned_large_int > v(m);
+        for (size_t i = 0; i < m; i++) {
+            v[i].input();
+        }
+        dp.resize(m + 1, std::vector< unsigned_large_int >(m + 1));
+        for (size_t len = 0; len < m; len++) {
+            for (size_t i = 0; i + len < m; i++) {
+                if (i + len == 0) {
+                    dp[i][i + len] = dp[i + 1][i + len] + v[i] * 2;
+                    continue;
+                }
+                if (i + 1 >= m) {
+                    dp[i][i + len] = dp[i][i + len - 1] + v[i + len] * 2;
+                    continue;
+                }
+                dp[i][i + len] = unsigned_large_int::max(dp[i + 1][i + len] + v[i], dp[i][i + len - 1] + v[i + len]) * 2;
+            }
+        }
+        ans = ans + dp[0][m - 1];
+
+    }
+
+    std::cout << ans.show_to_string();
     return 0;
 }
 
