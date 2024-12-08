@@ -13,6 +13,10 @@ public:
 
     inline void input();
 
+    inline unsigned_large_int max(unsigned_large_int a, unsigned_large_int b);
+    
+    inline unsigned_large_int min(unsigned_large_int a, unsigned_large_int b);
+
     void operator =(const unsigned_large_int other);
 
     unsigned_large_int operator +(const unsigned_large_int other);
@@ -42,6 +46,31 @@ inline void unsigned_large_int::input() {
         number[i] = s[length - i - 1];
     }
     return;
+}
+
+//¶ÔÁ½¸ö¸ß¾«¶ÈÀà±È½Ï£¬ ·µ»Ø½Ï´óµÄÄÇ¸ö
+inline unsigned_large_int unsigned_large_int::max(unsigned_large_int a, unsigned_large_int b) {
+    if (a.length() == b.length()) {
+        for (ll i = a.length(); i >= 0; i--) {
+            if (a.number[i] != b.number[i]) {
+                return (a.number[i] > b.number[i]) ? a : b;
+            }
+        }
+        return a;
+    }
+    return (a.length() > b.length()) ? a : b;
+}
+
+inline unsigned_large_int unsigned_large_int::min(unsigned_large_int a, unsigned_large_int b) {
+    if (a.length() == b.length()) {
+        for (ll i = a.length(); i >= 0; i--) {
+            if (a.number[i] != b.number[i]) {
+                return (a.number[i] < b.number[i]) ? a : b;
+            }
+        }
+        return a;
+    }
+    return (a.length() < b.length()) ? a : b;
 }
 
 //Õâ¸ö¸ß¾«¶ÈÀàËù´ú±íµÄÊı×Ö×ª»¯Îª×Ö·û´®¸ñÊ½
