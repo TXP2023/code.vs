@@ -240,6 +240,9 @@
     <ClCompile Include="P1005 [NOIP2007 提高组] 矩阵取数游戏.cpp">
       <Filter>源文件\洛谷</Filter>
     </ClCompile>
+    <ClCompile Include="P3740 [HAOI2014] 贴海报.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="input.txt">
