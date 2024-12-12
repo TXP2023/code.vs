@@ -243,6 +243,9 @@
     <ClCompile Include="P3740 [HAOI2014] 贴海报.cpp">
       <Filter>源文件\洛谷</Filter>
     </ClCompile>
+    <ClCompile Include="P1351 [NOIP2014 提高组] 联合权值.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="input.txt">
