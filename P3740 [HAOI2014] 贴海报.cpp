@@ -28,7 +28,6 @@ inline Type readf(Type* p = NULL);
 class chtholly_tree {
 public:
     chtholly_tree(ll size, ll data);
-    ~chtholly_tree();
 
     struct tree_data {
         ll left, right;
@@ -55,9 +54,6 @@ private:
 chtholly_tree::chtholly_tree(ll size, ll data) {
     tree.insert(tree_data{ 1, size + 1, data });
     return;
-}
-
-chtholly_tree::~chtholly_tree() {
 }
 
 inline std::set<chtholly_tree::tree_data>::iterator chtholly_tree::split(ll p) {
