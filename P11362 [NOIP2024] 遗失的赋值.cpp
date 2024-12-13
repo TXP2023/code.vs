@@ -36,6 +36,7 @@ std::vector< one_limit > limits;
 uint64_t t, n, m, v, ans;
 
 uint64_t fast_pow(uint64_t a, uint64_t b) {
+    b %= mod - 1;
     uint64_t s = 1;
     while (b) {
         if (b & 1)s *= a, s %= mod;
