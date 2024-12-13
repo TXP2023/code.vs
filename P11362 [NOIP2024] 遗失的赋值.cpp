@@ -11,10 +11,10 @@
 
 #define READ false
 #define inf 1e18
-#define mod (1e9+7)
+#define mod uint64_t(1000000007)
 
 typedef long long int ll;
-typedef unsigned long long int unill;
+typedef unsigned long long int ull;
 
 //快读函数声明
 #if READ
@@ -25,7 +25,29 @@ template< typename Type >
 inline Type readf(Type* p = NULL);
 #endif
 
-ll t, n, m, v;
+struct one_limit {
+    ll c, d;
+    bool operator <(const one_limit other) const {
+        return c < other.c;
+    }
+};
+
+std::vector< one_limit > limits;
+uint64_t t, n, m, v, ans;
+
+int fast_pow(ll a, ll b) {
+    ll s = 1;
+    while (b) {
+        if (b & 1)s *= a, s %= mod;
+        a *= a;a %= mod;
+        b >>= 1;
+    }
+    return s;
+}
+
+inline uint64_t f(uint64_t i, uint64_t j) {
+    return fast_pow(v, 2 * (limits[j].c - limits[i].c)) - fast_pow(v, limits[j].c - limits[i].c - 1) * (v - 1);
+}
 
 int main() {
     freopen("input.txt", "r", stdin);
@@ -33,6 +55,36 @@ int main() {
     readf(&t);
     while (t--) {
         readf(&n), readf(&m), readf(&v);
+        ans = 1;
+        limits.resize(m);
+        for (size_t i = 0; i < m; i++) {
+            limits[i] = { readf< ll >(), readf< ll >() };
+        }
+        std::sort(limits.begin(), limits.end());
+        for (size_t i = 0; i < m - 1; i++) {
+            if (limits[i].c == limits[i + 1].c && limits[i].d != limits[i + 1].d) {
+                puts("0");
+                goto loop; //跳出
+            }
+        }
+
+        //对于一元限制所影响的部分
+        for (size_t i = 0; i < m - 1; i++) {
+            if (limits[i].c != limits[i + 1].c) {
+                ans *= f(i, i + 1);
+                ans %= mod;
+            }
+        }
+
+        //对于一元限制不影响的部分
+        ans *= fast_pow(v, 2 * (limits.front().c - 1));
+        ans %= mod;
+        ans *= fast_pow(v, 2 * (n - limits.back().c));
+        ans %= mod;
+
+        printf("%lld\n", ans);
+    loop:;
+        limits.clear();
     }
 
 

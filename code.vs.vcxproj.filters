@@ -258,6 +258,9 @@
     <ClCompile Include="set.cpp">
       <Filter>源文件\标准模板库实例</Filter>
     </ClCompile>
+    <ClCompile Include="数学.cpp">
+      <Filter>源文件\样例</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="input.txt">
