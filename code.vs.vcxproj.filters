@@ -22,6 +22,9 @@
     <Filter Include="资源文件\洛谷测试点">
       <UniqueIdentifier>{8c9ccbf3-d228-4a0c-b639-79d275cf9ba3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\标准模板库实例">
+      <UniqueIdentifier>{aba0ddfa-f740-413d-8bbc-62593051d392}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="模板.cpp">
@@ -248,6 +251,12 @@
     </ClCompile>
     <ClCompile Include="珂朵莉树.cpp">
       <Filter>源文件\样例</Filter>
+    </ClCompile>
+    <ClCompile Include="P11362 [NOIP2024] 遗失的赋值.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="set.cpp">
+      <Filter>源文件\标准模板库实例</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

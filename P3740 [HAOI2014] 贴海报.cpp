@@ -52,7 +52,7 @@ private:
 };
 
 chtholly_tree::chtholly_tree(ll size, ll data) {
-    tree.insert(tree_data{ 1, size + 1, data });
+    tree.insert(tree_data{ 1, size, data });
     return;
 }
 
