@@ -35,18 +35,18 @@ struct one_limit {
 std::vector< one_limit > limits;
 uint64_t t, n, m, v, ans;
 
-int fast_pow(ll a, ll b) {
-    ll s = 1;
+uint64_t fast_pow(uint64_t a, uint64_t b) {
+    uint64_t s = 1;
     while (b) {
         if (b & 1)s *= a, s %= mod;
         a *= a;a %= mod;
         b >>= 1;
     }
-    return s;
+    return s % mod;
 }
 
 inline uint64_t f(uint64_t i, uint64_t j) {
-    return fast_pow(v, 2 * (limits[j].c - limits[i].c)) - fast_pow(v, limits[j].c - limits[i].c - 1) * (v - 1);
+    return (fast_pow(v, 2 * (limits[j].c - limits[i].c)) - fast_pow(v, limits[j].c - limits[i].c - 1) * (v - 1))%mod;
 }
 
 int main() {
@@ -64,7 +64,7 @@ int main() {
         for (size_t i = 0; i < m - 1; i++) {
             if (limits[i].c == limits[i + 1].c && limits[i].d != limits[i + 1].d) {
                 puts("0");
-                goto loop; //Ìø³ö
+                goto loop;
             }
         }
 
@@ -82,7 +82,7 @@ int main() {
         ans *= fast_pow(v, 2 * (n - limits.back().c));
         ans %= mod;
 
-        printf("%lld\n", ans);
+        printf("%llu\n", ans);
     loop:;
         limits.clear();
     }
