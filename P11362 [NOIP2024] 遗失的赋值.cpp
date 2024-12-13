@@ -47,7 +47,7 @@ uint64_t fast_pow(uint64_t a, uint64_t b) {
 }
 
 inline uint64_t f(uint64_t i, uint64_t j) {
-    return (fast_pow(v, 2 * (limits[j].c - limits[i].c)) - fast_pow(v, limits[j].c - limits[i].c - 1) * (v - 1))%mod;
+    return (fast_pow(v, 2 * (limits[j].c - limits[i].c)) - fast_pow(v, limits[j].c - limits[i].c - 1) * (v - 1) % mod + mod)%mod;
 }
 
 int main() {
