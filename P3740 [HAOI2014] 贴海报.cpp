@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <set>
 #include <stdio.h>
 #include <algorithm>
 #include <ctype.h>
@@ -13,7 +14,7 @@
 #define inf 1e18
 
 typedef long long int ll;
-typedef unsigned long long int ull;
+typedef unsigned long long int unill;
 
 //¿ì¶Áº¯ÊýÉùÃ÷
 #if READ
@@ -24,109 +25,92 @@ template< typename Type >
 inline Type readf(Type* p = NULL);
 #endif
 
-ll flag;
-
-class segment_tree {
+class chtholly_tree {
 public:
-    segment_tree(unsigned long long size);
+    chtholly_tree(ll size, ll data);
+    ~chtholly_tree();
 
-    inline void up_data(ll left, ll right, ll p, ll lp, ll rp, ll color);
+    struct tree_data {
+        ll left, right;
+        ll data;
 
-    inline ll query(ll left, ll right, ll p, ll lp, ll rp);
+        bool operator <(const tree_data other) const {
+            return left < other.left;
+        }
+    };
 
-    inline void add_tag(ll p, ll lp, ll rp);
+    inline std::set<tree_data>::iterator split(ll p);
 
-    inline void push_down(ll p, ll rp, ll lp);
+    inline void assign(ll left, ll right, ll data);
+
+    inline unsigned long long int length();
+
+    inline unsigned long long int number();
 
 private:
-    std::vector< bool > tree;
-    std::vector< bool > tag;
-    ll size;
+    
+    std::set<tree_data> tree;
 };
 
-segment_tree::segment_tree(unsigned long long _size) {
-    size = _size;
-    tree.resize((size << 2) + 1, 0);
-    tag.resize((size << 2) + 1, false);
+chtholly_tree::chtholly_tree(ll size, ll data) {
+    tree.insert(tree_data{ 1, size + 1, data });
     return;
 }
 
-inline void segment_tree::up_data(ll left, ll right, ll p, ll lp, ll rp, ll color) {
-    if (left <= lp && rp <= right) {
-        add_tag(p, lp, rp);
-        return;
-    }
+chtholly_tree::~chtholly_tree() {
+}
 
-    push_down(p, lp, rp);
-    uint64_t mid = (rp + lp) >> 1;
-    if (left <= mid) {
-        up_data(left, right, p * 2, lp, mid, color);
+inline std::set<chtholly_tree::tree_data>::iterator chtholly_tree::split(ll p) {
+    std::set<chtholly_tree::tree_data>::iterator it = tree.lower_bound(tree_data{ p, 0, 0 });
+    //printf("%d %d\n", it, tree.end());
+    if (it != tree.end() && it->left == p) {
+        return it;
     }
-    if (right > mid) {
-        up_data(left, right, p * 2 + 1, mid + 1, rp, color);
-    }
-    tree[p] = (tree[p * 2] || tree[p * 2 + 1]);
+    --it;
+    //printf("%d\n", (it == tree.end()));
+    ll l = it->left, r = it->right, data = it->data;
+    tree.erase(it);
+    tree.insert(tree_data{ l, p - 1, data });
+    return tree.insert(tree_data{ p, r, data }).first;
+}
+
+inline void chtholly_tree::assign(ll left, ll right, ll data) {
+    std::set<tree_data>::iterator itr = split(right + 1), itl = split(left);
+    tree.erase(itl, itr);
+    tree.insert(tree_data{ left, right, data });
     return;
 }
 
-inline void segment_tree::add_tag(ll p, ll lp, ll rp) {
-    if (tree[p] == 0) {
-        if (query(lp, rp, 1, 1, size) < rp - lp + 1) {
-            flag = true;
+inline unsigned long long int chtholly_tree::length() {
+    return tree.size();
+}
+
+inline unsigned long long int chtholly_tree::number() {
+    std::set< ll > s;
+    for (std::set<tree_data>::iterator it = tree.begin(); it != tree.end(); ++it) {
+        if (it->data != 0) {
+            s.insert(it->data);
         }
-        tree[p] = true;
-        tag[p] = true;
     }
-    return;
+
+    return s.size();
 }
 
-inline void segment_tree::push_down(ll p, ll lp, ll rp) {
-    if (tag[p]) {
-        ll mid = (lp + rp) >> 1;
-        add_tag(p * 2, lp, mid);
-        add_tag(p * 2 + 1, mid + 1, rp);
-        tag[p] = 0;
-        tree[p] = 0;
-    }
-    return;
-}
-
-inline ll segment_tree::query(ll left, ll right, ll p, ll lp, ll rp) {
-    if (left <= lp && rp >= right) {
-        return tree[p];
-    }
-
-    push_down(p, lp, rp);
-    ll sum = 0, mid = (lp + rp) >> 1;
-    if (left <= mid) {
-        sum += query(left, right, p * 2, lp, mid);
-    }
-    if (right > mid) {
-        sum += query(left, right, p * 2 + 1, mid + 1, rp);
-    }
-    return sum;
-}
-
-ll n, m, ans;
+ll n, m;
 
 int main() {
     freopen("input.txt", "r", stdin);
 
     readf(&n), readf(&m);
 
-    segment_tree tree(n);
-
-    while (m--) {
-        ll left, right;
-        readf(&left), readf(&right);
-        tree.up_data(left, right, 1, 1, n, m);
-        if (flag) {
-            ans++;
-        }
-        flag = false;
+    chtholly_tree tree(n, 0);
+    for (size_t i = 1; i <= m; i++) {
+        ll left = readf<ll>(), right = readf<ll>();
+        tree.assign(left, right, i);
     }
 
-    printf("%lld\n", ans);
+    printf("%lld\n", tree.number());
+
     return 0;
 }
 
