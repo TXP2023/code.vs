@@ -5,12 +5,13 @@
 #include <ctype.h>
 #include <cstdarg>
 #include <climits>
+#include <string>
 #include <iostream>
 #include <stdint.h>
 #include <initializer_list>
 
 #define READ false
-#define MAX_INF 1e18
+#define inf 1e18
 
 typedef long long int ll;
 typedef unsigned long long int unill;
@@ -24,9 +25,30 @@ template< typename Type >
 inline Type readf(Type* p = NULL);
 #endif
 
+std::string a, b;
+ll q;
+
 int main() {
     freopen("input.txt", "r", stdin);
-    
+
+    readf(&q);
+    while (q--) {
+        std::cin >> a >> b;
+        std::cin >> b;
+        b.erase(b.end() - 1);
+        if (a != "eat") {
+            std::cout << a << '\n';
+        }
+        else {
+            if (b != "eat") {
+                std::cout << b << '\n';
+            }
+            else {
+                std::cout << "or" << '\n';
+            }
+        }
+    }
+
     return 0;
 }
 
@@ -56,7 +78,7 @@ inline Type readf(Type* p) {
         sgn |= ch == '-', ch = getchar();
     }
     while (isdigit(ch)) ret = ret * 10 + ch - '0', ch = getchar();
-    if (p != NULL){
+    if (p != NULL) {
         *p = Type(sgn ? -ret : ret);
     }
     return sgn ? -ret : ret;

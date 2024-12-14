@@ -261,6 +261,18 @@
     <ClCompile Include="数学.cpp">
       <Filter>源文件\样例</Filter>
     </ClCompile>
+    <ClCompile Include="T533662 喵喵喵幼儿园.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="T539331 排队.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="T533391 界分数.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
+    <ClCompile Include="P8796 [蓝桥杯 2022 国 AC] 替换字符.cpp">
+      <Filter>源文件\洛谷</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="input.txt">

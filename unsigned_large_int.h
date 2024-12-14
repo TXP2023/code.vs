@@ -10,7 +10,7 @@ public:
     unsigned_large_int() {
         number = "0";
     }
-
+     
     inline const char* show_to_const_char();
 
     inline std::string show_to_string();
