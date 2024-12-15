@@ -103,6 +103,10 @@ inline void sgnment_tree::show(ll p, ll lp, ll rp) {
 inline void sgnment_tree::push_down(ll p) /*这个代逻辑有问题*/ {
     if (tree[p].tag) {
         tree[p * 2].tag = true;
+        for (size_t i = 0; i < WORD_NUM; i++) {
+            tree[p * 2].replace[i] = tree[p].replace[tree[p * 2].replace[i]];
+            tree[p * 2 + 1].replace[i] = tree[p].replace[tree[p * 2 + 1].replace[i]];
+        }
         //tree[p * 2].replace = tree[p].replace; //不能直接赋值
         //for (size_t i = 0; i < WORD_NUM; i++) {
         //    if (tree[p].replace[i] != i) {
@@ -160,7 +164,7 @@ int main() {
         x -= 'a', y -= 'a';
         tree.up_data(left, right, x, y);
         if (m == 1) {
-            tree.show();
+            //tree.show();
         }
         //puts("\n");
     }
