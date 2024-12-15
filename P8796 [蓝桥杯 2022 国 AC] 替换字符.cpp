@@ -14,6 +14,7 @@
 #define READ false
 #define MAX_INF 1e18
 #define REPLACE_INIT {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25}
+#define WORD_NUM 26
 
 typedef long long int ll;
 typedef unsigned long long int unill;
@@ -41,7 +42,7 @@ public:
 private:
 
     struct tree_node {
-        std::array< short, 26 > replace = REPLACE_INIT;
+        std::array< short, WORD_NUM > replace = REPLACE_INIT;
         bool tag = false;
     };
 
@@ -99,12 +100,33 @@ inline void sgnment_tree::show(ll p, ll lp, ll rp) {
     return;
 }
 
-inline void sgnment_tree::push_down(ll p) {
+inline void sgnment_tree::push_down(ll p) /*这个代逻辑有问题*/ {
     if (tree[p].tag) {
         tree[p * 2].tag = true;
-        tree[p * 2].replace = tree[p].replace;
+        //tree[p * 2].replace = tree[p].replace; //不能直接赋值
+        //for (size_t i = 0; i < WORD_NUM; i++) {
+        //    if (tree[p].replace[i] != i) {
+        //        for (size_t j = 0; j < WORD_NUM; j++) {
+        //            if (tree[p * 2].replace[j] == i) {
+        //                tree[p * 2].replace[j] = tree[p].replace[i];
+        //            }
+        //        }
+        //    }
+        //}
         tree[p * 2 + 1].tag = true;
-        tree[p * 2 + 1].replace = tree[p].replace;
+        //tree[p * 2 + 1].replace = tree[p].replace;
+        //for (size_t i = 0; i < WORD_NUM; i++) {
+        //    if (tree[p].replace[i] != i) {
+        //        for (size_t j = 0; j < WORD_NUM; j++) {
+        //            if (tree[p * 2 + 1].replace[j] == i) {
+        //                tree[p * 2 + 1].replace[j] = tree[p].replace[i];
+        //            }
+        //            if (tree[p * 2].replace[j] == i) {
+        //                tree[p * 2].replace[j] = tree[p].replace[i];
+        //            }
+        //        }
+        //    }
+        //}
         tree[p].tag = false;
         tree[p].replace = REPLACE_INIT;
     }
@@ -112,8 +134,7 @@ inline void sgnment_tree::push_down(ll p) {
 }
 
 inline void sgnment_tree::add_tag(ll p, int x, int y) {
-    tree[p].replace[x] = y;
-    for (size_t i = 0; i < 26; i++) {
+    for (size_t i = 0; i < WORD_NUM; i++) {
         if (tree[p].replace[i] == x) {
             tree[p].replace[i] = y;
         }
@@ -138,6 +159,10 @@ int main() {
         std::cin >> x >> y;
         x -= 'a', y -= 'a';
         tree.up_data(left, right, x, y);
+        if (m == 1) {
+            tree.show();
+        }
+        //puts("\n");
     }
 
     tree.show();
