@@ -279,7 +279,7 @@
     <ClCompile Include="P3871 [TJOI2010] 中位数.cpp">
       <Filter>源文件\洛谷</Filter>
     </ClCompile>
-    <ClCompile Include="P2894 [USACO08FEB] Hotel G.cpp">
+    <ClCompile Include="P2894 [USACO08FEB] Hotel G 颜色均摊堆.cpp">
       <Filter>源文件\洛谷</Filter>
     </ClCompile>
   </ItemGroup>
