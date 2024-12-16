@@ -45,8 +45,6 @@ public:
 
     inline unsigned long long int length();
 
-    //inline unsigned long long int number();
-
     inline ll find(ll x);
 
 private:
@@ -86,7 +84,6 @@ inline unsigned long long int chtholly_tree::length() {
 
 inline ll chtholly_tree::find(ll x) {
     std::set<tree_data>::iterator it;
-    //ll old_length = 0;
     std::pair< ll, std::set<tree_data>::iterator > old_length;
     old_length.first = 0;
     old_length.second = tree.end();
