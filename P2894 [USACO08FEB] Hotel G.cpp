@@ -53,10 +53,6 @@ inline ll segment_tree::query(ll x, ll p) {
         return -1;
     }
 
-    if (tree[p].left_length >= x) {
-        return tree[p].lp;
-    }
-
     //五种可能
     if (tree[p].left_length >= x) /*这个点的左端点连续x个*/ {
         return tree[p].lp;
