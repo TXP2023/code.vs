@@ -30,21 +30,65 @@ public:
     
     inline ll query(ll x, ll p = 1);
 
+    inline void up_data(ll left, ll right, ll p);
+
 private:
     struct tree_node {
         ll max_length;
         ll left_length, right_length;
         int lp, rp;
+        bool tag_bool = false;
+        int tag;
     };
 
     std::vector< tree_node > tree;
 
     inline void build_tree(ll p, ll lp, ll rp);
+
+    inline void push_down(ll p);
+
+    inline void push_up(ll p);
 };
 
 segment_tree::segment_tree(ll size) {
     tree.resize((size << 2) + 1);
     build_tree(1, 1, size);
+    return;
+}
+
+inline void segment_tree::build_tree(ll p, ll lp, ll rp) {
+    tree[p].lp = lp, tree[p].rp = rp;
+
+    if (lp == rp) {
+        tree[p].max_length = 1;
+        tree[p].left_length = 1;
+        tree[p].right_length = 1;
+        return;
+    }
+
+    ll mid = (lp + rp) >> 1;
+    build_tree(p * 2, lp, mid);
+    build_tree(p * 2 + 1, mid, rp);
+    tree[p].max_length = rp - lp + 1;
+    tree[p].right_length = rp - lp + 1;
+    tree[p].left_length = rp - lp + 1;
+    return;
+}
+
+inline void segment_tree::push_down(ll p) {
+    
+}
+
+inline void segment_tree::push_up(ll p) {
+    tree[p].left_length = tree[p * 2].left_length;
+    if (tree[p * 2].left_length == tree[p * 2].rp - tree[p * 2].lp + 1) {
+        tree[p].left_length += tree[p * 2 + 1].left_length;
+    }
+    tree[p].right_length = tree[p * 2 + 1].right_length;
+    if (tree[p * 2 + 1].right_length == tree[p * 2 + 1].rp - tree[p * 2 + 1].lp + 1) {
+        tree[p].right_length += tree[p * 2].right_length;
+    }
+    tree[p].max_length = std::max(tree[p * 2].right_length + tree[p * 2 + 1].left_length, std::max(tree[p].right_length, tree[p].left_length));
     return;
 }
 
@@ -75,24 +119,36 @@ inline ll segment_tree::query(ll x, ll p) {
     }
 }
 
-inline void segment_tree::build_tree(ll p, ll lp, ll rp) {
-    tree[p].lp = lp, tree[p].rp = rp;
-    
-    if (lp == rp) {
-        tree[p].max_length = 1;
-        tree[p].left_length = 1;
-        tree[p].right_length = 1;
+inline void segment_tree::up_data(ll left, ll right, ll p) {
+    if (left <= tree[p].lp && right >= tree[p].rp) {
+        tree[p].tag = tree[p].tag ^ 1;
+        tree[p].tag_bool = true;
+        if (tree[p].tag) {
+            tree[p].max_length = 0;
+            tree[p].left_length = 0;
+            tree[p].right_length = 0;
+        }
+        else {
+            tree[p].max_length = tree[p].rp - tree[p].lp + 1;
+            tree[p].left_length = tree[p].rp - tree[p].lp + 1;
+            tree[p].right_length = tree[p].rp - tree[p].lp + 1;
+        }
         return;
     }
 
-    ll mid = (lp + rp) >> 1;
-    build_tree(p * 2, lp, mid);
-    build_tree(p * 2 + 1, mid, rp);
-    tree[p].max_length = rp - lp + 1;
-    tree[p].right_length = rp - lp + 1;
-    tree[p].left_length = rp - lp + 1;
+    push_down(p);
+    ll mid = (tree[p].lp + tree[p].rp) >> 1;
+    if (left <= mid) {
+        up_data(tree[p].lp, mid, p * 2);
+    }
+    if (right > mid) {
+        up_data(mid + 1, tree[p].rp, p * 2 + 1);
+    }
+    push_up(p);
     return;
 }
+
+
 
 ll n, m;
 
@@ -103,7 +159,22 @@ int main() {
 
     segment_tree tree(n);
     while (m--) {
+        int operate = readf< int >();
+        if (operate == 1) {
+            ll x = readf< ll >();
+            ll p = tree.query(x);
+            if (p == -1) {
+                puts("0");
+            }
+            else {
+                printf("%lld\n", p);
 
+            }
+        }
+        else {
+            ll x = readf< ll >(), y = readf< ll >();
+
+        }
     }
 
     return 0;

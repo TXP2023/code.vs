@@ -127,7 +127,7 @@ int main() {
             ll x = readf< int >();
             ll p = tree.find(x);
             if (p == -1) {
-                printf("%lld\n", 0);
+                puts("0");
             }
             else {
                 printf("%lld\n", p);
