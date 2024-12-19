@@ -30,7 +30,7 @@ public:
     
     inline ll query(ll x, ll p = 1);
 
-    inline void up_data(ll left, ll right, ll p);
+    void up_data(ll left, ll right, ll operate/*1为住房 0为退房*/, ll p = 1);
 
 private:
     struct tree_node {
@@ -43,11 +43,13 @@ private:
 
     std::vector< tree_node > tree;
 
-    inline void build_tree(ll p, ll lp, ll rp);
+    void build_tree(ll p, ll lp, ll rp);
 
     inline void push_down(ll p);
 
     inline void push_up(ll p);
+
+    inline void add_tag(ll p, ll operate);
 };
 
 segment_tree::segment_tree(ll size) {
@@ -56,7 +58,7 @@ segment_tree::segment_tree(ll size) {
     return;
 }
 
-inline void segment_tree::build_tree(ll p, ll lp, ll rp) {
+void segment_tree::build_tree(ll p, ll lp, ll rp) {
     tree[p].lp = lp, tree[p].rp = rp;
 
     if (lp == rp) {
@@ -68,7 +70,7 @@ inline void segment_tree::build_tree(ll p, ll lp, ll rp) {
 
     ll mid = (lp + rp) >> 1;
     build_tree(p * 2, lp, mid);
-    build_tree(p * 2 + 1, mid, rp);
+    build_tree(p * 2 + 1, mid + 1, rp);
     tree[p].max_length = rp - lp + 1;
     tree[p].right_length = rp - lp + 1;
     tree[p].left_length = rp - lp + 1;
@@ -76,7 +78,33 @@ inline void segment_tree::build_tree(ll p, ll lp, ll rp) {
 }
 
 inline void segment_tree::push_down(ll p) {
-    
+    if (tree[p].tag_bool) {
+        tree[p].tag_bool = false;
+        tree[p * 2].tag_bool = true;
+        tree[p * 2 + 1].tag_bool = true;
+        if (tree[p].tag == 1)/*全部住上人*/ {
+            tree[p * 2].tag = 1;
+            tree[p * 2].max_length = 0;
+            tree[p * 2].left_length = 0;
+            tree[p * 2].right_length = 0;
+            tree[p * 2 + 1].tag = 1;
+            tree[p * 2 + 1].max_length = 0;
+            tree[p * 2 + 1].left_length = 0;
+            tree[p * 2 + 1].right_length = 0;
+        }
+        else /*全部退房*/ {
+            ll left_length = tree[p * 2].rp - tree[p * 2].lp + 1;
+            ll right_lenght = tree[p * 2 + 1].rp - tree[p * 2 + 1].lp + 1;
+            tree[p * 2].max_length = left_length;
+            tree[p * 2].left_length = left_length;
+            tree[p * 2].right_length = left_length;
+            tree[p * 2 + 1].max_length = right_lenght;
+            tree[p * 2 + 1].left_length = right_lenght;
+            tree[p * 2 + 1].right_length = right_lenght;
+        }
+        tree[p].tag = 0;
+    }
+    return;
 }
 
 inline void segment_tree::push_up(ll p) {
@@ -89,6 +117,22 @@ inline void segment_tree::push_up(ll p) {
         tree[p].right_length += tree[p * 2].right_length;
     }
     tree[p].max_length = std::max(tree[p * 2].right_length + tree[p * 2 + 1].left_length, std::max(tree[p].right_length, tree[p].left_length));
+    return;
+}
+
+inline void segment_tree::add_tag(ll p, ll operate) {
+    tree[p].tag = operate;
+    tree[p].tag_bool = true;
+    if (operate) {
+        tree[p].max_length = 0;
+        tree[p].left_length = 0;
+        tree[p].right_length = 0;
+    }
+    else {
+        tree[p].max_length = tree[p].rp - tree[p].lp + 1;
+        tree[p].left_length = tree[p].rp - tree[p].lp + 1;
+        tree[p].right_length = tree[p].rp - tree[p].lp + 1;
+    }
     return;
 }
 
@@ -119,30 +163,19 @@ inline ll segment_tree::query(ll x, ll p) {
     }
 }
 
-inline void segment_tree::up_data(ll left, ll right, ll p) {
+void segment_tree::up_data(ll left, ll right, ll operate/*1为住房 0为退房*/, ll p) {
     if (left <= tree[p].lp && right >= tree[p].rp) {
-        tree[p].tag = tree[p].tag ^ 1;
-        tree[p].tag_bool = true;
-        if (tree[p].tag) {
-            tree[p].max_length = 0;
-            tree[p].left_length = 0;
-            tree[p].right_length = 0;
-        }
-        else {
-            tree[p].max_length = tree[p].rp - tree[p].lp + 1;
-            tree[p].left_length = tree[p].rp - tree[p].lp + 1;
-            tree[p].right_length = tree[p].rp - tree[p].lp + 1;
-        }
+        add_tag(p, operate);
         return;
     }
 
     push_down(p);
     ll mid = (tree[p].lp + tree[p].rp) >> 1;
     if (left <= mid) {
-        up_data(tree[p].lp, mid, p * 2);
+        up_data(left, right , operate, p * 2);
     }
     if (right > mid) {
-        up_data(mid + 1, tree[p].rp, p * 2 + 1);
+        up_data(left, right, operate, p * 2 + 1);
     }
     push_up(p);
     return;
@@ -157,23 +190,24 @@ int main() {
 
     readf(&n), readf(&m);
 
-    segment_tree tree(n);
+    segment_tree hotel(n);
     while (m--) {
         int operate = readf< int >();
         if (operate == 1) {
             ll x = readf< ll >();
-            ll p = tree.query(x);
+            ll p = hotel.query(x);
             if (p == -1) {
                 puts("0");
             }
             else {
                 printf("%lld\n", p);
-
+                hotel.up_data(p, p + x - 1, 1);
             }
+            
         }
         else {
             ll x = readf< ll >(), y = readf< ll >();
-
+            hotel.up_data(x, x + y - 1, 0);
         }
     }
 
